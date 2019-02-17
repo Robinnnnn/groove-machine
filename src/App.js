@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import LoginPrompt from './LoginPrompt';
 import PlaylistHeader from './PlaylistHeader';
-import TrackContainer from './TrackContainer';
 import MediaPlayer from './MediaPlayer';
 import initSpotifyClient from './spotify';
 import './App.css';
+import Tracklist from './Tracklist';
 
 class App extends Component {
   state = {
@@ -103,22 +103,14 @@ class App extends Component {
         {loaded &&
           <>
             <PlaylistHeader playlist={playlist} />
-            <div className='tracks-container'>
-              {
-                playlist.tracks.items.map(({ track, added_by }) => (
-                  <TrackContainer
-                    key={track.id}
-                    track={track}
-                    playlistUri={playlist.uri}
-                    play={spotify.play}
-                    isPlaying={track.id === currentTrackId || track.id === (activeTrack && activeTrack.id)}
-                    progressMs={progressMs}
-                    contributor={added_by.id === 'uplifted' ? 'R' : 'M'}
-                    overrideActiveTrack={this.overrideActiveTrack}
-                  />
-                ))
-              }
-            </div>
+            <Tracklist
+              spotify={spotify}
+              playlist={playlist}
+              currentTrackId={currentTrackId}
+              activeTrack={activeTrack}
+              progressMs={progressMs}
+              overrideActiveTrack={this.overrideActiveTrack}
+            />
             <MediaPlayer
               spotify={spotify}
               playback={playback}
