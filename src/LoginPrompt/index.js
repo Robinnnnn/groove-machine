@@ -5,7 +5,7 @@ const LoginPrompt = () => (
   <div className='login-prompt-container'>
     <a
       className='login-prompt'
-      href='/login'
+      href='/api/login'
     >
       <span
         className='lock-container'

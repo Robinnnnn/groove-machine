@@ -32,6 +32,8 @@ class App extends Component {
 
     const playlist = await this.getPlaylist(spotify)
     console.log(playlist)
+    const me = await spotify.getMe()
+    console.log('me', me)
     this.setState({
       loaded: true,
       playlist,
@@ -59,7 +61,7 @@ class App extends Component {
 
   
   refreshTokenPeriodically = (rToken, spotify) => {
-    fetch(`/refresh_token?refresh_token=${rToken}`)
+    fetch(`/api/refresh_token?refresh_token=${rToken}`)
       .then(r => r.json())
       .then(({ access_token }) => spotify.setAccessToken(access_token))
   }

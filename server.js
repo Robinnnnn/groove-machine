@@ -48,7 +48,7 @@ app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
-app.get('/login', function(req, res) {
+app.get('/api/login', function(req, res) {
 
   const state = generateRandomString(16);
   res.cookie(stateKey, state);
@@ -60,12 +60,12 @@ app.get('/login', function(req, res) {
       response_type: 'code',
       client_id: clientId,
       scope: scope,
-      redirect_uri: `${baseurl}/oauth`,
+      redirect_uri: `${baseurl}/api/oauth`,
       state: state
     }));
 });
 
-app.get('/oauth', function(req, res) {
+app.get('/api/oauth', function(req, res) {
 
   // your application requests refresh and access tokens
   // after checking the state parameter
@@ -85,7 +85,7 @@ app.get('/oauth', function(req, res) {
       url: 'https://accounts.spotify.com/api/token',
       form: {
         code: code,
-        redirect_uri: `${baseurl}/oauth`,
+        redirect_uri: `${baseurl}/api/oauth`,
         grant_type: 'authorization_code'
       },
       headers: {
@@ -132,7 +132,7 @@ app.get('/oauth', function(req, res) {
   }
 });
 
-app.get('/refresh_token', function(req, res) {
+app.get('/api/refresh_token', function(req, res) {
 
   // requesting access token from refresh token
   const refresh_token = req.query.refresh_token;
