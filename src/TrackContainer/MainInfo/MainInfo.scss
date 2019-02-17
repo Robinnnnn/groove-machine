@@ -1,0 +1,60 @@
+$track-transition: 0.25s cubic-bezier(0.165, 0.84, 0.44, 1);
+
+.track-info-container {
+  margin-left: 20px;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+
+  .track-artist-title-container {
+    width: 100%;
+    transition: $track-transition;
+    .track-title-container {
+      .track-title {
+        font-size: 20px;
+        font-weight: 700;
+      }
+    }
+    .track-artist-container {
+      display: flex;
+      .track-artist {
+        margin: 5px 0px;
+        font-style: italic;
+        font-size: 14px;
+      }
+    }
+    .track-album-container {
+      display: flex;
+      position: absolute;
+      font-size: 13px;
+    
+      opacity: 0;
+      transition: $track-transition;
+    }
+  }
+  .track-contributor {
+    font-size: 13px;
+  }
+  
+  .track-contributor-container {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    font-size: 12px;
+    font-family: 'Roboto Mono';
+  
+    opacity: 0;
+    transition: $track-transition;
+  }  
+  
+  .track-duration-container {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    font-size: 12px;
+    font-family: 'Roboto Mono';
+  
+    opacity: 0;
+    transition: $track-transition;
+  }
+}

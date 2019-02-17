@@ -1,0 +1,36 @@
+{
+  "name": "spotify-playlist",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "concurrently": "^4.1.0",
+    "cookie-parser": "^1.4.4",
+    "cors": "^2.8.5",
+    "dotenv": "^6.2.0",
+    "http-proxy-middleware": "^0.19.1",
+    "node-sass": "^4.11.0",
+    "querystring": "^0.2.0",
+    "react": "^16.8.1",
+    "react-dom": "^16.8.1",
+    "react-scripts": "2.1.5",
+    "request": "^2.88.0",
+    "spotify-web-api-js": "^1.2.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "serve": "node server",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "dev": "concurrently --kill-others-on-fail \"yarn serve\" \"yarn start\""
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}

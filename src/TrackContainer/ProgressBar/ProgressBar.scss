@@ -1,0 +1,15 @@
+.playback-progress-container {
+  position: absolute;
+  width: 100%;
+  bottom: 0px;
+  left: 0px;
+
+  border-radius: 0px 0px 4px 4px;
+  overflow: hidden;
+  .progress-bar {
+    height: 4px;
+    // background: 	#e44e49;
+    background: 	#4e49e4;
+    border-radius: 0px 4px 4px 4px;
+  }
+}

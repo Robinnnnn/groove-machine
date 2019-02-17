@@ -1,0 +1,84 @@
+$track-transition: 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
+
+.tracks-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 0px;
+}
+
+.track-container {
+  width: 600px;
+  margin: 10px;
+  padding: 20px;
+  border-radius: 4px;
+  box-shadow: 0 3px 27px -5px rgba(50,50,93,.25), 0 8px 16px -8px rgba(0,0,0,.3);
+  transition: $track-transition;
+  background: white;
+  color: #4d4d4d;
+
+  display: flex;
+  align-items: center;
+
+  position: relative;
+
+  &:active {
+    background: #f6f6f6;
+    width: 590px;
+    padding: 20px;
+    margin: 10px;
+  }
+
+  .the-circle {
+    width: 12px;
+    height: 12px;
+    background: darken(#4e49e4, 5%);
+    position: absolute;
+    border-radius: 100%;
+
+    opacity: 0;
+    // transition: $track-transition;
+    transition: 0.15s cubic-bezier(0.165, 0.84, 0.44, 1);
+  }
+  
+  &.reveal-track-details {
+    box-shadow: -10px 20px 60px -12px rgba(50,50,93,.25), 0 18px 36px -18px rgba(0,0,0,.3);
+    padding: 23px;
+    margin: 7px;
+    color: black;
+    cursor: pointer;
+
+    transform: translateX(10px);
+    .track-info-container {
+      .track-artist-title-container {
+        transform: translate(8px, -10px);
+        .track-album-container {
+          opacity: 1;
+        }
+      }
+    }
+    .track-contributor-container {
+      opacity: 1;
+    }
+    .track-duration-container {
+      opacity: 1;
+    }
+  }
+
+  &.track-active {
+    box-shadow: -20px 20px 60px -12px rgba(50,50,93,.25), 0 18px 36px -18px rgba(0,0,0,.3);
+
+    padding: 27px;
+    margin: 3px;
+
+    transform: translateX(60px);
+
+    .the-circle {
+      opacity: 1;
+      transform: translateX(-65px);
+      &:hover {
+        transform: translateX(-65px) scale(1.4);
+      }
+    }
+  }
+}

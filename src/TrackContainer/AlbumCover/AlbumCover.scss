@@ -1,0 +1,78 @@
+.album-cover-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  &.track-active {
+    .album-cover {
+      animation: spin 6s linear infinite;
+      filter: brightness(90%);
+      box-shadow: 0 0px 3px 1px rgba(50, 50, 93, 0.35);
+    }
+    .hole {
+      opacity: 1;
+      box-shadow: inset 0 0px 3px 1px rgba(50, 50, 93, 0.35);
+    }
+  }
+
+  &.track-hover {
+    .album-cover {
+      opacity: 0.1;
+    }
+    .play-icon-container {
+      .play-icon {
+        opacity: 1;
+      }
+    }
+  }
+
+  .album-cover {
+    width: 80px;
+    border-radius: 100%;
+    transition: 0.25s cubic-bezier(0.165, 0.84, 0.44, 1);
+  }
+
+  .hole {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    background: white;
+    border-radius: 100%;
+    opacity: 0;
+  }
+
+  .play-icon-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    .play-icon {
+      width: 30px;
+      height: 30px;
+      opacity: 0;
+      transition: 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
+      fill: darken(#4C4EDB, 8%);
+    }
+  }
+
+  @keyframes spin {
+    from{
+      transform: rotate(0deg);
+    }
+    to{
+      transform: rotate(360deg);
+    }
+}
+
+  .spin {
+    // animation-delay: spin 1s;
+    animation: spin 5s linear infinite;
+  }
+}
