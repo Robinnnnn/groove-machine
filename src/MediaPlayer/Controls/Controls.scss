@@ -1,0 +1,42 @@
+.controls-container {
+  padding: 0px 20px;
+  display: flex;
+  align-items: center;
+  .previous-container, .next-container {
+    width: 18px;
+    height: 18px;
+  }
+  .previous-icon, .next-icon {
+    width: 18px;
+    height: 18px;
+  }
+  .play-pause-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    margin: 0px 6px;
+    border: 1px solid white;
+    border-radius: 100%;
+    transition: 0.25s cubic-bezier(0.165, 0.84, 0.44, 1);
+    .play-icon, .pause-icon {
+      width: 22px;
+    }
+    &:hover {
+      // background:#8f8cee;
+      // background: #7976eb;
+      background: #666666;
+      // background: #ee8f8c;
+      .pause-icon, .play-icon {
+        fill: white;
+      }
+    }
+    &:active {
+      background: #444444;
+      width: 38px;
+      height: 38px;
+      margin: 0px 7px;
+    }
+  }
+}

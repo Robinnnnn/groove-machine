@@ -1,0 +1,65 @@
+.media-player-container {
+  background: white;
+  position: fixed;
+  width: 100%;
+  padding: 20px;
+  box-shadow: 0 -5px 14px -6px rgba(50,50,93,.25), 0 8px 16px -8px rgba(0,0,0,.3);
+  
+  bottom: 0px;
+
+  transition: transform 0.50s cubic-bezier(0.165, 0.84, 0.44, 1);
+  &.media-player-hidden {
+    transform: translateY(108px);
+  }
+  &.media-player-displayed {
+    transform: translateY(0px);
+  }
+  
+
+
+  .media-player-info-container {
+    display: flex;
+
+    .metadata-container {
+      display: flex;
+      .album-cover-container {
+        .album-cover {
+          width: 64px;
+        }
+      }
+      .track-title-artist-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding-left: 20px;
+        .track-title-container {
+          .track-title {
+            font-size: 14px;
+          }
+        }
+        .track-artist-container {
+          .track-artist {
+            font-size: 12px;
+          }
+        }
+      }
+    }
+
+    .live-playback-container {
+      display: flex;
+      align-items: center;
+
+      hr {
+        width: 200px;
+        margin: 4px 15px 0px 15px;
+        border-width: 1px;
+        border-style: double;
+      }
+    }
+  }
+
+
+  .media-player-loading-container {
+    min-height: 68px; // hard-coded
+  }
+}
