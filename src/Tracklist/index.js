@@ -12,10 +12,56 @@ const Tracklist = ({
   progressMs,
   overrideActiveTrack
 }) => {
+  const [mounted, set] = useState(false)
+  const config = { mass: 5, tension: 2000, friction: 200 }
+
+  // We only need to animate the first N elements visible in the user's viewport;
+  // animating all of them at once can really screw with performance.
+  // TODO1: This number should be calculated dynamically by dividing the device's
+  // viewport height by the height of each list element. 
+  // TODO2: Hovering over one of the initially animated elements squeezes the rest
+  // of the list upwards; prevent this!!
+  const numVisibleAnimatedItems = 10
+
+  const trail = useTrail(numVisibleAnimatedItems, {
+    config,
+    opacity: 1,
+    x: 0,
+    height: 120,
+    from: { opacity: 0, x: 20, height: 0 },
+    onRest: () => set(() => true)
+  })
+
   return (
     <div className='tracks-container'>
       {
-        playlist.tracks.items.map(({ track, added_by }) => (
+        trail.map(({ x, height, ...rest }, index) => {
+          const { track, added_by } = playlist.tracks.items[index]
+          return (
+            <animated.div
+              key={track.id}
+              style={{
+                ...rest,
+                transform: x.interpolate(x => `translate3d(0,${x}px,0)`)
+              }}>
+              <animated.div style={{ height }}>
+                <TrackContainer
+                  key={track.id}
+                  track={track}
+                  playlistUri={playlist.uri}
+                  play={spotify.play}
+                  isPlaying={track.id === currentTrackId || track.id === (activeTrack && activeTrack.id)}
+                  progressMs={progressMs}
+                  contributor={added_by.id === 'uplifted' ? 'R' : 'M'}
+                  overrideActiveTrack={overrideActiveTrack}
+                />
+              </animated.div>
+            </animated.div>
+          )
+        })
+      }
+      {
+        mounted && playlist.tracks.items.slice(numVisibleAnimatedItems).map(({ track, added_by }) => (
           <TrackContainer
             key={track.id}
             track={track}
