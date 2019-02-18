@@ -33,7 +33,7 @@ const Tracklist = ({
   })
 
   return (
-    <div className='tracks-container'>
+    <div className='tracklist-container'>
       {
         trail.map(({ x, height, ...rest }, index) => {
           const { track, added_by } = playlist.tracks.items[index]
