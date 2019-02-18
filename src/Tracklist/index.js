@@ -19,15 +19,13 @@ const Tracklist = ({
   // animating all of them at once can really screw with performance.
   // TODO1: This number should be calculated dynamically by dividing the device's
   // viewport height by the height of each list element. 
-  // TODO2: Hovering over one of the initially animated elements squeezes the rest
-  // of the list upwards; prevent this!!
   const numVisibleAnimatedItems = 10
 
   const trail = useTrail(numVisibleAnimatedItems, {
     config,
     opacity: 1,
     x: 0,
-    height: 120,
+    height: 140,
     from: { opacity: 0, x: 20, height: 0 },
     onRest: () => set(() => true)
   })
@@ -40,22 +38,22 @@ const Tracklist = ({
           return (
             <animated.div
               key={track.id}
+              className='animated-track-container'
               style={{
                 ...rest,
-                transform: x.interpolate(x => `translate3d(0,${x}px,0)`)
+                transform: x.interpolate(x => `translate3d(0,${x}px,0)`),
+                height
               }}>
-              <animated.div style={{ height }}>
-                <TrackContainer
-                  key={track.id}
-                  track={track}
-                  playlistUri={playlist.uri}
-                  play={spotify.play}
-                  isPlaying={track.id === currentTrackId || track.id === (activeTrack && activeTrack.id)}
-                  progressMs={progressMs}
-                  contributor={added_by.id === 'uplifted' ? 'R' : 'M'}
-                  overrideActiveTrack={overrideActiveTrack}
-                />
-              </animated.div>
+              <TrackContainer
+                key={track.id}
+                track={track}
+                playlistUri={playlist.uri}
+                play={spotify.play}
+                isPlaying={track.id === currentTrackId || track.id === (activeTrack && activeTrack.id)}
+                progressMs={progressMs}
+                contributor={added_by.id === 'uplifted' ? 'R' : 'M'}
+                overrideActiveTrack={overrideActiveTrack}
+              />
             </animated.div>
           )
         })
