@@ -1,7 +1,7 @@
 import React from 'react'
-import './LoginPrompt.scss'
+import './Login.scss'
 
-const LoginPrompt = () => (
+const Login = () => (
   <div className='login-prompt-container'>
     <a
       className='login-prompt'
@@ -22,4 +22,4 @@ const LoginPrompt = () => (
   </div>
 )
 
-export default LoginPrompt
+export default Login
