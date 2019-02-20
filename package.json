@@ -23,7 +23,8 @@
     "serve": "node server",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "dev": "concurrently --kill-others-on-fail \"yarn serve\" \"yarn start\""
+    "serve-dev": "concurrently --kill-others-on-fail \"yarn serve\" \"yarn start\"",
+    "serve-prod": "yarn build && yarn serve"
   },
   "eslintConfig": {
     "extends": "react-app"
