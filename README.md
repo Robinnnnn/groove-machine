@@ -1,68 +1,56 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Spotify Playlist Viewer
 
-## Available Scripts
+## Getting Started
 
-In the project directory, you can run:
+### 1) Clone & Install Dependencies
 
-### `npm start`
+```
+$ git clone https://github.com/Robinnnnn/spotify-playlist-viewer
+$ cd spotify-playlist-viewer
+$ yarn
+```
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### 2) Set up your Spotify Developer account
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+Head over to the [dashboard](https://developer.spotify.com/dashboard), log in with your Spotify account, and create a Client ID. You will also need to add a `Redirect URI` set to http://localhost:4000/api/oauth. 
 
-### `npm test`
+### 3) Configure your environment
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Create a `.env` file in your root directory, with the Client ID and Client Secret generated from your Spotify developer dashboard:
 
-### `npm run build`
+```
+CLIENT_ID=YOUR_CLIENT_ID
+CLIENT_SECRET=YOUR_CLIENT_SECRET
+BASE_URL=http://localhost:4000
+```
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Your app will use the `BASE_URL` to handle OAuth redirects. You'll need to update this field in a production environment.
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Run the app locally
 
-### `npm run eject`
+```
+$ yarn serve-dev
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+This will run the following commands concurrenty:
+- `yarn start`: runs the frontend on http://localhost:3000 with hot reload enabled
+- `yarn serve`: runs a server on http://localhost:4000, which is required for Spotify OAuth
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+The proxy setup in `/src/setupProxy.js` will forward requests made from the app to the server, as long as it's prefixed with `/api`. 
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### Generate a client build for production
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+```
+$ yarn build
+```
 
-## Learn More
+### Run a production build on port 4000
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```
+$ yarn serve-prod
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Deployment
 
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+The app is hosted on [heroku](https://www.heroku.com/), and set to auto-deploy on merging to `master`. Herkou will use the command listed in the `Procfile` upon successful deployment.
