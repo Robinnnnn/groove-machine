@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import initSpotifyClient from './spotify';
-import LoginPrompt from './LoginPrompt';
+import Routes from './routes'
+import Login from './Login';
 import Playlist from './Playlist';
 import './App.css';
 
@@ -45,11 +46,14 @@ class App extends Component {
 
     return (
       <div className='app'>
-        {loginPrompt && <LoginPrompt />}
-        {spotify && <Playlist
-          spotify={spotify}
-          playlistId='3a6kAci1fsVoCPJXltCvIv'
-        />}
+        <Routes />
+      {
+        // {loginPrompt && <Login />}
+        // {spotify && <Playlist
+        //   spotify={spotify}
+        //   playlistId='3a6kAci1fsVoCPJXltCvIv'
+        // />}
+      }
       </div>
     );
   }
