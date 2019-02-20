@@ -1,5 +1,7 @@
 # Spotify Playlist Viewer
 
+![Screenshot](/screenshot.png =250x250)
+
 ## Getting Started
 
 ### 1) Clone & Install Dependencies
