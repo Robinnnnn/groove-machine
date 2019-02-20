@@ -1,6 +1,8 @@
 # Spotify Playlist Viewer
 
-![Screenshot](/screenshot.png =250x250)
+A pretty skin for your Spotify playlist.
+
+![Screenshot](/screenshot.png)
 
 ## Getting Started
 
