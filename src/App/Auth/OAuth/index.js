@@ -1,25 +1,12 @@
 import React, { Component } from 'react'
 import { navigate } from '@reach/router'
 import querystring from 'query-string'
-import { UserConsumer, SpotifyConsumer } from '../../Contexts'
-import initSpotifyClient from './spotify'
+import {ConsumerContainer} from '../../Contexts'
+import initSpotifyClient from '../spotify'
 import './OAuth.scss'
 
 const OAuthContainer = ({ location }) =>
-  <UserConsumer>
-    {({ dispatch: userDispatch }) => (
-      <SpotifyConsumer>
-        {({ dispatch: spotifyDispatch }) => (
-          <OAuth
-            location={location}
-            userDispatch={userDispatch}
-            spotifyDispatch={spotifyDispatch}
-          />
-        )}
-      </SpotifyConsumer>
-    )}
-  </UserConsumer>
-
+  <ConsumerContainer child={OAuth} location={location} />
 
 class OAuth extends Component {
   async componentDidMount() {
@@ -29,9 +16,18 @@ class OAuth extends Component {
       spotifyDispatch
     } = this.props
 
-    const query = querystring.parse(location.search)
-    const spotify = initSpotifyClient(query)
-    spotifyDispatch({ type: 'initialize', payload: spotify })
+    const tokens = querystring.parse(location.search)
+
+    // TODO : This sequence of events is similar to the one in /PrivateRoute;
+    // should bundle it up into one func and return an error if fail
+    const spotify = initSpotifyClient(tokens)
+    spotifyDispatch({
+      type: 'initialize',
+      payload: {
+        spotify,
+        ...tokens
+      }
+    })
 
     const user = await spotify.getMe()
     userDispatch({ type: 'login', payload: user })

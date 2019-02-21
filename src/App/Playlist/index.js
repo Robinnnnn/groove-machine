@@ -77,21 +77,23 @@ class Playlist extends Component {
     return (
       <div className='playlist-container'>
         {
-          loaded && <>
-            <PlaylistHeader playlist={playlist} />
-            <Tracklist
-              spotify={spotify}
-              playlist={playlist}
-              currentTrackId={currentTrackId || ''}
-              activeTrack={activeTrack}
-              progressMs={progressMs}
-              overrideActiveTrack={this.overrideActiveTrack}
-            />
-            <MediaPlayer
-              spotify={spotify}
-              playback={playback}
-            />
-          </>
+          loaded 
+            ? <>
+                <PlaylistHeader playlist={playlist} />
+                <Tracklist
+                  spotify={spotify}
+                  playlist={playlist}
+                  currentTrackId={currentTrackId || ''}
+                  activeTrack={activeTrack}
+                  progressMs={progressMs}
+                  overrideActiveTrack={this.overrideActiveTrack}
+                />
+                <MediaPlayer
+                  spotify={spotify}
+                  playback={playback}
+                />
+              </>
+            : 'LOADING...'
         }
       </div>
     )
