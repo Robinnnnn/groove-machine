@@ -4,6 +4,7 @@ import { loadState, saveState } from './localStorage'
 const UserContext = createContext()
 
 const initialState = {
+  ID: 'user',
   authenticated: false,
   data: null
 }
@@ -24,10 +25,10 @@ const reducer = (state, action) => {
 }
 
 const UserProvider = ({ children }) => {
-  const persistedState = loadState('user')
+  const persistedState = loadState(initialState.ID)
   const [state, dispatch] = useReducer(reducer, persistedState || initialState)
   const value = { state, dispatch }
-  useEffect(() => saveState('user', state))
+  useEffect(() => saveState(initialState.ID, state))
 
   return (
     <UserContext.Provider value={value}>

@@ -4,6 +4,7 @@ import { loadState, saveState } from './localStorage'
 const SpotifyContext = createContext()
 
 const initialState = {
+  ID: 'spotify',
   spotify: null
 }
 
@@ -22,10 +23,10 @@ const reducer = (state, action) => {
 }
 
 const SpotifyProvider = ({ children }) => {
-  const persistedState = loadState('spotify')
+  const persistedState = loadState(initialState.ID)
   const [state, dispatch] = useReducer(reducer, persistedState || initialState)
   const value = { state, dispatch }
-  useEffect(() => saveState('user', state))
+  useEffect(() => saveState(initialState.ID, state))
 
   return (
     <SpotifyContext.Provider value={value}>
