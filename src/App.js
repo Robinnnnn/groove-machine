@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { UserProvider } from './UserContext'
+
 import initSpotifyClient from './spotify';
 import Routes from './routes'
 import Login from './Login';
@@ -45,16 +47,18 @@ class App extends Component {
     } = this.state
 
     return (
-      <div className='app'>
-        <Routes />
-      {
-        // {loginPrompt && <Login />}
-        // {spotify && <Playlist
-        //   spotify={spotify}
-        //   playlistId='3a6kAci1fsVoCPJXltCvIv'
-        // />}
-      }
-      </div>
+      <UserProvider>
+        <div className='app'>
+          <Routes />
+        {
+          // {loginPrompt && <Login />}
+          // {spotify && <Playlist
+          //   spotify={spotify}
+          //   playlistId='3a6kAci1fsVoCPJXltCvIv'
+          // />}
+        }
+        </div>
+      </UserProvider>
     );
   }
 }
