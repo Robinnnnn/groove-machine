@@ -1,9 +1,9 @@
-import React, { Component, useContext } from 'react'
+import React, { Component } from 'react'
 import { navigate } from '@reach/router'
 import querystring from 'query-string'
-import { UserConsumer } from '../UserContext'
-import { SpotifyConsumer } from '../SpotifyContext'
-import initSpotifyClient from '../spotify'
+import { UserConsumer, SpotifyConsumer } from '../../Contexts'
+import initSpotifyClient from './spotify'
+import './OAuth.scss'
 
 const OAuthContainer = ({ location }) =>
   <UserConsumer>

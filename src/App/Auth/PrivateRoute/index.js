@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
-import Login from './Login'
-import { UserContext } from './UserContext'
+import Login from '../Login'
+import { UserContext } from '../../Contexts'
 
 const PrivateRoute = ({ as: AuthComp, ...rest }) => {
   const { state: user } = useContext(UserContext)

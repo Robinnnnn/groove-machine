@@ -1,19 +1,11 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto+Mono|Playfair+Display:400,400i,700');
 
 .app {
-  background: #FFCECE; /* #fec0ca */
   min-height: 100vh;
-
+  background: #FFCECE; /* #fec0ca */
   color: black;
   font-family: 'Playfair Display';
+  p {
+    margin: 0;
+  }
 }
-
-p {
-  margin: 0;
-}
-
-.app pre {
-  margin: 0;
-  color: black;
-}
-

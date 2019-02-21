@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import './PlaylistHeader.css'
+import './PlaylistHeader.scss'
 
 class PlaylistHeader extends Component {
   static propTypes = {
@@ -8,7 +8,7 @@ class PlaylistHeader extends Component {
   }
 
   render() {
-    const { playlist } = this.props
+    // const { playlist } = this.props
 
     return (
       <div className='playlist-header-container'>

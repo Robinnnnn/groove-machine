@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import './MediaPlayer.scss'
-import { msToMinutesAndSeconds } from '../../util';
+import { msToMinutesAndSeconds } from '../../../util';
 import Controls from './Controls';
 
 class MediaPlayer extends Component {

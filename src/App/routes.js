@@ -1,9 +1,7 @@
 import React from 'react'
 import { Router } from '@reach/router'
-import Login from './Login'
-import OAuth from './OAuth'
+import { Login, OAuth, PrivateRoute } from './Auth'
 import Playlist from './Playlist'
-import PrivateRoute from './PrivateRoute'
 
 const Routes = () => (
   <Router>

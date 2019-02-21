@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import { SpotifyContext } from '../SpotifyContext'
+import { SpotifyContext } from '../Contexts/Spotify'
 
 import PlaylistHeader from './PlaylistHeader'
 import Tracklist from './Tracklist'
