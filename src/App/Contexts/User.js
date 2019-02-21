@@ -5,7 +5,6 @@ const UserContext = createContext()
 
 const initialState = {
   ID: 'user',
-  authenticated: false,
   data: null
 }
 
@@ -14,8 +13,7 @@ const reducer = (state, action) => {
     case 'login':
       return {
         ...state,
-        authenticated: true,
-        user: action.payload
+        data: action.payload
       }
     case 'logout':
       return initialState
