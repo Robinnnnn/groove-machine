@@ -1,38 +1,37 @@
 import React, { createContext, useReducer } from 'react'
 
-const UserContext = createContext()
+const SpotifyContext = createContext()
 
 const initialState = {
-  authenticated: false,
-  data: null
+  spotify: null
 }
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case 'login':
+    case 'initialize':
       return {
         ...state,
-        authenticated: true,
-        user: action.payload
+        spotify: action.payload
       }
-    case 'logout':
+    case 'teardown':
       return initialState
     default:
       return state
   }
 }
 
-const UserProvider = ({ children }) => {
+const SpotifyProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState)
   const value = { state, dispatch }
 
   return (
-    <UserContext.Provider value={value}>
+    <SpotifyContext.Provider value={value}>
       {children}
-    </UserContext.Provider>
+    </SpotifyContext.Provider>
   )
 }
 
-const UserConsumer = UserContext.Consumer
+const SpotifyConsumer = SpotifyContext.Consumer
 
-export { UserContext, UserProvider, UserConsumer }
+export { SpotifyContext, SpotifyProvider, SpotifyConsumer }
+

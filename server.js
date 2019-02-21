@@ -117,7 +117,7 @@ app.get('/api/oauth', function(req, res) {
 
         const clientBaseurl = baseurl.includes('localhost')
           ? 'http://localhost:3000' : baseurl
-        res.redirect(`${clientBaseurl}/#` +
+        res.redirect(`${clientBaseurl}/oauth?` +
           querystring.stringify({
             access_token: access_token,
             refresh_token: refresh_token

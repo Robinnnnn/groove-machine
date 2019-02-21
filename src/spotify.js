@@ -1,27 +1,21 @@
 import Spotify from 'spotify-web-api-js';
 
-const getHashParams = () => {
-  var hashParams = {};
-  var e, r = /([^&;=]+)=?([^&;]*)/g,
-      q = window.location.hash.substring(1);
-  e = r.exec(q)
-  while (e) {
-     hashParams[e[1]] = decodeURIComponent(e[2]);
-     e = r.exec(q);
-  }
-  return hashParams;
-}
+const refreshTokenPeriodically = (refreshToken, spotify, ms) =>
+  setInterval(() =>
+    fetch(`/api/refresh_token?refresh_token=${refreshToken}`)
+      .then(r => r.json())
+      .then(({ access_token }) => spotify.setAccessToken(access_token))
+    , ms
+  )
 
-export default function initSpotifyClient() {
+const initSpotifyClient = ({ access_token, refresh_token }) => {
   const spotify = new Spotify()
-  const { access_token, refresh_token } = getHashParams()
   if (access_token) {
     spotify.setAccessToken(access_token)
-    return {
-      spotify,
-      accessToken: access_token,
-      refreshToken: refresh_token
-    }
+    refreshTokenPeriodically(refresh_token, spotify, 1000 * 60 * 10) // 10 mins
+    return spotify
   }
   return null
 }
+
+export default initSpotifyClient
