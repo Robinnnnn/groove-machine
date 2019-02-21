@@ -7,20 +7,13 @@ import './App.css'
 class App extends Component {
   render() {
     return (
-      <UserProvider>
-        <SpotifyProvider>
-          <div className='app'>
+      <div className='app'>
+        <UserProvider>
+          <SpotifyProvider>
             <Routes />
-          {
-            // {loginPrompt && <Login />}
-            // {spotify && <Playlist
-            //   spotify={spotify}
-            //   playlistId='3a6kAci1fsVoCPJXltCvIv'
-            // />}
-          }
-          </div>
-        </SpotifyProvider>
-      </UserProvider>
+          </SpotifyProvider>
+        </UserProvider>
+      </div>
     );
   }
 }
