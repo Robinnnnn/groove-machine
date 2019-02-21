@@ -1,6 +1,6 @@
 import React, { Component, useContext } from 'react'
+import { navigate } from '@reach/router'
 import querystring from 'query-string'
-// import { UserContext } from '../UserContext'
 import { UserConsumer } from '../UserContext'
 import { SpotifyConsumer } from '../SpotifyContext'
 import initSpotifyClient from '../spotify'
@@ -36,7 +36,10 @@ class OAuth extends Component {
     const user = await spotify.getMe()
     userDispatch({ type: 'login', payload: user })
 
-    console.log('dispatched', {spotify, user})
+    console.log('authed!', {spotify, user})
+    const playlistId = '3a6kAci1fsVoCPJXltCvIv'
+    console.log(`navigating to playlist ${playlistId} ...`)
+    navigate(`/playlist/${playlistId}`)
   }
 
   render() {

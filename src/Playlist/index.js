@@ -1,10 +1,19 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+
+import { SpotifyContext } from '../SpotifyContext'
+
 import PlaylistHeader from './PlaylistHeader'
 import Tracklist from './Tracklist'
 import MediaPlayer from './MediaPlayer'
 
 class Playlist extends Component {
+  static contextType = SpotifyContext
+
+  static propTypes = {
+    id: PropTypes.string.isRequired
+  }
+
   state = {
     playlist: null,
     playback: null,
@@ -13,18 +22,16 @@ class Playlist extends Component {
   }
 
   async componentDidMount() {
-    const { spotify, playlistId } = this.props
+    const { state: { spotify } } = this.context
+    const { id } = this.props
 
     // Frequently check for the latest playback state
     setInterval(() => this.getPlayback(spotify), 1000)
 
-    const playlist = await this.getPlaylist(spotify, playlistId)
-    console.log({ playlist })
+    const playlist = await this.getPlaylist(spotify, id)
+    console.log('retrieved playlist data!', { playlist })
 
-    this.setState({
-      spotify,
-      playlist
-    })
+    this.setState({ spotify, playlist })
   }
 
   getPlayback = async spotify => {
@@ -60,14 +67,8 @@ class Playlist extends Component {
   }
 
   render() {
-    const {
-      spotify,
-    } = this.props
-    const {
-      playlist,
-      playback,
-      activeTrack,
-    } = this.state
+    const { state: { spotify } } = this.context
+    const { playlist, playback, activeTrack } = this.state
 
     const loaded = playlist && playback
     const currentTrackId = playlist && playlist.item && playback.item.id
@@ -95,11 +96,6 @@ class Playlist extends Component {
       </div>
     )
   }
-}
-
-Playlist.propTypes = {
-  spotify: PropTypes.shape({}).isRequired,
-  playlistId: PropTypes.string.isRequired,
 }
 
 export default Playlist
