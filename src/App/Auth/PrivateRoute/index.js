@@ -3,7 +3,8 @@ import Login from '../Login'
 import { ConsumerContainer } from '../../Contexts'
 import initSpotifyClient from '../spotify'
 
-const PrivateRouteContainer = (props) => <ConsumerContainer child={PrivateRoute} {...props} />
+const PrivateRouteContainer = (props) =>
+  <ConsumerContainer child={PrivateRoute} {...props} />
 
 class PrivateRoute extends Component {
   state = {
@@ -22,16 +23,18 @@ class PrivateRoute extends Component {
       access_token: spotifyState.aToken,
       refresh_token: spotifyState.rToken
     }
+    if (!tokens.access_token && !tokens.refresh_token) {
+      return this.kickBackToLogin()
+    }
+
+    console.log('loading tokens in private route', tokens)
 
     // TODO : This sequence of events is similar to the one in /OAuth;
     // should bundle it up into one func and return an error if fail
     const spotify = initSpotifyClient(tokens)
     spotifyDispatch({
       type: 'initialize',
-      payload: {
-        spotify,
-        ...tokens
-      }
+      payload: spotify
     })
 
     const user = await spotify.getMe()
@@ -49,6 +52,10 @@ class PrivateRoute extends Component {
     //   isAuthenticating: false
     // })
   }
+
+  kickBackToLogin = () => this.setState({
+    isAuthenticating: false, isAuthenticated: false
+  })
 
   render() {
     const { isAuthenticated, isAuthenticating } = this.state

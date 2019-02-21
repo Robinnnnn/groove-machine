@@ -1,44 +1,50 @@
 import React, { Component } from 'react'
-import { navigate } from '@reach/router'
+import { Redirect } from '@reach/router'
 import querystring from 'query-string'
-import {ConsumerContainer} from '../../Contexts'
-import initSpotifyClient from '../spotify'
+import { SpotifyContext } from '../../Contexts'
 import './OAuth.scss'
 
-const OAuthContainer = ({ location }) =>
-  <ConsumerContainer child={OAuth} location={location} />
-
 class OAuth extends Component {
-  async componentDidMount() {
-    const {
-      location,
-      userDispatch,
-      spotifyDispatch
-    } = this.props
+  static contextType = SpotifyContext
+
+  state = {
+    redirectReady: false,
+    playlistId: ''
+  }
+
+  componentDidMount() {
+    const { location } = this.props
+    const { dispatch } = this.context
 
     const tokens = querystring.parse(location.search)
 
-    // TODO : This sequence of events is similar to the one in /PrivateRoute;
-    // should bundle it up into one func and return an error if fail
-    const spotify = initSpotifyClient(tokens)
-    spotifyDispatch({
-      type: 'initialize',
+    // Set tokens in the Spotify context for the PrivateRoute
+    // to use for authorization
+    dispatch({
+      type: 'setTokens',
       payload: {
-        spotify,
-        ...tokens
+        aToken: tokens.access_token,
+        rToken: tokens.refresh_token
       }
     })
 
-    const user = await spotify.getMe()
-    userDispatch({ type: 'login', payload: user })
-
-    console.log('authed!', {spotify, user})
-    const playlistId = '3a6kAci1fsVoCPJXltCvIv'
-    console.log(`navigating to playlist ${playlistId} ...`)
-    navigate(`/playlist/${playlistId}`)
+    this.setState({
+      redirectReady: true,
+      playlistId: '3a6kAci1fsVoCPJXltCvIv'
+    })
   }
 
   render() {
+    const {
+      redirectReady,
+      playlistId
+    } = this.state
+
+    if (redirectReady) {
+      console.log(`navigating to playlist ${playlistId} ...`)
+      return <Redirect to={`playlist/${playlistId}`} noThrow />
+    }
+
     return (
       <div className='oauth-container'>
         {/* TODO: Loading Gif */}
@@ -47,4 +53,4 @@ class OAuth extends Component {
   }
 }
 
-export default OAuthContainer
+export default OAuth

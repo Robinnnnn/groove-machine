@@ -15,9 +15,13 @@ const reducer = (state, action) => {
     case 'initialize':
       return {
         ...state,
-        spotify: action.payload.spotify,
-        aToken: action.payload.access_token,
-        rToken: action.payload.refresh_token
+        spotify: action.payload
+      }
+    case 'setTokens':
+      return {
+        ...state,
+        aToken: action.payload.aToken,
+        rToken: action.payload.rToken
       }
     case 'teardown':
       return initialState
