@@ -17,8 +17,9 @@ class Playlist extends Component {
   state = {
     playlist: null,
     playback: null,
+    retrievedPlayback: false,
     activeTrack: {},
-    isOverriding: false,
+    isOverriding: false
   }
 
   async componentDidMount() {
@@ -44,7 +45,8 @@ class Playlist extends Component {
     this.setState({
       playback,
       activeTrack: playback.item,
-      isOverriding: false
+      isOverriding: false,
+      retrievedPlayback: true
     })
   }
 
@@ -68,9 +70,9 @@ class Playlist extends Component {
 
   render() {
     const { state: { spotify } } = this.context
-    const { playlist, playback, activeTrack } = this.state
+    const { playlist, playback, retrievedPlayback, activeTrack } = this.state
 
-    const loaded = playlist && playback
+    const loaded = playlist && retrievedPlayback
     const currentTrackId = playlist && playlist.item && playback.item.id
     const progressMs = playback && playback.progress_ms
 
