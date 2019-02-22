@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-
 import { SpotifyContext } from '../Contexts/Spotify'
-
+import Loader from '../Loader'
 import PlaylistHeader from './PlaylistHeader'
 import Tracklist from './Tracklist'
 import MediaPlayer from './MediaPlayer'
@@ -95,7 +94,7 @@ class Playlist extends Component {
                   playback={playback}
                 />
               </>
-            : 'LOADING...'
+            : <Loader />
         }
       </div>
     )

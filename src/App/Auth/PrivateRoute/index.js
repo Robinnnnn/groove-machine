@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Login from '../Login'
+import Loader from '../../Loader'
 import { ConsumerContainer } from '../../Contexts'
 import initSpotifyClient from '../spotify'
 
@@ -18,6 +19,8 @@ class PrivateRoute extends Component {
       spotifyState,
       spotifyDispatch
     } = this.props
+
+    const start = Date.now()
 
     const tokens = {
       access_token: spotifyState.aToken,
@@ -42,10 +45,15 @@ class PrivateRoute extends Component {
       return this.kickUser()
     }
 
-    this.setState({
-      isAuthenticated: true,
-      isAuthenticating: false
-    })
+    const timePassed = Date.now() - start
+
+    setTimeout(() => {
+      console.log(Date.now() - start)
+      this.setState({
+        isAuthenticated: true,
+        isAuthenticating: false
+      })
+    }, 2000 - timePassed)    
   }
 
   kickUser = () => {
@@ -60,7 +68,7 @@ class PrivateRoute extends Component {
   render() {
     const { isAuthenticated, isAuthenticating } = this.state
     const { as: AuthComp, ...rest } = this.props
-    if (isAuthenticating && !isAuthenticated) return <div>LOADINGGGGGGGG</div>
+    if (isAuthenticating && !isAuthenticated) return <Loader />
     if (!isAuthenticating && isAuthenticated) return <AuthComp {...rest} />
     if (!isAuthenticating && !isAuthenticated) return <Login />
   }
