@@ -23,39 +23,39 @@ class PrivateRoute extends Component {
       access_token: spotifyState.aToken,
       refresh_token: spotifyState.rToken
     }
+
     if (!tokens.access_token && !tokens.refresh_token) {
-      return this.kickBackToLogin()
+      return this.kickUser()
     }
 
     console.log('loading tokens in private route', tokens)
 
-    // TODO : This sequence of events is similar to the one in /OAuth;
-    // should bundle it up into one func and return an error if fail
     const spotify = initSpotifyClient(tokens)
-    spotifyDispatch({
-      type: 'initialize',
-      payload: spotify
-    })
+    spotifyDispatch({ type: 'initialize', payload: spotify })
 
-    const user = await spotify.getMe()
-    userDispatch({ type: 'login', payload: user })
+    try {
+      const user = await spotify.getMe()
+      console.log('authed from private route!', { spotify, user })
+      userDispatch({ type: 'login', payload: user })
+    } catch(e) {
+      console.log('Error retrieving user data', e.response)
+      return this.kickUser()
+    }
 
-    console.log('authed from private route!', {spotify, user})
     this.setState({
       isAuthenticated: true,
       isAuthenticating: false
     })
-
-    // TODO : Handle failure to authenticate and kick back to login screen
-    // this.setState({
-    //   isAuthenticated: false,
-    //   isAuthenticating: false
-    // })
   }
 
-  kickBackToLogin = () => this.setState({
-    isAuthenticating: false, isAuthenticated: false
-  })
+  kickUser = () => {
+    const { userDispatch, spotifyDispatch } = this.props
+    userDispatch({ type: 'logout' })
+    spotifyDispatch({ type: 'teardown' })
+    this.setState({
+      isAuthenticating: false, isAuthenticated: false
+    })
+  }
 
   render() {
     const { isAuthenticated, isAuthenticating } = this.state
