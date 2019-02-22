@@ -44,10 +44,6 @@ app.use(express.static(path.join(__dirname, 'build')))
    .use(cors())
    .use(cookieParser());
 
-app.get('/', function(req, res) {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
-});
-
 app.get('/api/login', function(req, res) {
 
   const state = generateRandomString(16);
@@ -115,8 +111,8 @@ app.get('/api/oauth', function(req, res) {
         // res.redirect(`http://localhost:${port}/#` +
         console.log('Attempting redirect...')
 
-        const clientBaseurl = baseurl.includes('localhost')
-          ? 'http://localhost:3000' : baseurl
+        const clientBaseurl = process.env.NODE_ENV === 'production'
+          ? baseurl : 'http://localhost:3000'
         res.redirect(`${clientBaseurl}/oauth?` +
           querystring.stringify({
             access_token: access_token,
@@ -152,6 +148,10 @@ app.get('/api/refresh_token', function(req, res) {
       res.send({ access_token });
     }
   });
+});
+
+app.get('/*', function(req, res) {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
 console.log(`Listening on ${port}`);
