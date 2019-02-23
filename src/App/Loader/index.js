@@ -3,9 +3,10 @@ import './Loader.scss'
 
 const Loader = () => (
   <div className='loader-container'>
-    <div className="j257 j258 j261" role="progressbar">
-      <div className="j267 j268 j270"></div>
-      <div style={{ top: '35px' }} className="j267 j268 j270"></div>
+    <div className='loader-bar' role='progressbar'>
+      <div className='animated-band top-band' />
+      <div className='loader-message'>Yo</div>
+      <div className='animated-band bottom-band' />
     </div>
   </div>
 )
