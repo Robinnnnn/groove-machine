@@ -20,6 +20,7 @@ class PrivateRoute extends Component {
       spotifyDispatch
     } = this.props
 
+    // Start measuring loading time
     const start = Date.now()
 
     const tokens = {
@@ -45,15 +46,7 @@ class PrivateRoute extends Component {
       return this.kickUser()
     }
 
-    const timePassed = Date.now() - start
-
-    setTimeout(() => {
-      console.log(Date.now() - start)
-      this.setState({
-        isAuthenticated: true,
-        isAuthenticating: false
-      })
-    }, 2000 - timePassed)    
+    this.handleUninterruptedLoadingAnimation(start)
   }
 
   kickUser = () => {
@@ -65,11 +58,35 @@ class PrivateRoute extends Component {
     })
   }
 
+  /**
+   * If the <AuthenticatedComponent /> itself has a loading phase, there may be
+   * a visual jitter when rendering one <Loader /> after another. This method
+   * ensures that the <Loader /> goes through at least one full animation cycle
+   * prior to rendering the <AuthenticatedComponent />.
+   */
+  handleUninterruptedLoadingAnimation = (start) => {
+    console.log('handling...')
+    const loaderCycleMs = 2000
+    const timePassed = Date.now() - start
+    let timeUntilCycleEnd = loaderCycleMs - timePassed
+    // TODO : Handle multiple cycles if loader takes too long
+    // if (timeUntilCycleEnd < 0) {
+    //   timeUntilCycleEnd = ...
+    // }
+
+    setTimeout(() => {
+      this.setState({
+        isAuthenticated: true,
+        isAuthenticating: false
+      })
+    }, timeUntilCycleEnd)
+  }
+
   render() {
     const { isAuthenticated, isAuthenticating } = this.state
-    const { as: AuthComp, ...rest } = this.props
+    const { as: AuthenticatedComponent, ...rest } = this.props
     if (isAuthenticating && !isAuthenticated) return <Loader />
-    if (!isAuthenticating && isAuthenticated) return <AuthComp {...rest} />
+    if (!isAuthenticating && isAuthenticated) return <AuthenticatedComponent {...rest} />
     if (!isAuthenticating && !isAuthenticated) return <Login />
   }
 }
