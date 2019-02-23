@@ -1,42 +1,53 @@
-.login-prompt-container {
+.login-page {
   width: 100vw;
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  .login-prompt {
+
+  .login-prompt-container {
+    position: relative;
     display: flex;
-    align-items: center;
     justify-content: center;
-    width: 300px;
-    margin: 10px;
-    padding: 20px;
+    background: white;
+    width: 343px;
+    height: 70px;
     border-radius: 4px;
     box-shadow: 0 3px 27px -5px rgba(50,50,93,.25), 0 8px 16px -8px rgba(0,0,0,.3);
     transition: 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
-    background: white;
-    color: lighten(black, 40%);
-    text-decoration: none;
 
-    .lock-container {
-      position: absolute;
-      transition: 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
-      transform: translateX(-95px);
-      // opacity: 0;
+    .login-prompt {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: lighten(black, 40%);
+  
+      .lock-container {
+        position: absolute;
+        transition: 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
+        transform: translateX(-95px);
+      }
+  
+      .text-container {
+        font-size: 20px;
+        font-weight: 700;
+        transition: 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
+        transform: translateX(10px);
+      }
+  
+      .heart-container {
+        position: absolute;
+        transition: 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
+        transform: translateX(85px);
+        opacity: 0;
+      }
     }
 
-    .text-container {
-      font-size: 20px;
-      font-weight: 700;
-      transition: 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
-      transform: translateX(10px);
-    }
-
-    .heart-container {
+    .loader-gif {
       position: absolute;
-      transition: 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
-      transform: translateX(85px);
-      opacity: 0;
+      top: -50px;
+      height: 170px;
     }
 
     &:hover {
@@ -59,8 +70,8 @@
 
     &:active {
       background: #f6f6f6;
-      width: 293px;
-      height: 23px;
+      width: 333px;
+      height: 66px;
     }
   }
 }
