@@ -20,12 +20,11 @@
     "spotify-web-api-js": "^1.2.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "concurrently --kill-others-on-fail \"yarn serve\" \"react-scripts start\"",
     "build": "react-scripts build",
     "serve": "node server",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "serve-dev": "concurrently --kill-others-on-fail \"yarn serve\" \"yarn start\"",
     "serve-prod": "yarn build && NODE_ENV=production yarn serve"
   },
   "eslintConfig": {
