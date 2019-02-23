@@ -10,35 +10,39 @@
     justify-content: center;
     align-items: center;
     width: 100vw;
-    height: 40px;
-    background-color: lighten(#4e49e4, 30%);
-  }
+    height: 60px;
+    background-color: lighten(#4e49e4, 32%);
 
-  .animated-band {
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    height: 5px;
-    background-color: #4e49e4;
-  
-    animation: progress 2.0s cubic-bezier(0.95, 0.515, 0.735, 0.895) infinite;
-    animation-name: progress;
-    animation-duration: 2.0s;
-    animation-timing-function: cubic-bezier(0.95, 0.515, 0.735, 0.895);
-    animation-delay: 0s;
-    animation-iteration-count: infinite;
-    animation-direction: normal;
-    animation-fill-mode: none;
-    animation-play-state: running;
-    will-change: left, right;
-  
-    &.bottom-band {
-      top: 35px;
+    .loader-message {
+      font-size: 20px;
+      font-style: italic;
     }
-  }
-  
+
+    .animated-band {
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 4px;
+      background-color: #4e49e4;
+    
+      animation: progress 1.5s cubic-bezier(0.95, 0.515, 0.735, 0.895) infinite;
+      animation-name: progress;
+      animation-duration: 1.5s;
+      animation-timing-function: cubic-bezier(0.95, 0.515, 0.735, 0.895);
+      animation-delay: 0s;
+      animation-iteration-count: infinite;
+      animation-direction: normal;
+      animation-fill-mode: none;
+      animation-play-state: running;
+      will-change: left, right;
+    
+      &.bottom-band {
+        top: 56px;
+      }
+    }
+  }  
   
   @keyframes progress {
     0% {

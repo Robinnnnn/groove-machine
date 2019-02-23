@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { SpotifyContext } from '../Contexts/Spotify'
 import Loader from '../Loader'
+import getLoaderMessage from '../Loader/sillyExcuses'
 import PlaylistHeader from './PlaylistHeader'
 import Tracklist from './Tracklist'
 import MediaPlayer from './MediaPlayer'
@@ -14,11 +15,16 @@ class Playlist extends Component {
   }
 
   state = {
+    loaderMessage: '',
     playlist: null,
     playback: null,
     retrievedPlayback: false,
     activeTrack: {},
     isOverriding: false
+  }
+
+  componentWillMount() {
+    this.setState({ loaderMessage: getLoaderMessage() })
   }
 
   async componentDidMount() {
@@ -69,7 +75,13 @@ class Playlist extends Component {
 
   render() {
     const { state: { spotify } } = this.context
-    const { playlist, playback, retrievedPlayback, activeTrack } = this.state
+    const {
+      loaderMessage,
+      playlist,
+      playback,
+      retrievedPlayback,
+      activeTrack
+    } = this.state
 
     const loaded = playlist && retrievedPlayback
     const currentTrackId = playlist && playlist.item && playback.item.id
@@ -94,7 +106,7 @@ class Playlist extends Component {
                   playback={playback}
                 />
               </>
-            : <Loader />
+            : <Loader message={loaderMessage} />
         }
       </div>
     )

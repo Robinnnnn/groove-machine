@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Login from '../Login'
 import Loader from '../../Loader'
+import getLoaderMessage from '../../Loader/sillyExcuses'
 import { ConsumerContainer } from '../../Contexts'
 import initSpotifyClient from '../spotify'
 
@@ -9,8 +10,13 @@ const PrivateRouteContainer = (props) =>
 
 class PrivateRoute extends Component {
   state = {
+    loaderMessage: '',
     isAuthenticated: false,
     isAuthenticating: true
+  }
+
+  componentWillMount() {
+    this.setState({ loaderMessage: getLoaderMessage() })
   }
 
   async componentDidMount() {
@@ -65,10 +71,10 @@ class PrivateRoute extends Component {
    * prior to rendering the <AuthenticatedComponent />.
    */
   handleUninterruptedLoadingAnimation = (start) => {
-    console.log('handling...')
-    const loaderCycleMs = 2000
+    const loaderCycleMs = 1500
+    const numCycles = 2
     const timePassed = Date.now() - start
-    let timeUntilCycleEnd = loaderCycleMs - timePassed
+    let timeUntilCycleEnd = (loaderCycleMs * numCycles) - timePassed
     // TODO : Handle multiple cycles if loader takes too long
     // if (timeUntilCycleEnd < 0) {
     //   timeUntilCycleEnd = ...
@@ -83,9 +89,13 @@ class PrivateRoute extends Component {
   }
 
   render() {
-    const { isAuthenticated, isAuthenticating } = this.state
+    const {
+      loaderMessage,
+      isAuthenticated,
+      isAuthenticating
+    } = this.state
     const { as: AuthenticatedComponent, ...rest } = this.props
-    if (isAuthenticating && !isAuthenticated) return <Loader />
+    if (isAuthenticating && !isAuthenticated) return <Loader message={loaderMessage} />
     if (!isAuthenticating && isAuthenticated) return <AuthenticatedComponent {...rest} />
     if (!isAuthenticating && !isAuthenticated) return <Login />
   }
