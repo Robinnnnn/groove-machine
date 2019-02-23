@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import Login from '../Login'
+import Loader from '../../Loader'
+import getLoaderMessage from '../../Loader/sillyExcuses'
 import { ConsumerContainer } from '../../Contexts'
 import initSpotifyClient from '../spotify'
 
@@ -8,8 +10,13 @@ const PrivateRouteContainer = (props) =>
 
 class PrivateRoute extends Component {
   state = {
+    loaderMessage: '',
     isAuthenticated: false,
     isAuthenticating: true
+  }
+
+  componentWillMount() {
+    this.setState({ loaderMessage: getLoaderMessage() })
   }
 
   async componentDidMount() {
@@ -18,6 +25,9 @@ class PrivateRoute extends Component {
       spotifyState,
       spotifyDispatch
     } = this.props
+
+    // Start measuring loading time
+    const start = Date.now()
 
     const tokens = {
       access_token: spotifyState.aToken,
@@ -42,10 +52,7 @@ class PrivateRoute extends Component {
       return this.kickUser()
     }
 
-    this.setState({
-      isAuthenticated: true,
-      isAuthenticating: false
-    })
+    this.handleUninterruptedLoadingAnimation(start)
   }
 
   kickUser = () => {
@@ -57,11 +64,39 @@ class PrivateRoute extends Component {
     })
   }
 
+  /**
+   * If the <AuthenticatedComponent /> itself has a loading phase, there may be
+   * a visual jitter when rendering one <Loader /> after another. This method
+   * ensures that the <Loader /> goes through at least one full animation cycle
+   * prior to rendering the <AuthenticatedComponent />.
+   */
+  handleUninterruptedLoadingAnimation = (start) => {
+    const loaderCycleMs = 1500
+    const numCycles = 2
+    const timePassed = Date.now() - start
+    let timeUntilCycleEnd = (loaderCycleMs * numCycles) - timePassed
+    // TODO : Handle multiple cycles if loader takes too long
+    // if (timeUntilCycleEnd < 0) {
+    //   timeUntilCycleEnd = ...
+    // }
+
+    setTimeout(() => {
+      this.setState({
+        isAuthenticated: true,
+        isAuthenticating: false
+      })
+    }, timeUntilCycleEnd)
+  }
+
   render() {
-    const { isAuthenticated, isAuthenticating } = this.state
-    const { as: AuthComp, ...rest } = this.props
-    if (isAuthenticating && !isAuthenticated) return <div>LOADINGGGGGGGG</div>
-    if (!isAuthenticating && isAuthenticated) return <AuthComp {...rest} />
+    const {
+      loaderMessage,
+      isAuthenticated,
+      isAuthenticating
+    } = this.state
+    const { as: AuthenticatedComponent, ...rest } = this.props
+    if (isAuthenticating && !isAuthenticated) return <Loader message={loaderMessage} />
+    if (!isAuthenticating && isAuthenticated) return <AuthenticatedComponent {...rest} />
     if (!isAuthenticating && !isAuthenticated) return <Login />
   }
 }

@@ -34,11 +34,11 @@ Your app will use the `BASE_URL` to handle OAuth redirects. You'll need to updat
 ### Run the app locally
 
 ```
-$ yarn serve-dev
+$ yarn start
 ```
 
 This will run the following commands concurrenty:
-- `yarn start`: runs the frontend on http://localhost:3000 with hot reload enabled
+- `react-scripts start`: runs the frontend on http://localhost:3000 with hot reload enabled
 - `yarn serve`: runs a server on http://localhost:4000, which is required for Spotify OAuth
 
 The proxy setup in `/src/setupProxy.js` will forward requests made from the app to the server, as long as it's prefixed with `/api`. 
