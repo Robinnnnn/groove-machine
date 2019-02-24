@@ -1,18 +1,53 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import AlbumCover from './AlbumCover';
-import ProgressBar from './ProgressBar'
-import './TrackContainer.scss'
 import MainInfo from './MainInfo';
+import ProgressBar from './ProgressBar'
+import scrollToComponent from 'react-scroll-to-component'
+import './TrackContainer.scss'
 
 class TrackContainer extends Component {
   static propTypes = {
-    track: PropTypes.shape({}).isRequired
+    track: PropTypes.shape({}).isRequired,
+    playlistUri: PropTypes.string.isRequired,
+    play: PropTypes.func.isRequired,
+    isPlaying: PropTypes.bool.isRequired,
+    progressMs: PropTypes.number,
+    contributor: PropTypes.string.isRequired,
+    overrideActiveTrack: PropTypes.func.isRequired,
+    animatedLoadComplete: PropTypes.bool.isRequired,
   }
 
   state = {
-    isHovering: false
+    isHovering: false,
+    centeredOnScreen: false
   }
+
+  componentDidUpdate() {
+    this.handleScrollToTrack()
+  }
+  
+  handleScrollToTrack = () => {
+    const { centeredOnScreen } = this.state
+    const { isPlaying, animatedLoadComplete } = this.props
+    // We need to wait for all tracks to plaster onto the DOM, since the
+    // document height dynamically increases as tracks beneath the viewport
+    // are lazy-loaded. Not waiting will cause an inaccurate scroll position.
+    if (!centeredOnScreen && isPlaying && animatedLoadComplete) {
+      this.setState({ centeredOnScreen: true })
+      // Hard-coding a number here is super hacky, but it's otherwise very
+      // difficult to determine when the "rest" of the tracks have mounted
+      // post-animation.
+      const estimatedMountTimeMs = 200
+      setTimeout(this.scrollToThisTrack, estimatedMountTimeMs)
+    }
+  }
+
+  scrollToThisTrack = () =>
+    scrollToComponent(
+      this.track,
+      { offset: 32, duration: 2500, ease: 'inOutQuint' }
+    )
 
   onMouseEnter = () => this.setState({ isHovering: true })
 
@@ -37,7 +72,13 @@ class TrackContainer extends Component {
     return play(options)
   }
 
-  circleAction = (e) => {
+  openAlbum = (e) => {
+    e.stopPropagation()
+    const { track } = this.props
+    window.open(track.album.external_urls.spotify, '_blank')
+  }
+
+  getSongLyrics = (e) => {
     e.stopPropagation()
     const { track } = this.props
     const q = [
@@ -46,12 +87,6 @@ class TrackContainer extends Component {
       'lyrics'
     ].join('+').toLowerCase()
     window.open(`https://google.com/search?q=${q}`, '_blank')
-  }
-
-  openAlbum = (e) => {
-    e.stopPropagation()
-    const { track } = this.props
-    window.open(track.album.external_urls.spotify, '_blank')
   }
 
   render() {
@@ -72,14 +107,15 @@ class TrackContainer extends Component {
     return (
       <div
         className={`track-container ${revealClass} ${activeClass}`}
+        ref={t => this.track = t}
+        onClick={this.playTrack}
         onMouseEnter={this.onMouseEnter}
         onMouseLeave={this.onMouseLeave}
-        onClick={this.playTrack}
       >
 
         <div
           className='the-circle'
-          onClick={this.circleAction}
+          onClick={this.getSongLyrics}
         />
 
         <AlbumCover

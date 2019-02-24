@@ -53,24 +53,28 @@ const Tracklist = ({
                 progressMs={progressMs}
                 contributor={added_by.id === 'uplifted' ? 'R' : 'M'}
                 overrideActiveTrack={overrideActiveTrack}
+                animatedLoadComplete={mounted}
               />
             </animated.div>
           )
         })
       }
       {
-        mounted && playlist.tracks.items.slice(numVisibleAnimatedItems).map(({ track, added_by }) => (
-          <TrackContainer
-            key={track.id}
-            track={track}
-            playlistUri={playlist.uri}
-            play={spotify.play}
-            isPlaying={track.id === currentTrackId || track.id === (activeTrack && activeTrack.id)}
-            progressMs={progressMs}
-            contributor={added_by.id === 'uplifted' ? 'R' : 'M'}
-            overrideActiveTrack={overrideActiveTrack}
-          />
-        ))
+        mounted && playlist.tracks.items
+          .slice(numVisibleAnimatedItems)
+          .map(({ track, added_by }) => (
+            <TrackContainer
+              key={track.id}
+              track={track}
+              playlistUri={playlist.uri}
+              play={spotify.play}
+              isPlaying={track.id === currentTrackId || track.id === (activeTrack && activeTrack.id)}
+              progressMs={progressMs}
+              contributor={added_by.id === 'uplifted' ? 'R' : 'M'}
+              overrideActiveTrack={overrideActiveTrack}
+              animatedLoadComplete={mounted}
+            />
+          ))
       }
     </div>
   )
