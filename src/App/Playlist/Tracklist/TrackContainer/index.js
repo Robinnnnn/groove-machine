@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import AlbumCover from './AlbumCover';
 import MainInfo from './MainInfo';
 import ProgressBar from './ProgressBar'
-import scrollToComponent from 'react-scroll-to-component'
+import scroll from 'scroll-to'
 import './TrackContainer.scss'
 
 class TrackContainer extends Component {
@@ -38,16 +38,20 @@ class TrackContainer extends Component {
       // Hard-coding a number here is super hacky, but it's otherwise very
       // difficult to determine when the "rest" of the tracks have mounted
       // post-animation.
-      const estimatedMountTimeMs = 200
+      const estimatedMountTimeMs = 300
       setTimeout(this.scrollToThisTrack, estimatedMountTimeMs)
     }
   }
 
-  scrollToThisTrack = () =>
-    scrollToComponent(
-      this.track,
-      { offset: 32, duration: 2500, ease: 'inOutQuint' }
-    )
+  scrollToThisTrack = () => {
+    const bounds = this.track.getBoundingClientRect()
+    const middle = bounds.top - window.innerHeight / 2 + bounds.height / 2
+    const config = { duration: 2500, ease: 'inOutQuint' }
+    // The `scroll-to` library doesn't seem to scroll to the middle accurately
+    // window.scrollTo(0, middle)
+    const offset = 20
+    scroll(0, middle + offset, config) 
+  }
 
   onMouseEnter = () => this.setState({ isHovering: true })
 

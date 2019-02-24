@@ -8320,13 +8320,6 @@ react-scripts@2.1.5:
   optionalDependencies:
     fsevents "1.2.4"
 
-react-scroll-to-component@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/react-scroll-to-component/-/react-scroll-to-component-1.0.2.tgz#f260dc936c62a53e772786d7832fe0884e195354"
-  integrity sha1-8mDck2xipT53J4bXgy/giE4ZU1Q=
-  dependencies:
-    scroll-to "0.0.2"
-
 react-spring@^8.0.7:
   version "8.0.7"
   resolved "https://registry.yarnpkg.com/react-spring/-/react-spring-8.0.7.tgz#55b1d298be16b308388cb865ee707a1194112fe0"
@@ -8850,7 +8843,7 @@ schema-utils@^1.0.0:
     ajv-errors "^1.0.0"
     ajv-keywords "^3.1.0"
 
-scroll-to@0.0.2:
+scroll-to@^0.0.2:
   version "0.0.2"
   resolved "https://registry.yarnpkg.com/scroll-to/-/scroll-to-0.0.2.tgz#936d398a9133660a2492145c2c0081dfcb0728f3"
   integrity sha1-k205ipEzZgokkhRcLACB38sHKPM=
