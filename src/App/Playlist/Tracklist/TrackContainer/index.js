@@ -29,10 +29,10 @@ class TrackContainer extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    this.handleCurrentlyPlayingTrack()
-    this.handleTrackUnmount(prevProps)
-
-    this.handleScrollToTrack()
+    // TODO:
+    this.handleCurrentlyPlayingTrack() // definitely needed
+    this.handleTrackUnmount(prevProps) // could be cleaned up
+    this.handleScrollToTrack() // may not be needed, and could DEF be cleaned up
   }
 
   handleCurrentlyPlayingTrack = () => {
@@ -47,7 +47,10 @@ class TrackContainer extends Component {
 
   handleTrackUnmount = (prevProps) => {
     if (prevProps.isPlaying && !this.props.isPlaying) {
-      this.setState({ centeredOnScreen: false, registeredCurrentlyPlayingTrack: false })
+      this.setState({
+        centeredOnScreen: false, // may not be needed
+        registeredCurrentlyPlayingTrack: false
+      })
     }
   }
   
