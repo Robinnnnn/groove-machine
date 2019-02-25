@@ -23,8 +23,9 @@ class TrackContainer extends Component {
     centeredOnScreen: false
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     this.handleScrollToTrack()
+    this.handlePlayUnmount(prevProps)
   }
   
   handleScrollToTrack = () => {
@@ -34,6 +35,7 @@ class TrackContainer extends Component {
     // document height dynamically increases as tracks beneath the viewport
     // are lazy-loaded. Not waiting will cause an inaccurate scroll position.
     if (!centeredOnScreen && isPlaying && animatedLoadComplete) {
+      console.log('NOW PLAYING', this.props.track.name)
       this.setState({ centeredOnScreen: true })
       // Hard-coding a number here is super hacky, but it's otherwise very
       // difficult to determine when the "rest" of the tracks have mounted
@@ -45,7 +47,8 @@ class TrackContainer extends Component {
 
   scrollToThisTrack = () => {
     const bounds = this.track.getBoundingClientRect()
-    const middle = bounds.top - window.innerHeight / 2 + bounds.height / 2
+    const middle = window.scrollY + bounds.top - window.innerHeight / 2 + bounds.height / 2
+    console.log(middle, bounds)
     const config = {
       duration: 2500,
       ease: 'inOutQuint',
@@ -54,6 +57,12 @@ class TrackContainer extends Component {
     // The `scroll-to` library doesn't seem to scroll to the middle accurately
     // window.scrollTo(0, middle) // accurate scroll
     scroll(0, middle, config) // inaccurate scroll, but with animation
+  }
+
+  handlePlayUnmount = (prevProps) => {
+    if (prevProps.isPlaying && !this.props.isPlaying) {
+      this.setState({ centeredOnScreen: false })
+    }
   }
 
   onMouseEnter = () => this.setState({ isHovering: true })
