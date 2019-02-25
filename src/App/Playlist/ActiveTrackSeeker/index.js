@@ -49,7 +49,7 @@ ActiveTrackSeeker.propTypes = {
     'below_viewport',
     'above_viewport'
   ]).isRequired,
-  locateActiveTrack: PropTypes.func.isRequired
+  locateActiveTrack: PropTypes.func
 }
 
 export default ActiveTrackSeeker

@@ -107,7 +107,6 @@ class Playlist extends Component {
     const currentTrackId = playlist && playlist.item && playback.item.id
     const progressMs = playback && playback.progress_ms
 
-
     return (
       <div className='playlist-container'>
         {
