@@ -7,25 +7,34 @@ const ActiveTrackSeeker = ({ activeTrackPosition }) => {
   switch (activeTrackPosition) {
     case 'below_viewport':
       anchorStyle.bottom = 0
+      anchorStyle.opacity = 1
       break;
     case 'above_viewport':
       anchorStyle.top = 0
+      anchorStyle.opacity = 1
       break;
-    // A track finder wouldn't be very helpful if there isn't an active track,
-    // or if it's already within the user's viewport.
+    // Hide the track finder if there isn't an active track,
+    // or if it's already within the user's viewport
     case '':
     case 'within_viewport':
     default:
-      return null;
+      // TODO :
+      // This will nicely fade-in the seeker via smooth transition,
+      // but instantly remove it from view when the active track scrolls
+      // into the viewport.
+      //
+      // To fix this, we would need to know the previous state of the
+      // track position (`below_viewport` or `above_viewport`) and anchor
+      // the element to `bottom` or `top` accordingly.
+      // anchorStyle.(bottom|top) = 0
+      anchorStyle.opacity = 0
   }
 
   return (
     <div
       className='active-track-seeker'
       style={anchorStyle}
-    >
-      {activeTrackPosition}
-    </div>
+    />
   )
 }
 
