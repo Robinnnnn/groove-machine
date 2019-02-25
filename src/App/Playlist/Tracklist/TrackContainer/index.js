@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import AlbumCover from './AlbumCover';
 import MainInfo from './MainInfo';
 import ProgressBar from './ProgressBar'
-import scroll from 'scroll-to'
+import scroll from '@robinnnnn/scroll-to'
 import './TrackContainer.scss'
 
 class TrackContainer extends Component {
@@ -46,11 +46,14 @@ class TrackContainer extends Component {
   scrollToThisTrack = () => {
     const bounds = this.track.getBoundingClientRect()
     const middle = bounds.top - window.innerHeight / 2 + bounds.height / 2
-    const config = { duration: 2500, ease: 'inOutQuint' }
+    const config = {
+      duration: 2500,
+      ease: 'inOutQuint',
+      cancelOnUserScroll: true
+    }
     // The `scroll-to` library doesn't seem to scroll to the middle accurately
-    // window.scrollTo(0, middle)
-    const offset = 20
-    scroll(0, middle + offset, config) 
+    // window.scrollTo(0, middle) // accurate scroll
+    scroll(0, middle, config) // inaccurate scroll, but with animation
   }
 
   onMouseEnter = () => this.setState({ isHovering: true })

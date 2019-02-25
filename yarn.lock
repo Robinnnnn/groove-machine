@@ -784,6 +784,14 @@
     react-lifecycles-compat "^3.0.4"
     warning "^3.0.0"
 
+"@robinnnnn/scroll-to@^0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@robinnnnn/scroll-to/-/scroll-to-0.0.3.tgz#7c6f9a54218a591b869ea41256c54ce2258e60e7"
+  integrity sha512-eGA67ICIYyB7IYUAnpRY15PmlXVlEWp2vFgXzuXk33ZDVWEH8ASzGMgk0npOLeQtr/1xN/K42vdP/mfeyX0T6g==
+  dependencies:
+    component-raf "1.2.0"
+    component-tween "1.2.0"
+
 "@svgr/babel-plugin-add-jsx-attribute@^4.0.0":
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/@svgr/babel-plugin-add-jsx-attribute/-/babel-plugin-add-jsx-attribute-4.0.0.tgz#5acf239cd2747b1a36ec7e708de05d914cb9b948"
@@ -2397,13 +2405,11 @@ component-emitter@^1.2.1:
 
 component-raf@1.2.0:
   version "1.2.0"
-  resolved "https://registry.yarnpkg.com/component-raf/-/component-raf-1.2.0.tgz#b2bc72d43f1b014fde7a4b3c447c764bc73ccbaa"
-  integrity sha1-srxy1D8bAU/eeks8RHx2S8c8y6o=
+  resolved "https://codeload.github.com/component/raf/tar.gz/248c5fbdc10d35caf0775ed8f1c283e7dab363b4"
 
 component-tween@1.2.0:
   version "1.2.0"
-  resolved "https://registry.yarnpkg.com/component-tween/-/component-tween-1.2.0.tgz#cc39ce5dbab05b52825f41d1947638a0b01b2b8a"
-  integrity sha1-zDnOXbqwW1KCX0HRlHY4oLAbK4o=
+  resolved "https://codeload.github.com/component/tween/tar.gz/2e31d55fe39b21e5ce29079632c8d4e296540bd7"
   dependencies:
     component-clone "0.2.2"
     component-emitter "1.2.0"
