@@ -1,5 +1,6 @@
 import React, { createContext, useReducer, useEffect } from 'react'
-import { loadState, saveState } from './localStorage'
+import { loadState, saveState } from '../localStorage'
+import { scrollToNode } from './util'
 
 const SpotifyContext = createContext()
 
@@ -8,7 +9,8 @@ const initialState = {
   spotify: null,
   aToken: null,
   rToken: null,
-  activeTrackNode: null
+  activeTrackNode: null,
+  scrollToActiveTrack: () => {}
 }
 
 const reducer = (state, action) => {
@@ -29,7 +31,8 @@ const reducer = (state, action) => {
     case 'set_track_node':
       return {
         ...state,
-        activeTrackNode: action.payload
+        activeTrackNode: action.payload,
+        scrollToActiveTrack: () => scrollToNode(action.payload)
       }
     default:
       return state

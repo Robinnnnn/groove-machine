@@ -124,6 +124,7 @@ class Playlist extends Component {
                 />
                 <ActiveTrackSeeker
                   activeTrackPosition={activeTrackPosition}
+                  locateActiveTrack={state.scrollToActiveTrack}
                 />
                 {
                   // Temporary disable MediaPlayer until design is finalized.

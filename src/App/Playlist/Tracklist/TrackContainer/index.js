@@ -4,7 +4,7 @@ import { SpotifyContext } from '../../../Contexts'
 import AlbumCover from './AlbumCover';
 import MainInfo from './MainInfo';
 import ProgressBar from './ProgressBar'
-import scroll from '@robinnnnn/scroll-to'
+import animatedScroll from '@robinnnnn/scroll-to'
 import './TrackContainer.scss'
 
 class TrackContainer extends Component {
@@ -77,9 +77,9 @@ class TrackContainer extends Component {
       ease: 'inOutQuint',
       cancelOnUserScroll: true
     }
-    // The `scroll-to` library doesn't seem to scroll to the middle accurately
-    // window.scrollTo(0, middle) // accurate scroll
-    scroll(0, middle, config) // inaccurate scroll, but with animation
+    // The `@robinnnnn/scroll-to` library doesn't seem to scroll to the middle accurately
+    // window.scrollTo(0, middle) // accurate scroll; without animation
+    animatedScroll(0, middle, config) // inaccurate scroll; with animation
   }
 
   onMouseEnter = () => this.setState({ isHovering: true })

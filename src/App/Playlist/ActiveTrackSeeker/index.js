@@ -2,7 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import './ActiveTrackSeeker.scss'
 
-const ActiveTrackSeeker = ({ activeTrackPosition }) => {
+const ActiveTrackSeeker = ({
+  activeTrackPosition,
+  locateActiveTrack
+}) => {
   const anchorStyle = {}
   switch (activeTrackPosition) {
     case 'below_viewport':
@@ -34,6 +37,7 @@ const ActiveTrackSeeker = ({ activeTrackPosition }) => {
     <div
       className='active-track-seeker'
       style={anchorStyle}
+      onClick={locateActiveTrack}
     />
   )
 }
@@ -44,7 +48,8 @@ ActiveTrackSeeker.propTypes = {
     'within_viewport',
     'below_viewport',
     'above_viewport'
-  ])
+  ]).isRequired,
+  locateActiveTrack: PropTypes.func.isRequired
 }
 
 export default ActiveTrackSeeker
