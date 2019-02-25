@@ -7,7 +7,8 @@ const initialState = {
   ID: 'spotify',
   spotify: null,
   aToken: null,
-  rToken: null
+  rToken: null,
+  activeTrackNode: null
 }
 
 const reducer = (state, action) => {
@@ -17,14 +18,19 @@ const reducer = (state, action) => {
         ...state,
         spotify: action.payload
       }
-    case 'setTokens':
+    case 'teardown':
+      return initialState
+    case 'set_tokens':
       return {
         ...state,
         aToken: action.payload.aToken,
         rToken: action.payload.rToken
       }
-    case 'teardown':
-      return initialState
+    case 'set_track_node':
+      return {
+        ...state,
+        activeTrackNode: action.payload
+      }
     default:
       return state
   }

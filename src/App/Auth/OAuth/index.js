@@ -21,7 +21,7 @@ class OAuth extends Component {
     // Set tokens in the Spotify context for the PrivateRoute
     // to use for authorization
     dispatch({
-      type: 'setTokens',
+      type: 'set_tokens',
       payload: {
         aToken: tokens.access_token,
         rToken: tokens.refresh_token

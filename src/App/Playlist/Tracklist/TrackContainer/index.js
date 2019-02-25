@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { SpotifyContext } from '../../../Contexts'
 import AlbumCover from './AlbumCover';
 import MainInfo from './MainInfo';
 import ProgressBar from './ProgressBar'
@@ -7,6 +8,8 @@ import scroll from '@robinnnnn/scroll-to'
 import './TrackContainer.scss'
 
 class TrackContainer extends Component {
+  static contextType = SpotifyContext
+
   static propTypes = {
     track: PropTypes.shape({}).isRequired,
     playlistUri: PropTypes.string.isRequired,
@@ -20,12 +23,32 @@ class TrackContainer extends Component {
 
   state = {
     isHovering: false,
-    centeredOnScreen: false
+    centeredOnScreen: false,
+
+    registeredCurrentlyPlayingTrack: false
   }
 
   componentDidUpdate(prevProps) {
+    this.handleCurrentlyPlayingTrack()
+    this.handleTrackUnmount(prevProps)
+
     this.handleScrollToTrack()
-    this.handlePlayUnmount(prevProps)
+  }
+
+  handleCurrentlyPlayingTrack = () => {
+    const { registeredCurrentlyPlayingTrack } = this.state
+    const { isPlaying, animatedLoadComplete } = this.props
+    const { dispatch } = this.context
+    if (!registeredCurrentlyPlayingTrack && isPlaying && animatedLoadComplete) {
+      this.setState({ registeredCurrentlyPlayingTrack: true })
+      dispatch({ type: 'set_track_node', payload: this.track })
+    }
+  }
+
+  handleTrackUnmount = (prevProps) => {
+    if (prevProps.isPlaying && !this.props.isPlaying) {
+      this.setState({ centeredOnScreen: false, registeredCurrentlyPlayingTrack: false })
+    }
   }
   
   handleScrollToTrack = () => {
@@ -57,12 +80,6 @@ class TrackContainer extends Component {
     // The `scroll-to` library doesn't seem to scroll to the middle accurately
     // window.scrollTo(0, middle) // accurate scroll
     scroll(0, middle, config) // inaccurate scroll, but with animation
-  }
-
-  handlePlayUnmount = (prevProps) => {
-    if (prevProps.isPlaying && !this.props.isPlaying) {
-      this.setState({ centeredOnScreen: false })
-    }
   }
 
   onMouseEnter = () => this.setState({ isHovering: true })
