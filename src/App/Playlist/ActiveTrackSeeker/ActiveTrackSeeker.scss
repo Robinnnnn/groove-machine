@@ -1,0 +1,18 @@
+.active-track-seeker {
+  position: fixed;
+  right: 0;
+
+  width: 14px;
+  height: 14px;
+  margin: 30px;
+  border-radius: 100%;
+  background: darken(#4e49e4, 5%);
+
+  transition: 0.55s cubic-bezier(0.165, 0.84, 0.44, 1);
+
+  cursor: pointer;
+
+  &:hover {
+    transform: scale(1.2);
+  }
+}

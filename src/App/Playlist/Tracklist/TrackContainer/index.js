@@ -1,17 +1,55 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { SpotifyContext } from '../../../Contexts'
 import AlbumCover from './AlbumCover';
+import MainInfo from './MainInfo';
 import ProgressBar from './ProgressBar'
 import './TrackContainer.scss'
-import MainInfo from './MainInfo';
 
 class TrackContainer extends Component {
+  static contextType = SpotifyContext
+
   static propTypes = {
-    track: PropTypes.shape({}).isRequired
+    track: PropTypes.shape({}).isRequired,
+    playlistUri: PropTypes.string.isRequired,
+    play: PropTypes.func.isRequired,
+    isPlaying: PropTypes.bool.isRequired,
+    progressMs: PropTypes.number,
+    contributor: PropTypes.string.isRequired,
+    overrideActiveTrack: PropTypes.func.isRequired,
+    animatedLoadComplete: PropTypes.bool.isRequired,
   }
 
   state = {
-    isHovering: false
+    isHovering: false,
+    registeredCurrentlyPlayingTrack: false
+  }
+
+  componentDidUpdate(prevProps) {
+    this.handleCurrentlyPlayingTrack()
+    this.handleTrackUnmount(prevProps)
+  }
+
+  handleCurrentlyPlayingTrack = () => {
+    const { registeredCurrentlyPlayingTrack } = this.state
+    const { isPlaying, animatedLoadComplete } = this.props
+    const { dispatch } = this.context
+    if (!registeredCurrentlyPlayingTrack && isPlaying && animatedLoadComplete) {
+      console.log('NOW PLAYING', this.props.track.name)
+      // Must register that the track is being played on this
+      // component's state as to not overload SpotifyContext
+      // with a stream of `dispatch` calls.
+      this.setState({ registeredCurrentlyPlayingTrack: true })
+      dispatch({ type: 'set_track_node', payload: this.track })
+    }
+  }
+
+  handleTrackUnmount = (prevProps) => {
+    if (prevProps.isPlaying && !this.props.isPlaying) {
+      // This value needs to reset, in case the user returns
+      // to this track (i.e., in case the song is dope)
+      this.setState({ registeredCurrentlyPlayingTrack: false })
+    }
   }
 
   onMouseEnter = () => this.setState({ isHovering: true })
@@ -37,7 +75,13 @@ class TrackContainer extends Component {
     return play(options)
   }
 
-  circleAction = (e) => {
+  openAlbum = (e) => {
+    e.stopPropagation()
+    const { track } = this.props
+    window.open(track.album.external_urls.spotify, '_blank')
+  }
+
+  getSongLyrics = (e) => {
     e.stopPropagation()
     const { track } = this.props
     const q = [
@@ -46,12 +90,6 @@ class TrackContainer extends Component {
       'lyrics'
     ].join('+').toLowerCase()
     window.open(`https://google.com/search?q=${q}`, '_blank')
-  }
-
-  openAlbum = (e) => {
-    e.stopPropagation()
-    const { track } = this.props
-    window.open(track.album.external_urls.spotify, '_blank')
   }
 
   render() {
@@ -72,14 +110,15 @@ class TrackContainer extends Component {
     return (
       <div
         className={`track-container ${revealClass} ${activeClass}`}
+        ref={t => this.track = t}
+        onClick={this.playTrack}
         onMouseEnter={this.onMouseEnter}
         onMouseLeave={this.onMouseLeave}
-        onClick={this.playTrack}
       >
 
         <div
           className='the-circle'
-          onClick={this.circleAction}
+          onClick={this.getSongLyrics}
         />
 
         <AlbumCover

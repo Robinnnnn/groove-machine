@@ -5,7 +5,8 @@ import Loader from '../Loader'
 import getLoaderMessage from '../Loader/sillyExcuses'
 import PlaylistHeader from './PlaylistHeader'
 import Tracklist from './Tracklist'
-import MediaPlayer from './MediaPlayer'
+import ActiveTrackSeeker from './ActiveTrackSeeker'
+// import MediaPlayer from './MediaPlayer'
 
 class Playlist extends Component {
   static contextType = SpotifyContext
@@ -20,6 +21,7 @@ class Playlist extends Component {
     playback: null,
     retrievedPlayback: false,
     activeTrack: {},
+    activeTrackPosition: '',
     isOverriding: false
   }
 
@@ -31,6 +33,8 @@ class Playlist extends Component {
     const { state: { spotify } } = this.context
     const { id } = this.props
 
+    window.addEventListener('scroll', this.determineViewContext)
+
     // Frequently check for the latest playback state
     setInterval(() => this.getPlayback(spotify), 1000)
 
@@ -38,6 +42,21 @@ class Playlist extends Component {
     console.log('retrieved playlist data!', { playlist })
 
     this.setState({ spotify, playlist })
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.determineViewContext)
+  }
+
+  determineViewContext = () => {
+    const { state: { activeTrackNode } } = this.context
+    if (activeTrackNode) {
+      const bounds = activeTrackNode.getBoundingClientRect()
+      let relativeTo = 'within'
+      if (bounds.top > window.innerHeight) relativeTo = 'below'
+      else if (bounds.bottom < 0) relativeTo = 'above'
+      this.setState({ activeTrackPosition: `${relativeTo}_viewport` })
+    }
   }
 
   getPlayback = async spotify => {
@@ -74,13 +93,14 @@ class Playlist extends Component {
   }
 
   render() {
-    const { state: { spotify } } = this.context
+    const { state } = this.context
     const {
       loaderMessage,
       playlist,
       playback,
       retrievedPlayback,
-      activeTrack
+      activeTrack,
+      activeTrackPosition
     } = this.state
 
     const loaded = playlist && retrievedPlayback
@@ -94,17 +114,25 @@ class Playlist extends Component {
             ? <>
                 <PlaylistHeader playlist={playlist} />
                 <Tracklist
-                  spotify={spotify}
+                  spotify={state.spotify}
                   playlist={playlist}
                   currentTrackId={currentTrackId || ''}
                   activeTrack={activeTrack}
                   progressMs={progressMs}
                   overrideActiveTrack={this.overrideActiveTrack}
                 />
-                <MediaPlayer
-                  spotify={spotify}
-                  playback={playback}
+                <ActiveTrackSeeker
+                  activeTrackPosition={activeTrackPosition}
+                  locateActiveTrack={state.scrollToActiveTrack}
                 />
+                {
+                  // Temporary disable MediaPlayer until design is finalized.
+                  // https://github.com/Robinnnnn/spotify-playlist-viewer/issues/14
+                  // <MediaPlayer
+                  //   spotify={spotify}
+                  //   playback={playback}
+                  // />
+                }
               </>
             : <Loader message={loaderMessage} />
         }

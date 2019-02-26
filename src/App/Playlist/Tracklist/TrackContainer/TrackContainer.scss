@@ -23,14 +23,14 @@ $track-transition: 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
   }
 
   .the-circle {
+    position: absolute;
+
     width: 12px;
     height: 12px;
     background: darken(#4e49e4, 5%);
-    position: absolute;
     border-radius: 100%;
 
     opacity: 0;
-    // transition: $track-transition;
     transition: 0.15s cubic-bezier(0.165, 0.84, 0.44, 1);
   }
   
