@@ -29,10 +29,21 @@ const reducer = (state, action) => {
         rToken: action.payload.rToken
       }
     case 'set_track_node':
+      const scrollToActiveTrack = () => scrollToNode(action.payload)
+
+      // Actually scroll to the selected track.
+      //
+      // `setTimeout` is used because we need to wait for all tracks to plaster
+      // onto the DOM, since the document height dynamically increases as tracks
+      // beneath the viewport are lazy-loaded. Not waiting will cause a defective
+      // scroll position. Hard-coding a number here is hacky, but it's otherwise
+      // very difficult to determine when the "rest" of the tracks have mounted
+      // post-animation. See `Tracklist` component for animation strategy.
+      setTimeout(scrollToActiveTrack, 300)
       return {
         ...state,
         activeTrackNode: action.payload,
-        scrollToActiveTrack: () => scrollToNode(action.payload)
+        scrollToActiveTrack
       }
     default:
       return state

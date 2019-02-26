@@ -4,7 +4,6 @@ import { SpotifyContext } from '../../../Contexts'
 import AlbumCover from './AlbumCover';
 import MainInfo from './MainInfo';
 import ProgressBar from './ProgressBar'
-import animatedScroll from '@robinnnnn/scroll-to'
 import './TrackContainer.scss'
 
 class TrackContainer extends Component {
@@ -23,16 +22,12 @@ class TrackContainer extends Component {
 
   state = {
     isHovering: false,
-    centeredOnScreen: false,
-
     registeredCurrentlyPlayingTrack: false
   }
 
   componentDidUpdate(prevProps) {
-    // TODO:
-    this.handleCurrentlyPlayingTrack() // definitely needed
-    this.handleTrackUnmount(prevProps) // could be cleaned up
-    this.handleScrollToTrack() // may not be needed, and could DEF be cleaned up
+    this.handleCurrentlyPlayingTrack()
+    this.handleTrackUnmount(prevProps)
   }
 
   handleCurrentlyPlayingTrack = () => {
@@ -40,6 +35,10 @@ class TrackContainer extends Component {
     const { isPlaying, animatedLoadComplete } = this.props
     const { dispatch } = this.context
     if (!registeredCurrentlyPlayingTrack && isPlaying && animatedLoadComplete) {
+      console.log('NOW PLAYING', this.props.track.name)
+      // Must register that the track is being played on this
+      // component's state as to not overload SpotifyContext
+      // with a stream of `dispatch` calls.
       this.setState({ registeredCurrentlyPlayingTrack: true })
       dispatch({ type: 'set_track_node', payload: this.track })
     }
@@ -47,42 +46,10 @@ class TrackContainer extends Component {
 
   handleTrackUnmount = (prevProps) => {
     if (prevProps.isPlaying && !this.props.isPlaying) {
-      this.setState({
-        centeredOnScreen: false, // may not be needed
-        registeredCurrentlyPlayingTrack: false
-      })
+      // This value needs to reset, in case the user returns
+      // to this track (i.e., in case the song is dope)
+      this.setState({ registeredCurrentlyPlayingTrack: false })
     }
-  }
-  
-  handleScrollToTrack = () => {
-    const { centeredOnScreen } = this.state
-    const { isPlaying, animatedLoadComplete } = this.props
-    // We need to wait for all tracks to plaster onto the DOM, since the
-    // document height dynamically increases as tracks beneath the viewport
-    // are lazy-loaded. Not waiting will cause an inaccurate scroll position.
-    if (!centeredOnScreen && isPlaying && animatedLoadComplete) {
-      console.log('NOW PLAYING', this.props.track.name)
-      this.setState({ centeredOnScreen: true })
-      // Hard-coding a number here is super hacky, but it's otherwise very
-      // difficult to determine when the "rest" of the tracks have mounted
-      // post-animation.
-      const estimatedMountTimeMs = 300
-      setTimeout(this.scrollToThisTrack, estimatedMountTimeMs)
-    }
-  }
-
-  scrollToThisTrack = () => {
-    const bounds = this.track.getBoundingClientRect()
-    const middle = window.scrollY + bounds.top - window.innerHeight / 2 + bounds.height / 2
-    console.log(middle, bounds)
-    const config = {
-      duration: 2500,
-      ease: 'inOutQuint',
-      cancelOnUserScroll: true
-    }
-    // The `@robinnnnn/scroll-to` library doesn't seem to scroll to the middle accurately
-    // window.scrollTo(0, middle) // accurate scroll; without animation
-    animatedScroll(0, middle, config) // inaccurate scroll; with animation
   }
 
   onMouseEnter = () => this.setState({ isHovering: true })
