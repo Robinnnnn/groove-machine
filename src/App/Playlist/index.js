@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { SpotifyContext } from '../Contexts/Spotify'
+import PageTitle from './PageTitle'
 import Loader from '../Loader'
 import getLoaderMessage from '../Loader/sillyExcuses'
 import PlaylistHeader from './PlaylistHeader'
@@ -104,11 +105,14 @@ class Playlist extends Component {
     } = this.state
 
     const loaded = playlist && retrievedPlayback
-    const currentTrackId = playlist && playlist.item && playback.item.id
+    const currentTrack = playback && playback.item
+    const currentTrackId = currentTrack && currentTrack.id
+    const currentTrackTitle = currentTrack && currentTrack.name
     const progressMs = playback && playback.progress_ms
 
     return (
       <div className='playlist-container'>
+        <PageTitle title={currentTrackTitle} />
         {
           loaded 
             ? <>
