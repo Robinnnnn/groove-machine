@@ -1,19 +1,20 @@
 import React, { createContext, useReducer, useEffect } from 'react'
 import { loadState, saveState } from '../localStorage'
-import { scrollToNode } from './util'
+import { scrollToNode, refreshToken } from './util'
 
 const SpotifyContext = createContext()
 
 const initialState = {
   ID: 'spotify',
   spotify: null,
-  aToken: null,
-  rToken: null,
+  aToken: '',
+  rToken: '',
+  lastTokenIssueTime: 0,
   activeTrackNode: null,
   scrollToActiveTrack: () => {}
 }
 
-const reducer = (state, action) => {
+const reducer = async (state, action) => {
   switch (action.type) {
     case 'initialize':
       return {
@@ -26,7 +27,14 @@ const reducer = (state, action) => {
       return {
         ...state,
         aToken: action.payload.aToken,
-        rToken: action.payload.rToken
+        rToken: action.payload.rToken,
+        lastTokenIssueTime: Date.now()
+      }
+    case 'refresh_token':
+      const rToken = await refreshToken(state.rToken, state.spotify)
+      return {
+        ...state,
+        rToken
       }
     case 'set_track_node':
       const scrollToActiveTrack = () => scrollToNode(action.payload)

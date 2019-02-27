@@ -38,6 +38,9 @@ class PrivateRoute extends Component {
       return this.kickUser()
     }
 
+    console.log('checking if the tokens need a refresh')
+    this.handleTokenRefresh(spotifyState.lastTokenIssueTime)
+
     console.log('loading tokens in private route', tokens)
 
     const spotify = initSpotifyClient(tokens)
@@ -62,6 +65,14 @@ class PrivateRoute extends Component {
     this.setState({
       isAuthenticating: false, isAuthenticated: false
     })
+  }
+
+  handleTokenRefresh = tokenIssueTime => {
+    const { spotifyDispatch } = this.props
+    const now = Date.now()
+    const tenMinutes = 1000 * 60 * 10
+    const tokenIsOld = tokenIssueTime - now > tenMinutes
+    if (tokenIsOld) spotifyDispatch({ type: 'refresh_token' })
   }
 
   /**
