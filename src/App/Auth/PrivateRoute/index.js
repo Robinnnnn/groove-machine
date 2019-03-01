@@ -29,23 +29,26 @@ class PrivateRoute extends Component {
     // Start measuring loading time
     const start = Date.now()
 
+    // Grab tokens from `SpotifyContext`, which could've just been set from the
+    // OAuth route via login flow *or* loaded up from localStorage on page refresh
     const tokens = {
       access_token: spotifyState.aToken,
       refresh_token: spotifyState.rToken
     }
 
+    // Handle cleared state
     if (!tokens.access_token && !tokens.refresh_token) {
-      console.log('no tokens detected. get out!')
       return this.kickUser()
     }
 
-    console.log('loading tokens in private route', tokens)
-
+    // Use tokens to initialize spotify client using tokens
     const spotify = initSpotifyClient(tokens)
     spotifyDispatch({ type: 'initialize', payload: spotify })
 
+    // Refresh token if applicable
     await this.handleTokenRefresh(spotify)
 
+    // Get user metadata
     try {
       const user = await spotify.getMe()
       console.log('authed from private route!', { spotify, user })
@@ -55,9 +58,11 @@ class PrivateRoute extends Component {
       return this.kickUser()
     }
 
+    // Artificially delay loading to prevent interrupting the animation
     this.handleUninterruptedLoadingAnimation(start)
   }
 
+  // Returns the user to the /login if something's wrong
   kickUser = () => {
     const { userDispatch, spotifyDispatch } = this.props
     userDispatch({ type: 'logout' })
@@ -68,10 +73,12 @@ class PrivateRoute extends Component {
     })
   }
 
-  // Checks whether a token needs to be refreshed by comparing now to the last
-  // issue time. Even though we already have a background `setInterval` running
-  // to handle this, the request will never trigger if the user refreshes the
-  // page at a faster interval.
+  /**
+   * Checks whether a token needs to be refreshed by comparing now to the last
+   * issue time. Even though we already have a background `setInterval` running
+   * to handle this, the request will never trigger if the user refreshes the
+   * page at a faster interval.
+   */
   handleTokenRefresh = async (spotify) => {
     const {
       spotifyState: {
