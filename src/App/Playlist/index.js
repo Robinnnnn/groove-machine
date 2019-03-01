@@ -31,7 +31,9 @@ class Playlist extends Component {
   }
 
   async componentDidMount() {
-    const { state: { spotify } } = this.context
+    const {
+      state: { spotify }
+    } = this.context
     const { id } = this.props
 
     window.addEventListener('scroll', this.determineViewContext)
@@ -50,7 +52,9 @@ class Playlist extends Component {
   }
 
   determineViewContext = () => {
-    const { state: { activeTrackNode } } = this.context
+    const {
+      state: { activeTrackNode }
+    } = this.context
     if (activeTrackNode) {
       const bounds = activeTrackNode.getBoundingClientRect()
       let relativeTo = 'within'
@@ -75,7 +79,8 @@ class Playlist extends Component {
     })
   }
 
-  getPlaylist = async (spotify, playlistId) => await spotify.getPlaylist(playlistId)
+  getPlaylist = async (spotify, playlistId) =>
+    await spotify.getPlaylist(playlistId)
 
   // Allows instant UI response for active track display;
   // otherwise there would be an ugly delay between track
@@ -113,33 +118,33 @@ class Playlist extends Component {
     return (
       <div className='playlist-container'>
         <PageTitle title={currentTrackTitle} />
-        {
-          loaded 
-            ? <>
-                <PlaylistHeader playlist={playlist} />
-                <Tracklist
-                  spotify={state.spotify}
-                  playlist={playlist}
-                  currentTrackId={currentTrackId || ''}
-                  activeTrack={activeTrack}
-                  progressMs={progressMs}
-                  overrideActiveTrack={this.overrideActiveTrack}
-                />
-                <ActiveTrackSeeker
-                  activeTrackPosition={activeTrackPosition}
-                  locateActiveTrack={state.scrollToActiveTrack}
-                />
-                {
-                  // Temporary disable MediaPlayer until design is finalized.
-                  // https://github.com/Robinnnnn/spotify-playlist-viewer/issues/14
-                  // <MediaPlayer
-                  //   spotify={spotify}
-                  //   playback={playback}
-                  // />
-                }
-              </>
-            : <Loader message={loaderMessage} />
-        }
+        {loaded ? (
+          <>
+            <PlaylistHeader playlist={playlist} />
+            <Tracklist
+              spotify={state.spotify}
+              playlist={playlist}
+              currentTrackId={currentTrackId || ''}
+              activeTrack={activeTrack}
+              progressMs={progressMs}
+              overrideActiveTrack={this.overrideActiveTrack}
+            />
+            <ActiveTrackSeeker
+              activeTrackPosition={activeTrackPosition}
+              locateActiveTrack={state.scrollToActiveTrack}
+            />
+            {
+              // Temporary disable MediaPlayer until design is finalized.
+              // https://github.com/Robinnnnn/spotify-playlist-viewer/issues/14
+              // <MediaPlayer
+              //   spotify={spotify}
+              //   playback={playback}
+              // />
+            }
+          </>
+        ) : (
+          <Loader message={loaderMessage} />
+        )}
       </div>
     )
   }

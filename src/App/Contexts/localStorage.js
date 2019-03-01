@@ -1,4 +1,4 @@
-export const loadState = (key) => {
+export const loadState = key => {
   try {
     const serializedState = window.localStorage.getItem(key)
     if (serializedState === null) {

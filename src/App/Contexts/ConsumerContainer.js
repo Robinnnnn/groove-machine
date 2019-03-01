@@ -1,11 +1,11 @@
 import React from 'react'
 import { UserConsumer, SpotifyConsumer } from './index'
 
-export const ConsumerContainer = ({ child: CsComponent, ...rest }) =>
+export const ConsumerContainer = ({ child: CsComponent, ...rest }) => (
   <UserConsumer>
-    {(user) => (
+    {user => (
       <SpotifyConsumer>
-        {(spotify) => (
+        {spotify => (
           <CsComponent
             userState={user.state}
             userDispatch={user.dispatch}
@@ -17,3 +17,4 @@ export const ConsumerContainer = ({ child: CsComponent, ...rest }) =>
       </SpotifyConsumer>
     )}
   </UserConsumer>
+)

@@ -1,4 +1,4 @@
-import Spotify from 'spotify-web-api-js';
+import Spotify from 'spotify-web-api-js'
 
 // Creates a spotify client
 export const initSpotifyClient = ({ access_token, refresh_token }) => {

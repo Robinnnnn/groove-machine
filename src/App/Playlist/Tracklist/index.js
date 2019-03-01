@@ -18,7 +18,7 @@ const Tracklist = ({
   // We only need to animate the first N elements visible in the user's viewport;
   // animating all of them at once can really screw with performance.
   // TODO1: This number should be calculated dynamically by dividing the device's
-  // viewport height by the height of each list element. 
+  // viewport height by the height of each list element.
   const numVisibleAnimatedItems = 10
 
   const trail = useTrail(numVisibleAnimatedItems, {
@@ -32,35 +32,37 @@ const Tracklist = ({
 
   return (
     <div className='tracklist-container'>
-      {
-        trail.map(({ x, height, ...rest }, index) => {
-          const { track, added_by } = playlist.tracks.items[index]
-          return (
-            <animated.div
+      {trail.map(({ x, height, ...rest }, index) => {
+        const { track, added_by } = playlist.tracks.items[index]
+        return (
+          <animated.div
+            key={track.id}
+            className='animated-track-container'
+            style={{
+              ...rest,
+              transform: x.interpolate(x => `translate3d(0,${x}px,0)`),
+              height
+            }}
+          >
+            <TrackContainer
               key={track.id}
-              className='animated-track-container'
-              style={{
-                ...rest,
-                transform: x.interpolate(x => `translate3d(0,${x}px,0)`),
-                height
-              }}>
-              <TrackContainer
-                key={track.id}
-                track={track}
-                playlistUri={playlist.uri}
-                play={spotify.play}
-                isPlaying={track.id === currentTrackId || track.id === (activeTrack && activeTrack.id)}
-                progressMs={progressMs}
-                contributor={added_by.id === 'uplifted' ? 'R' : 'M'}
-                overrideActiveTrack={overrideActiveTrack}
-                animatedLoadComplete={mounted}
-              />
-            </animated.div>
-          )
-        })
-      }
-      {
-        mounted && playlist.tracks.items
+              track={track}
+              playlistUri={playlist.uri}
+              play={spotify.play}
+              isPlaying={
+                track.id === currentTrackId ||
+                track.id === (activeTrack && activeTrack.id)
+              }
+              progressMs={progressMs}
+              contributor={added_by.id === 'uplifted' ? 'R' : 'M'}
+              overrideActiveTrack={overrideActiveTrack}
+              animatedLoadComplete={mounted}
+            />
+          </animated.div>
+        )
+      })}
+      {mounted &&
+        playlist.tracks.items
           .slice(numVisibleAnimatedItems)
           .map(({ track, added_by }) => (
             <TrackContainer
@@ -68,14 +70,16 @@ const Tracklist = ({
               track={track}
               playlistUri={playlist.uri}
               play={spotify.play}
-              isPlaying={track.id === currentTrackId || track.id === (activeTrack && activeTrack.id)}
+              isPlaying={
+                track.id === currentTrackId ||
+                track.id === (activeTrack && activeTrack.id)
+              }
               progressMs={progressMs}
               contributor={added_by.id === 'uplifted' ? 'R' : 'M'}
               overrideActiveTrack={overrideActiveTrack}
               animatedLoadComplete={mounted}
             />
-          ))
-      }
+          ))}
     </div>
   )
 }

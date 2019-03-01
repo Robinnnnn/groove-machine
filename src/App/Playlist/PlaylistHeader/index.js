@@ -15,7 +15,9 @@ class PlaylistHeader extends Component {
         {
           // <p className='title'>{playlist.name}</p>
         }
-        <p className='description'>A playlist from us to you, celebrating half a decade of Valentines.</p>
+        <p className='description'>
+          A playlist from us to you, celebrating half a decade of Valentines.
+        </p>
         <p className='signature'>Max & Robin, 2019</p>
         {
           // <pre>{JSON.stringify(playlist, null, 2)}</pre>

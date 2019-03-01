@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { SpotifyContext } from '../../../Contexts'
-import AlbumCover from './AlbumCover';
-import MainInfo from './MainInfo';
+import AlbumCover from './AlbumCover'
+import MainInfo from './MainInfo'
 import ProgressBar from './ProgressBar'
 import './TrackContainer.scss'
 
@@ -17,7 +17,7 @@ class TrackContainer extends Component {
     progressMs: PropTypes.number,
     contributor: PropTypes.string.isRequired,
     overrideActiveTrack: PropTypes.func.isRequired,
-    animatedLoadComplete: PropTypes.bool.isRequired,
+    animatedLoadComplete: PropTypes.bool.isRequired
   }
 
   state = {
@@ -44,7 +44,7 @@ class TrackContainer extends Component {
     }
   }
 
-  handleTrackUnmount = (prevProps) => {
+  handleTrackUnmount = prevProps => {
     if (prevProps.isPlaying && !this.props.isPlaying) {
       // This value needs to reset, in case the user returns
       // to this track (i.e., in case the song is dope)
@@ -57,12 +57,7 @@ class TrackContainer extends Component {
   onMouseLeave = () => this.setState({ isHovering: false })
 
   playTrack = () => {
-    const {
-      track,
-      playlistUri,
-      play,
-      overrideActiveTrack
-    } = this.props
+    const { track, playlistUri, play, overrideActiveTrack } = this.props
 
     overrideActiveTrack(track)
 
@@ -75,33 +70,28 @@ class TrackContainer extends Component {
     return play(options)
   }
 
-  openAlbum = (e) => {
+  openAlbum = e => {
     e.stopPropagation()
     const { track } = this.props
     window.open(track.album.external_urls.spotify, '_blank')
   }
 
-  getSongLyrics = (e) => {
+  getSongLyrics = e => {
     e.stopPropagation()
     const { track } = this.props
     const q = [
       ...track.name.split(' '),
       ...track.artists[0].name.split(' '),
       'lyrics'
-    ].join('+').toLowerCase()
+    ]
+      .join('+')
+      .toLowerCase()
     window.open(`https://google.com/search?q=${q}`, '_blank')
   }
 
   render() {
-    const {
-      isHovering
-    } = this.state
-    const {
-      track,
-      isPlaying,
-      progressMs,
-      contributor
-    } = this.props
+    const { isHovering } = this.state
+    const { track, isPlaying, progressMs, contributor } = this.props
 
     const hoverClass = isHovering ? 'track-hover' : ''
     const activeClass = isPlaying ? 'track-active' : ''
@@ -110,16 +100,12 @@ class TrackContainer extends Component {
     return (
       <div
         className={`track-container ${revealClass} ${activeClass}`}
-        ref={t => this.track = t}
+        ref={t => (this.track = t)}
         onClick={this.playTrack}
         onMouseEnter={this.onMouseEnter}
         onMouseLeave={this.onMouseLeave}
       >
-
-        <div
-          className='the-circle'
-          onClick={this.getSongLyrics}
-        />
+        <div className='the-circle' onClick={this.getSongLyrics} />
 
         <AlbumCover
           imgUrl={track.album.images[1].url}
@@ -135,11 +121,10 @@ class TrackContainer extends Component {
           progressMs={progressMs}
         />
 
-        { isPlaying && <ProgressBar progress={progressMs / track.duration_ms} /> }
-
+        {isPlaying && <ProgressBar progress={progressMs / track.duration_ms} />}
       </div>
     )
-  }  
+  }
 }
 
 export default TrackContainer

@@ -17,14 +17,17 @@ const Controls = ({
 }) => (
   <div className='controls-container'>
     <div className='previous-container'>
-      <BackLogo onClick={() => progressMs > 3000 ? seek(0) : previous()} className='previous-icon' />
+      <BackLogo
+        onClick={() => (progressMs > 3000 ? seek(0) : previous())}
+        className='previous-icon'
+      />
     </div>
     <div className='play-pause-container'>
-      {
-        isPlaying
-          ? <PauseLogo onClick={pause} className='pause-icon' />
-          : <PlayLogo onClick={play} className='play-icon' />
-      }
+      {isPlaying ? (
+        <PauseLogo onClick={pause} className='pause-icon' />
+      ) : (
+        <PlayLogo onClick={play} className='play-icon' />
+      )}
     </div>
     <div className='next-container'>
       <NextLogo onClick={next} className='next-icon' />

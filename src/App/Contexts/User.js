@@ -28,11 +28,7 @@ const UserProvider = ({ children }) => {
   const value = { state, dispatch }
   useEffect(() => saveState(initialState.ID, state))
 
-  return (
-    <UserContext.Provider value={value}>
-      {children}
-    </UserContext.Provider>
-  )
+  return <UserContext.Provider value={value}>{children}</UserContext.Provider>
 }
 
 const UserConsumer = UserContext.Consumer
