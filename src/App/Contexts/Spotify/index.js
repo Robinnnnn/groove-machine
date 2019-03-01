@@ -65,13 +65,10 @@ const SpotifyProvider = ({ children }) => {
   useEffect(() => saveState(initialState.ID, state))
 
   return (
-    <SpotifyContext.Provider value={value}>
-      {children}
-    </SpotifyContext.Provider>
+    <SpotifyContext.Provider value={value}>{children}</SpotifyContext.Provider>
   )
 }
 
 const SpotifyConsumer = SpotifyContext.Consumer
 
 export { SpotifyContext, SpotifyProvider, SpotifyConsumer }
-

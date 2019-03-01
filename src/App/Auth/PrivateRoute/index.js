@@ -5,8 +5,9 @@ import getLoaderMessage from '../../Loader/sillyExcuses'
 import { ConsumerContainer } from '../../Contexts'
 import { initSpotifyClient, requestNewToken } from '../spotify'
 
-const PrivateRouteContainer = (props) =>
+const PrivateRouteContainer = props => (
   <ConsumerContainer child={PrivateRoute} {...props} />
+)
 
 class PrivateRoute extends Component {
   state = {
@@ -20,11 +21,7 @@ class PrivateRoute extends Component {
   }
 
   async componentDidMount() {
-    const {
-      userDispatch,
-      spotifyState,
-      spotifyDispatch
-    } = this.props
+    const { userDispatch, spotifyState, spotifyDispatch } = this.props
 
     // Start measuring loading time
     const start = Date.now()
@@ -53,7 +50,7 @@ class PrivateRoute extends Component {
       const user = await spotify.getMe()
       console.log('authed from private route!', { spotify, user })
       userDispatch({ type: 'login', payload: user })
-    } catch(e) {
+    } catch (e) {
       console.log('Error retrieving user data', e.response)
       return this.kickUser()
     }
@@ -79,12 +76,9 @@ class PrivateRoute extends Component {
    * to handle this, the request will never trigger if the user refreshes the
    * page at a faster interval.
    */
-  handleTokenRefresh = async (spotify) => {
+  handleTokenRefresh = async spotify => {
     const {
-      spotifyState: {
-        rToken,
-        lastTokenIssueTime
-      },
+      spotifyState: { rToken, lastTokenIssueTime },
       spotifyDispatch
     } = this.props
     const now = Date.now()
@@ -106,11 +100,11 @@ class PrivateRoute extends Component {
    * ensures that the <Loader /> goes through at least one full animation cycle
    * prior to rendering the <AuthenticatedComponent />.
    */
-  handleUninterruptedLoadingAnimation = (start) => {
+  handleUninterruptedLoadingAnimation = start => {
     const loaderCycleMs = 1500
     const numCycles = 2
     const timePassed = Date.now() - start
-    let timeUntilCycleEnd = (loaderCycleMs * numCycles) - timePassed
+    let timeUntilCycleEnd = loaderCycleMs * numCycles - timePassed
     // TODO : Handle multiple cycles if loader takes too long
     // if (timeUntilCycleEnd < 0) {
     //   timeUntilCycleEnd = ...
@@ -125,14 +119,12 @@ class PrivateRoute extends Component {
   }
 
   render() {
-    const {
-      loaderMessage,
-      isAuthenticated,
-      isAuthenticating
-    } = this.state
+    const { loaderMessage, isAuthenticated, isAuthenticating } = this.state
     const { as: AuthenticatedComponent, ...rest } = this.props
-    if (isAuthenticating && !isAuthenticated) return <Loader message={loaderMessage} />
-    if (!isAuthenticating && isAuthenticated) return <AuthenticatedComponent {...rest} />
+    if (isAuthenticating && !isAuthenticated)
+      return <Loader message={loaderMessage} />
+    if (!isAuthenticating && isAuthenticated)
+      return <AuthenticatedComponent {...rest} />
     if (!isAuthenticating && !isAuthenticated) return <Login />
   }
 }

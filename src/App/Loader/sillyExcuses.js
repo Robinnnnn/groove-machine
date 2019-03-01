@@ -20,5 +20,4 @@ const excuses = [
   'Looking for the ON switch'
 ]
 
-export default () =>
-  excuses[Math.floor(Math.random()*excuses.length)]
+export default () => excuses[Math.floor(Math.random() * excuses.length)]

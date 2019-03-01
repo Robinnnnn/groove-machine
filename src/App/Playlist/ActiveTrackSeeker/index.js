@@ -2,20 +2,17 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import './ActiveTrackSeeker.scss'
 
-const ActiveTrackSeeker = ({
-  activeTrackPosition,
-  locateActiveTrack
-}) => {
+const ActiveTrackSeeker = ({ activeTrackPosition, locateActiveTrack }) => {
   const anchorStyle = {}
   switch (activeTrackPosition) {
     case 'below_viewport':
       anchorStyle.bottom = 0
       anchorStyle.opacity = 1
-      break;
+      break
     case 'above_viewport':
       anchorStyle.top = 0
       anchorStyle.opacity = 1
-      break;
+      break
     // Hide the track finder if there isn't an active track,
     // or if it's already within the user's viewport
     case '':
