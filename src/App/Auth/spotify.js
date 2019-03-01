@@ -1,21 +1,25 @@
 import Spotify from 'spotify-web-api-js';
 
-const refreshTokenPeriodically = (refreshToken, spotify, ms) =>
-  setInterval(() =>
-    fetch(`/api/refresh_token?refresh_token=${refreshToken}`)
-      .then(r => r.json())
-      .then(({ access_token }) => spotify.setAccessToken(access_token))
-    , ms
-  )
-
-const initSpotifyClient = ({ access_token, refresh_token }) => {
+// Creates a spotify client
+export const initSpotifyClient = ({ access_token, refresh_token }) => {
   const spotify = new Spotify()
   if (access_token) {
     spotify.setAccessToken(access_token)
-    refreshTokenPeriodically(refresh_token, spotify, 1000 * 60 * 10) // 10 mins
+    // Set token to refresh periodically
+    const tenMinutes = 1000 * 60 * 10
+    setInterval(() => requestNewToken(refresh_token, spotify), tenMinutes)
     return spotify
   }
   return null
 }
 
-export default initSpotifyClient
+// Retrieves a new access token using a refresh token
+// https://developer.spotify.com/documentation/ios/guides/token-swap-and-refresh/
+export const requestNewToken = async (refreshToken, spotify) => {
+  const res = await fetch(`/api/refresh_token?refresh_token=${refreshToken}`)
+  const json = await res.json()
+  const aToken = json.access_token
+  spotify.setAccessToken(aToken)
+  console.log('refreshed the user token!')
+  return aToken
+}

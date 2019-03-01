@@ -7,8 +7,9 @@ const SpotifyContext = createContext()
 const initialState = {
   ID: 'spotify',
   spotify: null,
-  aToken: null,
-  rToken: null,
+  aToken: '',
+  rToken: '',
+  lastTokenIssueTime: 0,
   activeTrackNode: null,
   scrollToActiveTrack: () => {}
 }
@@ -26,7 +27,14 @@ const reducer = (state, action) => {
       return {
         ...state,
         aToken: action.payload.aToken,
-        rToken: action.payload.rToken
+        rToken: action.payload.rToken,
+        lastTokenIssueTime: Date.now()
+      }
+    case 'set_refreshed_token':
+      return {
+        ...state,
+        aToken: action.payload.aToken,
+        lastTokenIssueTime: Date.now()
       }
     case 'set_track_node':
       const scrollToActiveTrack = () => scrollToNode(action.payload)
