@@ -86,6 +86,7 @@ app.get('/api/oauth', function(req, res) {
     )
   } else {
     res.clearCookie(stateKey)
+    res.clearCookie(playlistQueryKey)
     const authOptions = {
       url: 'https://accounts.spotify.com/api/token',
       form: {
