@@ -33,6 +33,7 @@ const generateRandomString = function(length) {
 }
 
 const stateKey = 'spotify_auth_state'
+const playlistQueryKey = 'playlist_id'
 
 const app = express()
 
@@ -45,6 +46,8 @@ app
 app.get('/api/login', function(req, res) {
   const state = generateRandomString(16)
   res.cookie(stateKey, state)
+  const playlistId = req.query.playlist_id
+  if (playlistId) res.cookie(playlistQueryKey, playlistId)
 
   // your application requests authorization
   const scope =
@@ -67,7 +70,12 @@ app.get('/api/oauth', function(req, res) {
 
   const code = req.query.code || null
   const state = req.query.state || null
-  const storedState = req.cookies ? req.cookies[stateKey] : null
+  let storedState = null
+  let playlistQuery = ''
+  if (req.cookies) {
+    storedState = req.cookies[stateKey]
+    playlistQuery = req.cookies[playlistQueryKey]
+  }
 
   if (state === null || state !== storedState) {
     res.redirect(
@@ -109,21 +117,18 @@ app.get('/api/oauth', function(req, res) {
           console.log(body)
         })
 
-        // we can also pass the token to the browser to make requests from there
-        // res.redirect(`http://localhost:${port}/#` +
-        console.log('Attempting redirect...')
+        const q = querystring.stringify({
+          access_token: access_token,
+          refresh_token: refresh_token,
+          playlist_id: playlistQuery
+        })
+        console.log('Attempting redirect...', q)
 
         const clientBaseurl =
           process.env.NODE_ENV === 'production'
             ? baseurl
             : 'http://localhost:3000'
-        res.redirect(
-          `${clientBaseurl}/oauth?` +
-            querystring.stringify({
-              access_token: access_token,
-              refresh_token: refresh_token
-            })
-        )
+        res.redirect(`${clientBaseurl}/oauth?` + q)
       } else {
         res.redirect(
           '/#' +

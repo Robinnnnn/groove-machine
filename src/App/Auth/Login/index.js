@@ -23,8 +23,7 @@ const Login = ({ location }) => {
   const requestLogin = () => {
     toggleLoading(!loading)
     const endpoint = getLoginEndpoint(location.pathname)
-    console.log(endpoint)
-    // setTimeout(() => (window.location.href = endpoint), 1000)
+    setTimeout(() => (window.location.href = endpoint), 1000)
   }
 
   return (
