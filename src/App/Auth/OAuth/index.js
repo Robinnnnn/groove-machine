@@ -40,8 +40,9 @@ class OAuth extends Component {
   render() {
     const { redirectReady, playlistId } = this.state
     if (!redirectReady) return null
+    if (!playlistId) return <Redirect to='search' noThrow />
     console.log(`navigating to playlist ${playlistId} ...`)
-    return <Redirect to={`playlist/${playlistId}`} noThrow />
+    if (playlistId) return <Redirect to={`playlist/${playlistId}`} noThrow />
   }
 }
 
