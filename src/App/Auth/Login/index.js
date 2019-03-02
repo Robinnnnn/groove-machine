@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import loader from './ripple.svg'
 import './Login.scss'
+import { getLoginEndpoint } from './util'
 
 const LoginPrompt = ({ requestLogin }) => (
   <div className='login-prompt' onClick={requestLogin}>
@@ -16,11 +17,14 @@ const LoginPrompt = ({ requestLogin }) => (
 
 const Loader = () => <img className='loader-gif' src={loader} alt='loader' />
 
-const Login = () => {
+const Login = ({ location }) => {
   const [loading, toggleLoading] = useState(false)
+
   const requestLogin = () => {
     toggleLoading(!loading)
-    setTimeout(() => (window.location.href = '/api/login'), 1500)
+    const endpoint = getLoginEndpoint(location.pathname)
+    console.log(endpoint)
+    // setTimeout(() => (window.location.href = endpoint), 1000)
   }
 
   return (
