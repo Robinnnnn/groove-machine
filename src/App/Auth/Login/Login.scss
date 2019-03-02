@@ -1,3 +1,5 @@
+@import '../../../shared.scss';
+
 .login-page {
   width: 100vw;
   height: 100vh;
@@ -6,15 +8,12 @@
   align-items: center;
 
   .login-prompt-container {
-    position: relative;
+    @extend .card;
     display: flex;
     justify-content: center;
-    background: white;
+    position: relative;
     width: 343px;
     height: 70px;
-    border-radius: 4px;
-    box-shadow: 0 3px 27px -5px rgba(50,50,93,.25), 0 8px 16px -8px rgba(0,0,0,.3);
-    transition: 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
 
     .login-prompt {
       width: 100%;
@@ -22,20 +21,20 @@
       align-items: center;
       justify-content: center;
       color: lighten(black, 40%);
-  
+
       .lock-container {
         position: absolute;
         transition: 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
         transform: translateX(-95px);
       }
-  
+
       .text-container {
         font-size: 20px;
         font-weight: 700;
         transition: 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
         transform: translateX(10px);
       }
-  
+
       .heart-container {
         position: absolute;
         transition: 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
@@ -51,10 +50,11 @@
     }
 
     &:hover {
-      box-shadow: -10px 20px 60px -12px rgba(50,50,93,.25), 0 18px 36px -18px rgba(0,0,0,.3);
+      box-shadow: -10px 20px 60px -12px rgba(50, 50, 93, 0.25),
+        0 18px 36px -18px rgba(0, 0, 0, 0.3);
       color: black;
       cursor: pointer;
-      
+
       .text-container {
         transform: translateX(-10px);
       }

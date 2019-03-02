@@ -22,8 +22,10 @@ class Search extends Component {
     const { greeting } = this.state
     return (
       <div className='search-page'>
-        <div className='greeting-container'>{greeting}</div>
-        SEARCH FORM
+        <div className='card-container'>
+          <div className='greeting-container'>{greeting}</div>
+          SEARCH FORM
+        </div>
       </div>
     )
   }

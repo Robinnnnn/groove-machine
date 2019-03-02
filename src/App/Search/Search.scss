@@ -1,2 +1,14 @@
+@import '../../shared.scss';
+
 .search-page {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .card-container {
+    @extend .card;
+    width: 600px;
+    height: 200px;
+  }
 }
