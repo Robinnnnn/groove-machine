@@ -10,5 +10,14 @@
     @extend .card;
     width: 600px;
     height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .greeting-container {
+      font-style: italic;
+      font-size: 34px;
+    }
   }
 }

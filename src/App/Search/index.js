@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { UserContext } from '../Contexts'
+import Form from './Form'
 import './Search.scss'
 
 class Search extends Component {
@@ -24,7 +25,7 @@ class Search extends Component {
       <div className='search-page'>
         <div className='card-container'>
           <div className='greeting-container'>{greeting}</div>
-          SEARCH FORM
+          <Form />
         </div>
       </div>
     )
