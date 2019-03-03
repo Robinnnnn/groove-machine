@@ -1,5 +1,5 @@
 .search-form {
-  margin-top: 30px;
+  margin-top: 50px;
   .playlist-input {
     border: none;
     border-bottom: 1px solid #999999;
@@ -28,10 +28,9 @@
     width: 0%;
     background-color: lighten(#4e49e4, 10%);
     transition: 0.75s cubic-bezier(0.165, 0.84, 0.44, 1);
-  }
-
-  .playlist-input:focus + .playlist-input-label {
-    width: 100%;
-    transform: scale3d(1.4925, 1, 1);
+    &.focus {
+      width: 100%;
+      transform: scale3d(1.4925, 1, 1);
+    }
   }
 }
