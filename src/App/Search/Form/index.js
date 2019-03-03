@@ -55,14 +55,11 @@ const InputForm = ({ formProps, toggleHighlight, highlighted, valid }) => {
       <div
         className={`form-footer-container ${highlighted &&
           validClass} ${invalidClass}`}
+        onClick={() => highlighted && valid && loadPlaylist()}
       >
         <div className='footer-content'>
           {invalidClass ? "hmm, are you sure that's a real link?" : ''}
-          {highlighted && valid ? (
-            <p onClick={loadPlaylist}>Load Playlist</p>
-          ) : (
-            ''
-          )}
+          {highlighted && valid ? 'Load Playlist' : ''}
         </div>
       </div>
     </form>
