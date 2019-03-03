@@ -8,17 +8,23 @@ class PlaylistHeader extends Component {
   }
 
   render() {
-    // const { playlist } = this.props
+    const { playlist } = this.props
 
     return (
       <div className='playlist-header-container'>
+        <p className='title'>{playlist.name}</p>
+        <p className='description'>{playlist.description}</p>
+        <div className='stats-container'>
+          <p className='tracks'>Tracks: {playlist.tracks.total}</p>
+          <p className='followers'>Followers: {playlist.followers.total}</p>
+        </div>
+
         {
-          // <p className='title'>{playlist.name}</p>
+          // <p className='description'>
+          //   A playlist from us to you, celebrating half a decade of Valentines.
+          // </p>
+          // <p className='signature'>Max & Robin, 2019</p>
         }
-        <p className='description'>
-          A playlist from us to you, celebrating half a decade of Valentines.
-        </p>
-        <p className='signature'>Max & Robin, 2019</p>
         {
           // <pre>{JSON.stringify(playlist, null, 2)}</pre>
         }
