@@ -1,11 +1,7 @@
 import React, { useState } from 'react'
 import { Form as FinalForm, Field } from 'react-final-form'
+import { validate } from './validate'
 import './Form.scss'
-
-const validate = async values => {
-  console.log('validating', values)
-  return {}
-}
 
 const onSubmit = async values => {
   console.log('submitting', values)
@@ -13,25 +9,35 @@ const onSubmit = async values => {
 
 const Form = () => {
   const [highlighted, toggleHighlight] = useState(false)
+  const [valid, toggleValid] = useState(false)
 
-  const labelClass = highlighted ? 'focus' : ''
+  const labelClass = highlighted ? 'focused' : ''
+  const validClass = valid ? 'valid' : ''
+
+  console.log('valid status', valid)
 
   return (
     <FinalForm
       onSubmit={onSubmit}
-      validate={validate}
+      validate={v => {
+        const isValid = validate(v)
+        toggleValid(isValid)
+        return isValid
+      }}
       render={({ handleSubmit, submitting, pristine }) => (
         <form className='search-form' onSubmit={handleSubmit}>
           <Field
             name='playlist'
             component='input'
-            placeholder='Enter a link to a Spotify playlist'
+            placeholder='Paste a link to a Spotify playlist'
             className='playlist-input'
             spellCheck={false}
             onFocus={() => toggleHighlight(!highlighted)}
             onBlur={() => toggleHighlight(!highlighted)}
           />
-          <label className={`playlist-input-label ${labelClass}`} />
+          <label
+            className={`playlist-input-label ${labelClass} ${validClass}`}
+          />
 
           {
             // <div className='accepted-formats'>Accepted Formats</div>

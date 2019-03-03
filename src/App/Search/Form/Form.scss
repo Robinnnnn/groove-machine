@@ -26,11 +26,14 @@
     margin-top: -2px;
     height: 3px;
     width: 0%;
-    background-color: lighten(#4e49e4, 10%);
+    background-color: lighten(#4e49e4, 15%);
     transition: 0.75s cubic-bezier(0.165, 0.84, 0.44, 1);
-    &.focus {
+    &.focused {
       width: 100%;
       transform: scale3d(1.4925, 1, 1);
+    }
+    &.valid {
+      background-color: darken(#4e49e4, 10%);
     }
   }
 }
