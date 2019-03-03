@@ -12,10 +12,11 @@
     height: 200px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    // justify-content: center;
     align-items: center;
 
     .greeting-container {
+      margin-top: 48px;
       font-style: italic;
       font-size: 34px;
       line-height: 20px;

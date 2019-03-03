@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Form as FinalForm, Field } from 'react-final-form'
+import { navigate } from '@reach/router'
 import { validate } from './validate'
 import './Form.scss'
 
@@ -18,7 +19,7 @@ const Form = () => {
       render={props => (
         <InputForm
           formProps={props}
-          toggleHighlight={() => toggleHighlight(!highlighted)}
+          toggleHighlight={b => toggleHighlight(b)}
           highlighted={highlighted}
           valid={valid}
         />
@@ -28,11 +29,13 @@ const Form = () => {
 }
 
 const InputForm = ({ formProps, toggleHighlight, highlighted, valid }) => {
-  const { handleSubmit, submitting, dirty } = formProps
+  const { handleSubmit, dirty } = formProps
 
   const labelClass = highlighted ? 'focused' : ''
   const validClass = valid ? 'valid' : ''
   const invalidClass = !valid && dirty ? 'invalid' : ''
+
+  const loadPlaylist = () => navigate(`/playlist/${valid}`)
 
   return (
     <form className='search-form' onSubmit={handleSubmit}>
@@ -42,21 +45,26 @@ const InputForm = ({ formProps, toggleHighlight, highlighted, valid }) => {
         placeholder='Paste a link to a Spotify playlist'
         className='playlist-input'
         spellCheck={false}
-        onFocus={toggleHighlight}
-        onBlur={toggleHighlight}
+        onFocus={() => toggleHighlight(true)}
+        onBlur={() => !valid && toggleHighlight(false)}
       />
       <label
         className={`playlist-input-label ${labelClass} ${validClass} ${invalidClass}`}
       />
 
-      {
-        // <div className='accepted-formats'>Accepted Formats</div>
-        // <div>
-        //   <button type='submit' disabled={submitting || !dirty}>
-        //     Submit
-        //   </button>
-        // </div>
-      }
+      <div
+        className={`form-footer-container ${highlighted &&
+          validClass} ${invalidClass}`}
+      >
+        <div className='footer-content'>
+          {invalidClass ? "hmm, are you sure that's a real link?" : ''}
+          {highlighted && valid ? (
+            <p onClick={loadPlaylist}>Load Playlist</p>
+          ) : (
+            ''
+          )}
+        </div>
+      </div>
     </form>
   )
 }
