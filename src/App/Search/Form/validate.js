@@ -1,7 +1,7 @@
 // Validates the input value to encapsulate a Spotify playlist
 export const validate = ({ playlist }) =>
   [isSpotifyUrl, isSpotifyUri, isSpotifyId].reduce(
-    (r, f) => r || f(playlist),
+    (r, f) => r || f(playlist && playlist.trim()),
     false
   )
 

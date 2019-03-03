@@ -35,5 +35,8 @@
     &.valid {
       background-color: darken(#4e49e4, 10%);
     }
+    &.invalid {
+      background-color: lighten(#e44e49, 10%);
+    }
   }
 }

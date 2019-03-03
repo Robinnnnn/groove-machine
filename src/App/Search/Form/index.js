@@ -11,45 +11,53 @@ const Form = () => {
   const [highlighted, toggleHighlight] = useState(false)
   const [valid, toggleValid] = useState(false)
 
-  const labelClass = highlighted ? 'focused' : ''
-  const validClass = valid ? 'valid' : ''
-
-  console.log('valid status', valid)
-
   return (
     <FinalForm
       onSubmit={onSubmit}
-      validate={v => {
-        const isValid = validate(v)
-        toggleValid(isValid)
-        return isValid
-      }}
-      render={({ handleSubmit, submitting, pristine }) => (
-        <form className='search-form' onSubmit={handleSubmit}>
-          <Field
-            name='playlist'
-            component='input'
-            placeholder='Paste a link to a Spotify playlist'
-            className='playlist-input'
-            spellCheck={false}
-            onFocus={() => toggleHighlight(!highlighted)}
-            onBlur={() => toggleHighlight(!highlighted)}
-          />
-          <label
-            className={`playlist-input-label ${labelClass} ${validClass}`}
-          />
-
-          {
-            // <div className='accepted-formats'>Accepted Formats</div>
-            // <div>
-            //   <button type='submit' disabled={submitting || pristine}>
-            //     Submit
-            //   </button>
-            // </div>
-          }
-        </form>
+      validate={v => toggleValid(validate(v))}
+      render={props => (
+        <InputForm
+          formProps={props}
+          toggleHighlight={() => toggleHighlight(!highlighted)}
+          highlighted={highlighted}
+          valid={valid}
+        />
       )}
     />
+  )
+}
+
+const InputForm = ({ formProps, toggleHighlight, highlighted, valid }) => {
+  const { handleSubmit, submitting, dirty } = formProps
+
+  const labelClass = highlighted ? 'focused' : ''
+  const validClass = valid ? 'valid' : ''
+  const invalidClass = !valid && dirty ? 'invalid' : ''
+
+  return (
+    <form className='search-form' onSubmit={handleSubmit}>
+      <Field
+        name='playlist'
+        component='input'
+        placeholder='Paste a link to a Spotify playlist'
+        className='playlist-input'
+        spellCheck={false}
+        onFocus={toggleHighlight}
+        onBlur={toggleHighlight}
+      />
+      <label
+        className={`playlist-input-label ${labelClass} ${validClass} ${invalidClass}`}
+      />
+
+      {
+        // <div className='accepted-formats'>Accepted Formats</div>
+        // <div>
+        //   <button type='submit' disabled={submitting || !dirty}>
+        //     Submit
+        //   </button>
+        // </div>
+      }
+    </form>
   )
 }
 
