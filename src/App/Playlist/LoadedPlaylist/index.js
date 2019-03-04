@@ -15,10 +15,11 @@ class LoadedPlaylist extends Component {
   }
 
   determineSidebarDisplay = e => {
-    let displaySidebar = false
-    if (e.clientX < 40) displaySidebar = true
-    if (displaySidebar !== this.state.displaySidebar)
-      this.setState({ displaySidebar })
+    const { sidebarWidth, displaySidebar } = this.state
+    let shouldDisplaySidebar = false
+    if (e.clientX < sidebarWidth) shouldDisplaySidebar = true
+    if (shouldDisplaySidebar !== displaySidebar)
+      this.setState({ displaySidebar: shouldDisplaySidebar })
   }
 
   render() {
