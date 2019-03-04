@@ -3,11 +3,11 @@ import PropTypes from 'prop-types'
 import { SpotifyContext } from '../Contexts/Spotify'
 import PageTitle from './PageTitle'
 import Loader from '../Loader'
+import Sidebar from './Sidebar'
+import Main from './Main'
 import getLoaderMessage from '../Loader/sillyExcuses'
-import PlaylistHeader from './PlaylistHeader'
-import Tracklist from './Tracklist'
-import ActiveTrackSeeker from './ActiveTrackSeeker'
 // import MediaPlayer from './MediaPlayer'
+import './Playlist.scss'
 
 class Playlist extends Component {
   static contextType = SpotifyContext
@@ -118,18 +118,17 @@ class Playlist extends Component {
     return (
       <div className='playlist-container'>
         <PageTitle title={currentTrackTitle} />
+
         {loaded ? (
-          <>
-            <PlaylistHeader playlist={playlist} />
-            <Tracklist
-              spotify={state.spotify}
+          <div className='loaded-playlist-container'>
+            <Sidebar />
+            <Main
               playlist={playlist}
+              spotify={state.spotify}
               currentTrackId={currentTrackId || ''}
               activeTrack={activeTrack}
               progressMs={progressMs}
               overrideActiveTrack={this.overrideActiveTrack}
-            />
-            <ActiveTrackSeeker
               activeTrackPosition={activeTrackPosition}
               locateActiveTrack={state.scrollToActiveTrack}
             />
@@ -141,7 +140,7 @@ class Playlist extends Component {
               //   playback={playback}
               // />
             }
-          </>
+          </div>
         ) : (
           <Loader message={loaderMessage} />
         )}

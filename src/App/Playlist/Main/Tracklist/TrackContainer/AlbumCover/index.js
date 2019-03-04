@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { ReactComponent as PlayLogo } from '../../../MediaPlayer/Controls/icons/play.svg'
+import { ReactComponent as PlayLogo } from '../../../../MediaPlayer/Controls/icons/play.svg'
 import './AlbumCover.scss'
 
 class AlbumCover extends Component {
