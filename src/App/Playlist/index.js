@@ -3,8 +3,7 @@ import PropTypes from 'prop-types'
 import { SpotifyContext } from '../Contexts/Spotify'
 import PageTitle from './PageTitle'
 import Loader from '../Loader'
-import Sidebar from './Sidebar'
-import Main from './Main'
+import LoadedPlaylist from './LoadedPlaylist'
 import getLoaderMessage from '../Loader/sillyExcuses'
 // import MediaPlayer from './MediaPlayer'
 import './Playlist.scss'
@@ -120,27 +119,16 @@ class Playlist extends Component {
         <PageTitle title={currentTrackTitle} />
 
         {loaded ? (
-          <div className='loaded-playlist-container'>
-            <Sidebar />
-            <Main
-              playlist={playlist}
-              spotify={state.spotify}
-              currentTrackId={currentTrackId || ''}
-              activeTrack={activeTrack}
-              progressMs={progressMs}
-              overrideActiveTrack={this.overrideActiveTrack}
-              activeTrackPosition={activeTrackPosition}
-              locateActiveTrack={state.scrollToActiveTrack}
-            />
-            {
-              // Temporary disable MediaPlayer until design is finalized.
-              // https://github.com/Robinnnnn/spotify-playlist-viewer/issues/14
-              // <MediaPlayer
-              //   spotify={spotify}
-              //   playback={playback}
-              // />
-            }
-          </div>
+          <LoadedPlaylist
+            playlist={playlist}
+            spotify={state.spotify}
+            currentTrackId={currentTrackId || ''}
+            activeTrack={activeTrack}
+            progressMs={progressMs}
+            overrideActiveTrack={this.overrideActiveTrack}
+            activeTrackPosition={activeTrackPosition}
+            locateActiveTrack={state.scrollToActiveTrack}
+          />
         ) : (
           <Loader message={loaderMessage} />
         )}
