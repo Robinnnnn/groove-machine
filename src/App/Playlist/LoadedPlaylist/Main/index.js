@@ -14,7 +14,7 @@ const Main = ({
   activeTrackPosition,
   scrollToActiveTrack
 }) => (
-  <div className='playlist-main-container'>
+  <div className='main-container'>
     <PlaylistHeader playlist={playlist} />
     <Tracklist
       spotify={spotify}

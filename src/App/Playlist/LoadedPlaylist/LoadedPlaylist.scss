@@ -1,0 +1,6 @@
+@import 'styles/_transitions.scss';
+
+.playlist-sidebar-container,
+.playlist-main-container {
+  transition: $track-transition;
+}
