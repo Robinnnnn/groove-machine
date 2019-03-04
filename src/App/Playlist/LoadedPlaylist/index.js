@@ -6,6 +6,21 @@ import './LoadedPlaylist.scss'
 class LoadedPlaylist extends Component {
   state = { displaySidebar: false, sidebarWidth: 120 }
 
+  componentDidMount() {
+    document.addEventListener('mousemove', this.determineSidebarDisplay)
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('mousemove', this.determineSidebarDisplay)
+  }
+
+  determineSidebarDisplay = e => {
+    let displaySidebar = false
+    if (e.clientX < 40) displaySidebar = true
+    if (displaySidebar !== this.state.displaySidebar)
+      this.setState({ displaySidebar })
+  }
+
   render() {
     // TODO: A lot of these props should just be
     // directly ingested further down via context
@@ -33,11 +48,7 @@ class LoadedPlaylist extends Component {
         <div className='playlist-sidebar-container' style={sidebarStyle}>
           <Sidebar />
         </div>
-        <div
-          className='playlist-main-container'
-          style={mainStyle}
-          onClick={() => this.setState({ displaySidebar: !displaySidebar })}
-        >
+        <div className='playlist-main-container' style={mainStyle}>
           <Main
             playlist={playlist}
             spotify={spotify}

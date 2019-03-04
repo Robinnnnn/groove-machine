@@ -1,4 +1,5 @@
 .tracklist-container {
+  min-height: 100vh; // Otherwise the sidebar is visible while the view is rendered downwards
   background: #ffcece;
   display: flex;
   flex-direction: column;
