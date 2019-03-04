@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { UserContext } from '../Contexts'
+import { UserContext } from 'Contexts/index'
 import Form from './Form'
 import './Search.scss'
 

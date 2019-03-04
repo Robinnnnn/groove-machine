@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { SpotifyContext } from '../Contexts/Spotify'
+import { SpotifyContext } from 'Contexts/index'
 import PageTitle from './PageTitle'
 import Loader from '../Loader'
 import LoadedPlaylist from './LoadedPlaylist'
