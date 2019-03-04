@@ -1,27 +1,26 @@
 .playlist-header-container {
   padding: 100px 80px;
   color: #4d4d4d;
-  background:#fdf7f7;
-}
-
-.playlist-header-container > .title {
+  background: #fdf7f7;
   font-family: 'Playfair Display';
-  font-size: 80px;
-  /* font-style: italic; */
-  /* font-weight: 700;  */
-  /* letter-spacing: 2px; */
-}
-
-.playlist-header-container > .description {
-  font-size: 30px;
-  /* font-style: italic; */
-  /* font-weight: 700; */
-}
-
-.playlist-header-container > .signature {
-  font-size: 22px;
-  font-style: italic;
-  text-align: right;
-  margin-top: 10px;
-  /* font-weight: 700; */
+  .title {
+    font-size: 80px;
+  }
+  .description {
+    font-size: 20px;
+  }
+  .stats-container {
+    margin-top: 20px;
+    .tracks,
+    .followers {
+      font-size: 12px;
+      font-family: 'Roboto Mono';
+    }
+  }
+  .signature {
+    font-size: 22px;
+    font-style: italic;
+    text-align: right;
+    margin-top: 10px;
+  }
 }

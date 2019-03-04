@@ -16,29 +16,33 @@ class OAuth extends Component {
     const { location } = this.props
     const { dispatch } = this.context
 
-    const tokens = querystring.parse(location.search)
+    const query = querystring.parse(location.search)
+    const { access_token, refresh_token, playlist_id } = query
 
     // Set tokens in the Spotify context for the PrivateRoute
     // to use for authorization
     dispatch({
       type: 'set_tokens',
       payload: {
-        aToken: tokens.access_token,
-        rToken: tokens.refresh_token
+        aToken: access_token,
+        rToken: refresh_token
       }
     })
 
+    // let valentinesPlaylistId = '3a6kAci1fsVoCPJXltCvIv'
+
     this.setState({
       redirectReady: true,
-      playlistId: '3a6kAci1fsVoCPJXltCvIv'
+      playlistId: playlist_id
     })
   }
 
   render() {
     const { redirectReady, playlistId } = this.state
     if (!redirectReady) return null
+    if (!playlistId) return <Redirect to='search' noThrow />
     console.log(`navigating to playlist ${playlistId} ...`)
-    return <Redirect to={`playlist/${playlistId}`} noThrow />
+    if (playlistId) return <Redirect to={`playlist/${playlistId}`} noThrow />
   }
 }
 

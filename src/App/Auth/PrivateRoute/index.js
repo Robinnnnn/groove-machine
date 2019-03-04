@@ -120,12 +120,13 @@ class PrivateRoute extends Component {
 
   render() {
     const { loaderMessage, isAuthenticated, isAuthenticating } = this.state
-    const { as: AuthenticatedComponent, ...rest } = this.props
+    const { as: AuthenticatedComponent, location, ...rest } = this.props
     if (isAuthenticating && !isAuthenticated)
       return <Loader message={loaderMessage} />
     if (!isAuthenticating && isAuthenticated)
       return <AuthenticatedComponent {...rest} />
-    if (!isAuthenticating && !isAuthenticated) return <Login />
+    if (!isAuthenticating && !isAuthenticated)
+      return <Login location={location} />
   }
 }
 
