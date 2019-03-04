@@ -22,8 +22,7 @@ class LoadedPlaylist extends Component {
     const { displaySidebar, sidebarWidth } = this.state
 
     const sidebarStyle = {
-      zIndex: 1, // should appear over main view
-      transform: `translateX(${displaySidebar ? 0 : sidebarWidth * -1}px)`
+      transform: `translateX(${displaySidebar ? 0 : sidebarWidth * -1 + 60}px)`
     }
     const mainStyle = {
       transform: `translateX(${displaySidebar ? sidebarWidth : 0}px)`
