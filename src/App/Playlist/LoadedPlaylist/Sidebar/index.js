@@ -2,10 +2,12 @@ import React, { useContext } from 'react'
 import { SpotifyContext } from 'Contexts/index'
 import { navigate } from '@reach/router'
 import { ReactComponent as SearchLogo } from './search.svg'
+import MediaControls from './MediaControls'
+import Lock from './Lock'
 import './Sidebar.scss'
-import Controls from './Controls'
 
 const Sidebar = ({
+  toggleSidebarLock,
   currentTrackId,
   playlist,
   playback,
@@ -35,7 +37,7 @@ const Sidebar = ({
       <div className='search-icon-container'>
         <SearchLogo className='search-icon' onClick={loadSearch} />
       </div>
-      <Controls
+      <MediaControls
         currentTrackId={currentTrackId}
         playlist={playlist}
         overrideActiveTrack={overrideActiveTrack}
@@ -49,6 +51,7 @@ const Sidebar = ({
         previous={spotify.skipToPrevious}
         next={spotify.skipToNext}
       />
+      <Lock toggleSidebarLock={toggleSidebarLock} />
     </div>
   )
 }

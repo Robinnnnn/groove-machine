@@ -4,7 +4,7 @@ import Main from './Main'
 import './LoadedPlaylist.scss'
 
 class LoadedPlaylist extends Component {
-  state = { displaySidebar: false, sidebarWidth: 120 }
+  state = { displaySidebar: false, sidebarWidth: 120, sidebarLocked: false }
 
   componentDidMount() {
     document.addEventListener('mousemove', this.determineSidebarDisplay)
@@ -15,12 +15,16 @@ class LoadedPlaylist extends Component {
   }
 
   determineSidebarDisplay = e => {
-    const { sidebarWidth, displaySidebar } = this.state
+    const { sidebarWidth, displaySidebar, sidebarLocked } = this.state
+    if (sidebarLocked) return
     let shouldDisplaySidebar = false
     if (e.clientX < sidebarWidth) shouldDisplaySidebar = true
     if (shouldDisplaySidebar !== displaySidebar)
       this.setState({ displaySidebar: shouldDisplaySidebar })
   }
+
+  toggleSidebarLock = () =>
+    this.setState({ sidebarLocked: !this.state.sidebarLocked })
 
   render() {
     // TODO: A lot of these props should just be
@@ -51,6 +55,7 @@ class LoadedPlaylist extends Component {
       <div className='loaded-playlist-container'>
         <div className='playlist-sidebar-container' style={sidebarStyle}>
           <Sidebar
+            toggleSidebarLock={this.toggleSidebarLock}
             currentTrackId={currentTrackId}
             playlist={playlist}
             playback={playback}
