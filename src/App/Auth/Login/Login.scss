@@ -1,4 +1,5 @@
-@import '../../../shared.scss';
+@import 'styles/_transitions.scss';
+@import 'styles/_card.scss';
 
 .login-page {
   width: 100vw;
@@ -24,20 +25,20 @@
 
       .lock-container {
         position: absolute;
-        transition: 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
+        transition: $track-transition;
         transform: translateX(-95px);
       }
 
       .text-container {
         font-size: 20px;
         font-weight: 700;
-        transition: 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
+        transition: $track-transition;
         transform: translateX(10px);
       }
 
       .heart-container {
         position: absolute;
-        transition: 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
+        transition: $track-transition;
         transform: translateX(85px);
         opacity: 0;
       }
@@ -51,7 +52,7 @@
 
     &:hover {
       box-shadow: -10px 20px 60px -12px rgba(50, 50, 93, 0.25),
-        0 18px 36px -18px rgba(0, 0, 0, 0.3);
+        0 18px 36px -18px rgba(145, 2, 2, 0.3);
       color: black;
       cursor: pointer;
 

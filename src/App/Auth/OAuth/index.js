@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Redirect } from '@reach/router'
 import querystring from 'query-string'
-import { SpotifyContext } from '../../Contexts'
+import { SpotifyContext } from 'Contexts/index'
 import './OAuth.scss'
 
 class OAuth extends Component {

@@ -4,17 +4,16 @@ import { navigate } from '@reach/router'
 import { validate } from './validate'
 import './Form.scss'
 
-const onSubmit = async values => {
-  console.log('submitting', values)
-}
-
 const Form = () => {
   const [highlighted, toggleHighlight] = useState(false)
   const [valid, toggleValid] = useState(false)
 
+  const loadPlaylist = () =>
+    highlighted && valid && navigate(`/playlist/${valid}`)
+
   return (
     <FinalForm
-      onSubmit={onSubmit}
+      onSubmit={loadPlaylist}
       validate={v => toggleValid(validate(v))}
       render={props => (
         <InputForm
@@ -22,20 +21,25 @@ const Form = () => {
           toggleHighlight={b => toggleHighlight(b)}
           highlighted={highlighted}
           valid={valid}
+          loadPlaylist={loadPlaylist}
         />
       )}
     />
   )
 }
 
-const InputForm = ({ formProps, toggleHighlight, highlighted, valid }) => {
+const InputForm = ({
+  formProps,
+  toggleHighlight,
+  highlighted,
+  valid,
+  loadPlaylist
+}) => {
   const { handleSubmit, dirty } = formProps
 
   const labelClass = highlighted ? 'focused' : ''
   const validClass = valid ? 'valid' : ''
   const invalidClass = !valid && dirty ? 'invalid' : ''
-
-  const loadPlaylist = () => navigate(`/playlist/${valid}`)
 
   return (
     <form className='search-form' onSubmit={handleSubmit}>
@@ -55,7 +59,7 @@ const InputForm = ({ formProps, toggleHighlight, highlighted, valid }) => {
       <div
         className={`form-footer-container ${highlighted &&
           validClass} ${invalidClass}`}
-        onClick={() => highlighted && valid && loadPlaylist()}
+        onClick={loadPlaylist}
       >
         <div className='footer-content'>
           {invalidClass ? "hmm, are you sure that's a real link?" : ''}

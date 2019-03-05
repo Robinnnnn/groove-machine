@@ -1,0 +1,11 @@
+.lock-icon-container {
+  position: absolute;
+  bottom: 20px;
+  .lock-icon,
+  .unlocked-icon {
+    cursor: pointer;
+    &:hover {
+      transform: scale(1.06);
+    }
+  }
+}

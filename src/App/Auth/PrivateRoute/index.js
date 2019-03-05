@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import Login from '../Login'
-import Loader from '../../Loader'
-import getLoaderMessage from '../../Loader/sillyExcuses'
-import { ConsumerContainer } from '../../Contexts'
+import Loader from 'Elements/Loader'
+import getLoaderMessage from 'Elements/Loader/sillyExcuses'
+import { ConsumerContainer } from 'Contexts/index'
 import { initSpotifyClient, requestNewToken } from '../spotify'
 
 const PrivateRouteContainer = props => (

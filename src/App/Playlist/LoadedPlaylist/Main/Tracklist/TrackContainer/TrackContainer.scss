@@ -1,6 +1,4 @@
-@import '../../../../shared.scss';
-
-$track-transition: 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
+@import 'styles/_card.scss';
 
 .track-container {
   @extend .card;

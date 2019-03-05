@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { msToMinutesAndSeconds } from '../../../../../util'
+import { msToMinutesAndSeconds } from 'util/index'
 import './MainInfo.scss'
 
 const MainInfo = ({ track, contributor, isPlaying, progressMs }) => (

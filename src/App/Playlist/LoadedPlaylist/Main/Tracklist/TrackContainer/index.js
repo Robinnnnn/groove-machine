@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { SpotifyContext } from '../../../Contexts'
+import { SpotifyContext } from 'Contexts/index'
 import AlbumCover from './AlbumCover'
 import MainInfo from './MainInfo'
 import ProgressBar from './ProgressBar'

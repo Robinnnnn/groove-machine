@@ -1,5 +1,5 @@
 import React from 'react'
-import { UserProvider, SpotifyProvider } from './Contexts'
+import { UserProvider, SpotifyProvider } from 'Contexts/index'
 import Routes from './routes'
 import './App.scss'
 

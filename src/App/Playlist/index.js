@@ -1,13 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { SpotifyContext } from '../Contexts/Spotify'
+import { SpotifyContext } from 'Contexts/index'
 import PageTitle from './PageTitle'
-import Loader from '../Loader'
-import getLoaderMessage from '../Loader/sillyExcuses'
-import PlaylistHeader from './PlaylistHeader'
-import Tracklist from './Tracklist'
-import ActiveTrackSeeker from './ActiveTrackSeeker'
+import Loader from 'Elements/Loader'
+import LoadedPlaylist from './LoadedPlaylist'
+import getLoaderMessage from 'Elements/Loader/sillyExcuses'
 // import MediaPlayer from './MediaPlayer'
+import './Playlist.scss'
 
 class Playlist extends Component {
   static contextType = SpotifyContext
@@ -68,8 +67,9 @@ class Playlist extends Component {
     const playback = await spotify.getMyCurrentPlaybackState()
 
     // Handles race condition where async call returns an outdated track
-    const { activeTrack, isOverriding } = this.state
+    const { playback: statePlayback, activeTrack, isOverriding } = this.state
     if (isOverriding && activeTrack.id !== playback.item.id) return
+    if (isOverriding && statePlayback.is_playing !== playback.is_playing) return
 
     this.setState({
       playback,
@@ -91,9 +91,32 @@ class Playlist extends Component {
       playback: {
         ...playback,
         item: track,
+        is_playing: true,
         progress_ms: 0
       },
       activeTrack: track,
+      isOverriding: true
+    })
+  }
+
+  instaPlay = () => {
+    const { playback } = this.state
+    this.setState({
+      playback: {
+        ...playback,
+        is_playing: true
+      },
+      isOverriding: true
+    })
+  }
+
+  instaPause = () => {
+    const { playback } = this.state
+    this.setState({
+      playback: {
+        ...playback,
+        is_playing: false
+      },
       isOverriding: true
     })
   }
@@ -118,30 +141,21 @@ class Playlist extends Component {
     return (
       <div className='playlist-container'>
         <PageTitle title={currentTrackTitle} />
+
         {loaded ? (
-          <>
-            <PlaylistHeader playlist={playlist} />
-            <Tracklist
-              spotify={state.spotify}
-              playlist={playlist}
-              currentTrackId={currentTrackId || ''}
-              activeTrack={activeTrack}
-              progressMs={progressMs}
-              overrideActiveTrack={this.overrideActiveTrack}
-            />
-            <ActiveTrackSeeker
-              activeTrackPosition={activeTrackPosition}
-              locateActiveTrack={state.scrollToActiveTrack}
-            />
-            {
-              // Temporary disable MediaPlayer until design is finalized.
-              // https://github.com/Robinnnnn/spotify-playlist-viewer/issues/14
-              // <MediaPlayer
-              //   spotify={spotify}
-              //   playback={playback}
-              // />
-            }
-          </>
+          <LoadedPlaylist
+            playlist={playlist}
+            spotify={state.spotify}
+            playback={playback}
+            currentTrackId={currentTrackId || ''}
+            activeTrack={activeTrack}
+            progressMs={progressMs}
+            markPlaying={this.instaPlay}
+            markPaused={this.instaPause}
+            overrideActiveTrack={this.overrideActiveTrack}
+            activeTrackPosition={activeTrackPosition}
+            locateActiveTrack={state.scrollToActiveTrack}
+          />
         ) : (
           <Loader message={loaderMessage} />
         )}
