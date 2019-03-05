@@ -28,6 +28,7 @@ class LoadedPlaylist extends Component {
     const {
       playlist,
       spotify,
+      playback,
       currentTrackId,
       activeTrack,
       progressMs,
@@ -47,7 +48,7 @@ class LoadedPlaylist extends Component {
     return (
       <div className='loaded-playlist-container'>
         <div className='playlist-sidebar-container' style={sidebarStyle}>
-          <Sidebar />
+          <Sidebar playback={playback} />
         </div>
         <div className='playlist-main-container' style={mainStyle}>
           <Main

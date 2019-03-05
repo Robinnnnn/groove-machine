@@ -122,6 +122,7 @@ class Playlist extends Component {
           <LoadedPlaylist
             playlist={playlist}
             spotify={state.spotify}
+            playback={playback}
             currentTrackId={currentTrackId || ''}
             activeTrack={activeTrack}
             progressMs={progressMs}
