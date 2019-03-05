@@ -32,6 +32,8 @@ class LoadedPlaylist extends Component {
       currentTrackId,
       activeTrack,
       progressMs,
+      markPlaying,
+      markPaused,
       overrideActiveTrack,
       activeTrackPosition,
       scrollToActiveTrack
@@ -48,7 +50,14 @@ class LoadedPlaylist extends Component {
     return (
       <div className='loaded-playlist-container'>
         <div className='playlist-sidebar-container' style={sidebarStyle}>
-          <Sidebar playback={playback} />
+          <Sidebar
+            currentTrackId={currentTrackId}
+            playlist={playlist}
+            playback={playback}
+            overrideActiveTrack={overrideActiveTrack}
+            markPlaying={markPlaying}
+            markPaused={markPaused}
+          />
         </div>
         <div className='playlist-main-container' style={mainStyle}>
           <Main

@@ -67,8 +67,9 @@ class Playlist extends Component {
     const playback = await spotify.getMyCurrentPlaybackState()
 
     // Handles race condition where async call returns an outdated track
-    const { activeTrack, isOverriding } = this.state
+    const { playback: statePlayback, activeTrack, isOverriding } = this.state
     if (isOverriding && activeTrack.id !== playback.item.id) return
+    if (isOverriding && statePlayback.is_playing !== playback.is_playing) return
 
     this.setState({
       playback,
@@ -90,9 +91,32 @@ class Playlist extends Component {
       playback: {
         ...playback,
         item: track,
+        is_playing: true,
         progress_ms: 0
       },
       activeTrack: track,
+      isOverriding: true
+    })
+  }
+
+  instaPlay = () => {
+    const { playback } = this.state
+    this.setState({
+      playback: {
+        ...playback,
+        is_playing: true
+      },
+      isOverriding: true
+    })
+  }
+
+  instaPause = () => {
+    const { playback } = this.state
+    this.setState({
+      playback: {
+        ...playback,
+        is_playing: false
+      },
       isOverriding: true
     })
   }
@@ -126,6 +150,8 @@ class Playlist extends Component {
             currentTrackId={currentTrackId || ''}
             activeTrack={activeTrack}
             progressMs={progressMs}
+            markPlaying={this.instaPlay}
+            markPaused={this.instaPause}
             overrideActiveTrack={this.overrideActiveTrack}
             activeTrackPosition={activeTrackPosition}
             locateActiveTrack={state.scrollToActiveTrack}

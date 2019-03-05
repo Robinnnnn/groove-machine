@@ -7,6 +7,9 @@ import { ReactComponent as PauseLogo } from './icons/pause.svg'
 import './Controls.scss'
 
 const Controls = ({
+  currentTrackId,
+  playlist,
+  overrideActiveTrack,
   isPlaying,
   progressMs,
   play,
@@ -14,26 +17,54 @@ const Controls = ({
   seek,
   previous,
   next
-}) => (
-  <div className='controls-container'>
-    <div className='previous-container'>
-      <BackLogo
-        onClick={() => (progressMs > 3000 ? seek(0) : previous())}
-        className='previous-icon'
-      />
+}) => {
+  const tracks = playlist.tracks.items
+  const currentTrackIndex = playlist.tracks.items.findIndex(
+    t => t.track.id === currentTrackId
+  )
+
+  const playPrevious = () => {
+    const previousItem = tracks.find((t, i) => i === currentTrackIndex - 1)
+    overrideActiveTrack(previousItem.track)
+    previous()
+  }
+
+  const playNext = () => {
+    const nextItem = tracks.find((t, i) => i === currentTrackIndex + 1)
+    overrideActiveTrack(nextItem.track)
+    next()
+  }
+
+  const togglePlayPause = () => (isPlaying ? pause() : play())
+
+  const playButtonClass = isPlaying ? 'pressed' : ''
+
+  return (
+    <div className='controls-container'>
+      <div className='previous-container'>
+        <BackLogo
+          // NOTE : seek feature has a delayed UI response, just use playPrevious for now
+          // onClick={() => (progressMs > 3000 ? seek(0) : playPrevious())}
+          onClick={playPrevious}
+          className='previous-icon'
+        />
+      </div>
+      <div
+        className={`play-pause-container ${playButtonClass}`}
+        onClick={togglePlayPause}
+      >
+        {isPlaying ? (
+          <PauseLogo className='pause-icon' />
+        ) : (
+          <PlayLogo className='play-icon' />
+        )}
+      </div>
+      <div className='next-container'>
+        <NextLogo onClick={playNext} className='next-icon' />
+      </div>
     </div>
-    <div className={`play-pause-container ${isPlaying ? 'pressed' : ''}`}>
-      {isPlaying ? (
-        <PauseLogo onClick={pause} className='pause-icon' />
-      ) : (
-        <PlayLogo onClick={play} className='play-icon' />
-      )}
-    </div>
-    <div className='next-container'>
-      <NextLogo onClick={next} className='next-icon' />
-    </div>
-  </div>
-)
+  )
+}
 
 Controls.propTypes = {
   isPlaying: PropTypes.bool.isRequired,
