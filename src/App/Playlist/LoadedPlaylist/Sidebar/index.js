@@ -1,5 +1,6 @@
 import React from 'react'
 import { navigate } from '@reach/router'
+import { ReactComponent as SearchLogo } from './search.svg'
 import './Sidebar.scss'
 
 const Sidebar = () => {
@@ -7,7 +8,7 @@ const Sidebar = () => {
 
   return (
     <div className='sidebar'>
-      <p onClick={loadSearch}>SEARCH</p>
+      <SearchLogo className='search-icon' onClick={loadSearch} />
     </div>
   )
 }
