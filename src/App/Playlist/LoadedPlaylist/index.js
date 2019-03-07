@@ -38,9 +38,7 @@ class LoadedPlaylist extends Component {
       progressMs,
       markPlaying,
       markPaused,
-      overrideActiveTrack,
-      activeTrackPosition,
-      scrollToActiveTrack
+      overrideActiveTrack
     } = this.props
     const { displaySidebar, sidebarWidth } = this.state
 
@@ -72,8 +70,6 @@ class LoadedPlaylist extends Component {
             activeTrack={activeTrack}
             progressMs={progressMs}
             overrideActiveTrack={overrideActiveTrack}
-            activeTrackPosition={activeTrackPosition}
-            locateActiveTrack={scrollToActiveTrack}
           />
         </div>
         {

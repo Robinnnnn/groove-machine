@@ -1,7 +1,6 @@
 import React from 'react'
 import PlaylistHeader from './PlaylistHeader'
 import Tracklist from './Tracklist'
-import ActiveTrackSeeker from './ActiveTrackSeeker'
 import './Main.scss'
 
 const Main = ({
@@ -10,9 +9,7 @@ const Main = ({
   currentTrackId,
   activeTrack,
   progressMs,
-  overrideActiveTrack,
-  activeTrackPosition,
-  scrollToActiveTrack
+  overrideActiveTrack
 }) => (
   <div className='main-container'>
     <PlaylistHeader playlist={playlist} />
@@ -23,10 +20,6 @@ const Main = ({
       activeTrack={activeTrack}
       progressMs={progressMs}
       overrideActiveTrack={overrideActiveTrack}
-    />
-    <ActiveTrackSeeker
-      activeTrackPosition={activeTrackPosition}
-      locateActiveTrack={scrollToActiveTrack}
     />
   </div>
 )
