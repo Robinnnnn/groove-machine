@@ -4,6 +4,7 @@ import { SpotifyContext } from 'Contexts/index'
 import PageTitle from './PageTitle'
 import Loader from 'Elements/Loader'
 import LoadedPlaylist from './LoadedPlaylist'
+import ActiveTrackSeeker from './ActiveTrackSeeker'
 import getLoaderMessage from 'Elements/Loader/sillyExcuses'
 // import MediaPlayer from './MediaPlayer'
 import './Playlist.scss'
@@ -143,19 +144,25 @@ class Playlist extends Component {
         <PageTitle title={currentTrackTitle} />
 
         {loaded ? (
-          <LoadedPlaylist
-            playlist={playlist}
-            spotify={state.spotify}
-            playback={playback}
-            currentTrackId={currentTrackId || ''}
-            activeTrack={activeTrack}
-            progressMs={progressMs}
-            markPlaying={this.instaPlay}
-            markPaused={this.instaPause}
-            overrideActiveTrack={this.overrideActiveTrack}
-            activeTrackPosition={activeTrackPosition}
-            locateActiveTrack={state.scrollToActiveTrack}
-          />
+          <>
+            <LoadedPlaylist
+              playlist={playlist}
+              spotify={state.spotify}
+              playback={playback}
+              currentTrackId={currentTrackId || ''}
+              activeTrack={activeTrack}
+              progressMs={progressMs}
+              markPlaying={this.instaPlay}
+              markPaused={this.instaPause}
+              overrideActiveTrack={this.overrideActiveTrack}
+              activeTrackPosition={activeTrackPosition}
+              locateActiveTrack={state.scrollToActiveTrack}
+            />
+            <ActiveTrackSeeker
+              activeTrackPosition={activeTrackPosition}
+              locateActiveTrack={state.scrollToActiveTrack}
+            />
+          </>
         ) : (
           <Loader message={loaderMessage} />
         )}

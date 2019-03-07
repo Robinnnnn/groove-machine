@@ -4,7 +4,7 @@ import Main from './Main'
 import './LoadedPlaylist.scss'
 
 class LoadedPlaylist extends Component {
-  state = { displaySidebar: false, sidebarWidth: 120, sidebarLocked: false }
+  state = { displaySidebar: false, sidebarWidth: 100, sidebarLocked: false }
 
   componentDidMount() {
     document.addEventListener('mousemove', this.determineSidebarDisplay)
@@ -38,9 +38,7 @@ class LoadedPlaylist extends Component {
       progressMs,
       markPlaying,
       markPaused,
-      overrideActiveTrack,
-      activeTrackPosition,
-      scrollToActiveTrack
+      overrideActiveTrack
     } = this.props
     const { displaySidebar, sidebarWidth } = this.state
 
@@ -55,6 +53,7 @@ class LoadedPlaylist extends Component {
       <div className='loaded-playlist-container'>
         <div className='playlist-sidebar-container' style={sidebarStyle}>
           <Sidebar
+            width={sidebarWidth}
             toggleSidebarLock={this.toggleSidebarLock}
             currentTrackId={currentTrackId}
             playlist={playlist}
@@ -72,8 +71,6 @@ class LoadedPlaylist extends Component {
             activeTrack={activeTrack}
             progressMs={progressMs}
             overrideActiveTrack={overrideActiveTrack}
-            activeTrackPosition={activeTrackPosition}
-            locateActiveTrack={scrollToActiveTrack}
           />
         </div>
         {
