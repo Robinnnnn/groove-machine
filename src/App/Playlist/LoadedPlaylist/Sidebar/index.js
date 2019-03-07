@@ -7,6 +7,7 @@ import Lock from './Lock'
 import './Sidebar.scss'
 
 const Sidebar = ({
+  width,
   toggleSidebarLock,
   currentTrackId,
   playlist,
@@ -33,7 +34,7 @@ const Sidebar = ({
   }
 
   return (
-    <div className='sidebar'>
+    <div className='sidebar' style={{ width }}>
       <div className='search-icon-container'>
         <SearchLogo className='search-icon' onClick={loadSearch} />
       </div>
