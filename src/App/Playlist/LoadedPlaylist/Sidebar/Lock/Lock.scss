@@ -8,4 +8,10 @@
       transform: scale(1.06);
     }
   }
+  .lock-icon {
+    fill: lighten(#4e49e4, 4%);
+  }
+  .unlocked-icon {
+    fill: lighten(#000, 70%);
+  }
 }

@@ -1,0 +1,16 @@
+.shuffle-icon-container {
+  position: absolute;
+  bottom: 60px;
+  .shuffle-icon {
+    width: 22px;
+    height: 22px;
+    cursor: pointer;
+    stroke: lighten(#000, 70%);
+    &.active {
+      stroke: lighten(#4e49e4, 4%);
+    }
+    &:hover {
+      transform: scale(1.06);
+    }
+  }
+}

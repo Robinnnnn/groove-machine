@@ -3,6 +3,7 @@ import { SpotifyContext } from 'Contexts/index'
 import { navigate } from '@reach/router'
 import { ReactComponent as SearchLogo } from './search.svg'
 import MediaControls from './MediaControls'
+import Shuffle from './Shuffle'
 import Lock from './Lock'
 import './Sidebar.scss'
 
@@ -57,6 +58,10 @@ const Sidebar = ({
         currentTrackId={currentTrackId}
         progressMs={playback.progress_ms}
         controller={controller}
+      />
+      <Shuffle
+        isShuffleActive={isShuffleActive}
+        toggleSidebarShuffle={() => console.log('toggle shuffle')}
       />
       <Lock toggleSidebarLock={toggleSidebarLock} />
     </div>
