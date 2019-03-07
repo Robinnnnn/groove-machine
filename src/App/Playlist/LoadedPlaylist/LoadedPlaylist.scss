@@ -1,6 +1,7 @@
 @import 'styles/_transitions.scss';
 
 .loaded-playlist-container {
+  background: #9ba0ff;
   .playlist-sidebar-container,
   .playlist-main-container {
     transition: 0.55s $transition-style;

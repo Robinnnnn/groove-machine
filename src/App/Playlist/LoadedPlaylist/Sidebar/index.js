@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { SpotifyContext } from 'Contexts/index'
 import { navigate } from '@reach/router'
-import { ReactComponent as SearchLogo } from './search.svg'
+import { ReactComponent as SearchLogo } from './search2.svg'
 import MediaControls from './MediaControls'
 import Shuffle from './Shuffle'
 import Lock from './Lock'

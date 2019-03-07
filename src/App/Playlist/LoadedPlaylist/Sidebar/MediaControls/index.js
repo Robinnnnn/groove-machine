@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { ReactComponent as BackLogo } from './icons/up.svg'
-import { ReactComponent as NextLogo } from './icons/down.svg'
-import { ReactComponent as PlayLogo } from './icons/play.svg'
-import { ReactComponent as PauseLogo } from './icons/pause.svg'
+import { ReactComponent as BackLogo } from './icons/up2.svg'
+import { ReactComponent as NextLogo } from './icons/down2.svg'
+import { ReactComponent as PlayLogo } from './icons/play2.svg'
+import { ReactComponent as PauseLogo } from './icons/pause2.svg'
 import './Controls.scss'
 
 const Controls = ({
