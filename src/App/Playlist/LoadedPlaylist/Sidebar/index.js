@@ -61,7 +61,7 @@ const Sidebar = ({
       />
       <Shuffle
         isShuffleActive={isShuffleActive}
-        toggleSidebarShuffle={() => console.log('toggle shuffle')}
+        toggleSidebarShuffle={spotify.setShuffle}
       />
       <Lock toggleSidebarLock={toggleSidebarLock} />
     </div>

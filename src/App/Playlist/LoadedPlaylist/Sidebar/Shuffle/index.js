@@ -7,7 +7,7 @@ const Shuffle = ({ isShuffleActive, toggleSidebarShuffle }) => {
 
   const toggleShuffle = () => {
     toggleShuffleIcon(!shuffleActive)
-    toggleSidebarShuffle()
+    toggleSidebarShuffle(!shuffleActive)
   }
 
   const iconClass = shuffleActive ? 'active' : ''

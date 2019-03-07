@@ -1,8 +1,11 @@
+@import 'styles/_transitions.scss';
+
 .lock-icon-container {
   position: absolute;
   bottom: 20px;
   .lock-icon,
   .unlocked-icon {
+    transition: 0.15s $transition-style;
     cursor: pointer;
     &:hover {
       transform: scale(1.06);
@@ -13,5 +16,8 @@
   }
   .unlocked-icon {
     fill: lighten(#000, 70%);
+    &:hover {
+      fill: lighten(#000, 60%);
+    }
   }
 }
