@@ -9,6 +9,7 @@ import './Sidebar.scss'
 
 const Sidebar = ({
   width,
+  toggleSearch,
   toggleSidebarLock,
   currentTrackId,
   playlist,
@@ -22,8 +23,6 @@ const Sidebar = ({
   const {
     state: { spotify }
   } = context
-
-  const loadSearch = () => navigate('/search')
 
   const controlPlay = () => {
     markPlaying()
@@ -49,7 +48,7 @@ const Sidebar = ({
   return (
     <div className='sidebar' style={{ width }}>
       <div className='search-icon-container'>
-        <SearchLogo className='search-icon' onClick={loadSearch} />
+        <SearchLogo className='search-icon' onClick={toggleSearch} />
       </div>
       <MediaControls
         playlist={playlist}

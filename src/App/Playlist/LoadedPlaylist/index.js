@@ -1,10 +1,16 @@
 import React, { Component } from 'react'
 import Sidebar from './Sidebar'
+import SearchForm from './SearchForm'
 import Main from './Main'
 import './LoadedPlaylist.scss'
 
 class LoadedPlaylist extends Component {
-  state = { displaySidebar: false, sidebarWidth: 100, sidebarLocked: false }
+  state = {
+    displaySidebar: false,
+    sidebarWidth: 100,
+    sidebarLocked: false,
+    displaySearch: false
+  }
 
   componentDidMount() {
     document.addEventListener('mousemove', this.determineSidebarDisplay)
@@ -22,6 +28,9 @@ class LoadedPlaylist extends Component {
     if (shouldDisplaySidebar !== displaySidebar)
       this.setState({ displaySidebar: shouldDisplaySidebar })
   }
+
+  toggleSearch = () =>
+    this.setState({ displaySearch: !this.state.displaySearch })
 
   toggleSidebarLock = () =>
     this.setState({ sidebarLocked: !this.state.sidebarLocked })
@@ -41,13 +50,18 @@ class LoadedPlaylist extends Component {
       markPaused,
       overrideActiveTrack
     } = this.props
-    const { displaySidebar, sidebarWidth } = this.state
+    const { displaySidebar, sidebarWidth, displaySearch } = this.state
 
     const sidebarStyle = {
       transform: `translateX(${displaySidebar ? 0 : sidebarWidth * -1 + 60}px)`
     }
+
+    const searchWidth = window.innerWidth - sidebarWidth - 200
+
     const mainStyle = {
-      transform: `translateX(${displaySidebar ? sidebarWidth : 0}px)`
+      transform: `translateX(${
+        displaySidebar ? sidebarWidth + (displaySearch ? searchWidth : 0) : 0
+      }px)`
     }
 
     return (
@@ -55,6 +69,7 @@ class LoadedPlaylist extends Component {
         <div className='playlist-sidebar-container' style={sidebarStyle}>
           <Sidebar
             width={sidebarWidth}
+            toggleSearch={this.toggleSearch}
             toggleSidebarLock={this.toggleSidebarLock}
             playlist={playlist}
             playback={playback}
@@ -64,6 +79,9 @@ class LoadedPlaylist extends Component {
             markPlaying={markPlaying}
             markPaused={markPaused}
           />
+        </div>
+        <div className='playlist-search-container'>
+          <SearchForm />
         </div>
         <div className='playlist-main-container' style={mainStyle}>
           <Main
