@@ -57,6 +57,9 @@ class LoadedPlaylist extends Component {
     }
 
     const searchWidth = window.innerWidth - sidebarWidth - 200
+    const searchStyle = {
+      width: window.innerWidth - sidebarWidth - 200
+    }
 
     const mainStyle = {
       transform: `translateX(${
@@ -80,8 +83,8 @@ class LoadedPlaylist extends Component {
             markPaused={markPaused}
           />
         </div>
-        <div className='playlist-search-container'>
-          <SearchForm />
+        <div className='playlist-search-container' style={searchStyle}>
+          <SearchForm visible={displaySearch} />
         </div>
         <div className='playlist-main-container' style={mainStyle}>
           <Main

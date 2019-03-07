@@ -3,7 +3,7 @@ import { Form as FinalForm, Field } from 'react-final-form'
 import { navigate } from '@reach/router'
 import { validate } from './validate'
 
-const SearchForm = () => {
+const SearchForm = ({ visible }) => {
   const [highlighted, toggleHighlight] = useState(false)
   const [valid, toggleValid] = useState(false)
 
@@ -17,10 +17,12 @@ const SearchForm = () => {
       render={props => (
         <InputForm
           formProps={props}
+          visible={visible}
           toggleHighlight={b => toggleHighlight(b)}
           highlighted={highlighted}
           valid={valid}
           loadPlaylist={loadPlaylist}
+          autocomplete={false}
         />
       )}
     />
@@ -29,6 +31,7 @@ const SearchForm = () => {
 
 const InputForm = ({
   formProps,
+  visible,
   toggleHighlight,
   highlighted,
   valid,
@@ -36,7 +39,7 @@ const InputForm = ({
 }) => {
   const { handleSubmit, dirty } = formProps
 
-  const labelClass = highlighted ? 'focused' : ''
+  const labelClass = highlighted || visible ? 'focused' : ''
   const validClass = valid ? 'valid' : ''
   const invalidClass = !valid && dirty ? 'invalid' : ''
 
