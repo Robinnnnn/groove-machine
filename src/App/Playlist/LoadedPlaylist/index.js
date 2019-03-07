@@ -33,6 +33,7 @@ class LoadedPlaylist extends Component {
       playlist,
       spotify,
       playback,
+      isShuffleActive,
       currentTrackId,
       activeTrack,
       progressMs,
@@ -55,9 +56,10 @@ class LoadedPlaylist extends Component {
           <Sidebar
             width={sidebarWidth}
             toggleSidebarLock={this.toggleSidebarLock}
-            currentTrackId={currentTrackId}
             playlist={playlist}
             playback={playback}
+            isShuffleActive={isShuffleActive}
+            currentTrackId={currentTrackId}
             overrideActiveTrack={overrideActiveTrack}
             markPlaying={markPlaying}
             markPaused={markPaused}
@@ -65,8 +67,8 @@ class LoadedPlaylist extends Component {
         </div>
         <div className='playlist-main-container' style={mainStyle}>
           <Main
-            playlist={playlist}
             spotify={spotify}
+            playlist={playlist}
             currentTrackId={currentTrackId}
             activeTrack={activeTrack}
             progressMs={progressMs}

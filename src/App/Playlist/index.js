@@ -149,6 +149,7 @@ class Playlist extends Component {
               playlist={playlist}
               spotify={state.spotify}
               playback={playback}
+              isShuffleActive={playback.shuffle_state}
               currentTrackId={currentTrackId || ''}
               activeTrack={activeTrack}
               progressMs={progressMs}

@@ -4,8 +4,8 @@ import Tracklist from './Tracklist'
 import './Main.scss'
 
 const Main = ({
-  playlist,
   spotify,
+  playlist,
   currentTrackId,
   activeTrack,
   progressMs,

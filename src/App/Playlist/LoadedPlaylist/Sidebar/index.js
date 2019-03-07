@@ -12,6 +12,7 @@ const Sidebar = ({
   currentTrackId,
   playlist,
   playback,
+  isShuffleActive,
   overrideActiveTrack,
   markPlaying,
   markPaused
@@ -33,24 +34,29 @@ const Sidebar = ({
     spotify.pause()
   }
 
+  const controller = {
+    play: controlPlay,
+    pause: controlPause,
+    seek: spotify.seek,
+    previous: spotify.skipToPrevious,
+    next: spotify.skipToNext,
+
+    overrideActiveTrack,
+    getCurrentTrackFromServer: spotify.getMyCurrentPlayingTrack
+  }
+
   return (
     <div className='sidebar' style={{ width }}>
       <div className='search-icon-container'>
         <SearchLogo className='search-icon' onClick={loadSearch} />
       </div>
       <MediaControls
-        currentTrackId={currentTrackId}
         playlist={playlist}
-        overrideActiveTrack={overrideActiveTrack}
         isPlaying={playback.is_playing}
+        isShuffleActive={isShuffleActive}
+        currentTrackId={currentTrackId}
         progressMs={playback.progress_ms}
-        markPlaying={markPlaying}
-        markPaused={markPaused}
-        play={controlPlay}
-        pause={controlPause}
-        seek={spotify.seek}
-        previous={spotify.skipToPrevious}
-        next={spotify.skipToNext}
+        controller={controller}
       />
       <Lock toggleSidebarLock={toggleSidebarLock} />
     </div>
