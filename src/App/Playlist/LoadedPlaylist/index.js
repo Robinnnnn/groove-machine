@@ -6,10 +6,10 @@ import './LoadedPlaylist.scss'
 
 class LoadedPlaylist extends Component {
   state = {
-    displaySidebar: false,
+    sidebarActive: false,
     sidebarWidth: 100,
     sidebarLocked: false,
-    displaySearch: false
+    searchActive: false
   }
 
   componentDidMount() {
@@ -21,16 +21,20 @@ class LoadedPlaylist extends Component {
   }
 
   determineSidebarDisplay = e => {
-    const { sidebarWidth, displaySidebar, sidebarLocked } = this.state
+    const {
+      sidebarWidth,
+      sidebarActive,
+      sidebarLocked,
+      searchActive
+    } = this.state
     if (sidebarLocked) return
-    let shouldDisplaySidebar = false
-    if (e.clientX < sidebarWidth) shouldDisplaySidebar = true
-    if (shouldDisplaySidebar !== displaySidebar)
-      this.setState({ displaySidebar: shouldDisplaySidebar })
+    let shouldsidebarActive = false
+    if (e.clientX < sidebarWidth) shouldsidebarActive = true
+    if (shouldsidebarActive !== sidebarActive && !searchActive)
+      this.setState({ sidebarActive: shouldsidebarActive })
   }
 
-  toggleSearch = () =>
-    this.setState({ displaySearch: !this.state.displaySearch })
+  toggleSearch = () => this.setState({ searchActive: !this.state.searchActive })
 
   toggleSidebarLock = () =>
     this.setState({ sidebarLocked: !this.state.sidebarLocked })
@@ -50,10 +54,10 @@ class LoadedPlaylist extends Component {
       markPaused,
       overrideActiveTrack
     } = this.props
-    const { displaySidebar, sidebarWidth, displaySearch } = this.state
+    const { sidebarActive, sidebarWidth, searchActive } = this.state
 
     const sidebarStyle = {
-      transform: `translateX(${displaySidebar ? 0 : sidebarWidth * -1 + 60}px)`
+      transform: `translateX(${sidebarActive ? 0 : sidebarWidth * -1 + 60}px)`
     }
 
     const searchWidth = window.innerWidth - sidebarWidth - 200
@@ -63,7 +67,7 @@ class LoadedPlaylist extends Component {
 
     const mainStyle = {
       transform: `translateX(${
-        displaySidebar ? sidebarWidth + (displaySearch ? searchWidth : 0) : 0
+        sidebarActive ? sidebarWidth + (searchActive ? searchWidth : 0) : 0
       }px)`
     }
 
@@ -84,7 +88,7 @@ class LoadedPlaylist extends Component {
           />
         </div>
         <div className='playlist-search-container' style={searchStyle}>
-          <SearchForm visible={displaySearch} />
+          <SearchForm visible={searchActive} />
         </div>
         <div className='playlist-main-container' style={mainStyle}>
           <Main
