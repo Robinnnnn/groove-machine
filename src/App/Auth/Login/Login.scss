@@ -1,7 +1,9 @@
-@import 'styles/_transitions.scss';
 @import 'styles/_card.scss';
+@import 'styles/_colors.scss';
+@import 'styles/_transitions.scss';
 
 .login-page {
+  background: $pink;
   width: 100vw;
   height: 100vh;
   display: flex;
