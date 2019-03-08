@@ -21,11 +21,11 @@ class LoadedPlaylist extends Component {
     const params = queryString.parse(search)
     if (params.search === 'true') {
       setTimeout(() => {
+        document.addEventListener('mousemove', this.determineSidebarDisplay)
         this.setState({ sidebarActive: true, searchActive: true })
       }, 1500)
+      return
     }
-
-    document.addEventListener('mousemove', this.determineSidebarDisplay)
   }
 
   componentWillUnmount() {

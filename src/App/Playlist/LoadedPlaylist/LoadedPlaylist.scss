@@ -6,9 +6,11 @@
   // background: #4d4d4d;
   // background: white;
   .playlist-sidebar-container {
-    transition: 0.55s $transition-style;
+    // transition: 0.55s $transition-style;
+    transition: 0.45s cubic-bezier(0.71, 0.01, 0.44, 1);
   }
   .playlist-main-container {
+    transition: 0.55s $transition-style;
     transition: 0.45s cubic-bezier(0.71, 0.01, 0.44, 1);
   }
 
