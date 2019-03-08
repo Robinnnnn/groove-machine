@@ -1,6 +1,8 @@
 @import 'styles/_card.scss';
+@import 'styles/_colors.scss';
 
 .search-page {
+  background: $pink;
   width: 100vw;
   height: 100vh;
   display: flex;

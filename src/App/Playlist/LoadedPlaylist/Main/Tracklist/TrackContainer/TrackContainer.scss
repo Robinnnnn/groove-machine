@@ -1,4 +1,5 @@
 @import 'styles/_card.scss';
+@import 'styles/_colors.scss';
 
 .track-container {
   @extend .card;
@@ -22,7 +23,7 @@
 
     width: 12px;
     height: 12px;
-    background: darken(#4e49e4, 5%);
+    background: $blueberry;
     border-radius: 100%;
 
     opacity: 0;

@@ -1,4 +1,5 @@
 @import 'styles/_transitions.scss';
+@import 'styles/_colors.scss';
 
 .lock-icon-container {
   position: absolute;
@@ -12,7 +13,7 @@
     }
   }
   .lock-icon {
-    fill: lighten(#4e49e4, 4%);
+    fill: $light-purple;
   }
   .unlocked-icon {
     fill: lighten(#000, 70%);

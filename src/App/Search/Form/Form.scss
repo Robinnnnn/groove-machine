@@ -1,3 +1,5 @@
+@import 'styles/_colors.scss';
+
 .splash-search-form {
   width: 100%;
   .search-form {
@@ -34,13 +36,13 @@
       margin-top: -2px;
       height: 3px;
       width: 0%;
-      background-color: lighten(#4e49e4, 15%);
+      background-color: $barely-purple;
       transition: 0.75s cubic-bezier(0.165, 0.84, 0.44, 1);
       &.focused {
         width: 100%;
       }
       &.valid {
-        background-color: darken(#4e49e4, 10%);
+        background-color: $blackberry;
       }
       &.invalid {
         background-color: lighten(#e44e49, 10%);
@@ -61,9 +63,9 @@
       }
       &.valid {
         cursor: pointer;
-        background-color: lighten(#4e49e4, 5%);
+        background-color: $light-purple;
         &:hover {
-          background-color: lighten(#4e49e4, 10%);
+          background-color: $quite-light-purple;
           letter-spacing: 5px;
         }
       }

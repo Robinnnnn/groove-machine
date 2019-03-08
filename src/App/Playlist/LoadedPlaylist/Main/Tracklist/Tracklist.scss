@@ -1,6 +1,8 @@
+@import 'styles/_colors.scss';
+
 .tracklist-container {
   min-height: 100vh; // Otherwise the sidebar is visible while the view is rendered downwards
-  background: #ffcece;
+  background: $pink;
   display: flex;
   flex-direction: column;
   align-items: center;
