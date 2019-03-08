@@ -76,6 +76,7 @@ class LoadedPlaylist extends Component {
         <div className='playlist-sidebar-container' style={sidebarStyle}>
           <Sidebar
             width={sidebarWidth}
+            searchActive={searchActive}
             toggleSearch={this.toggleSearch}
             toggleSidebarLock={this.toggleSidebarLock}
             playlist={playlist}

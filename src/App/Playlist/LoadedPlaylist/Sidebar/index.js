@@ -5,10 +5,12 @@ import { ReactComponent as SearchLogo } from './search2.svg'
 import MediaControls from './MediaControls'
 import Shuffle from './Shuffle'
 import Lock from './Lock'
+import VerticalRule from './VerticalRule'
 import './Sidebar.scss'
 
 const Sidebar = ({
   width,
+  searchActive,
   toggleSearch,
   toggleSidebarLock,
   currentTrackId,
@@ -63,6 +65,7 @@ const Sidebar = ({
         toggleSidebarShuffle={spotify.setShuffle}
       />
       <Lock toggleSidebarLock={toggleSidebarLock} />
+      <VerticalRule active={searchActive} />
     </div>
   )
 }

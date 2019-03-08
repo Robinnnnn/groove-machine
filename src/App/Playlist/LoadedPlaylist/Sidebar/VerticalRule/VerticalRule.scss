@@ -1,0 +1,16 @@
+.vertical-rule-container {
+  height: 100vh;
+  position: absolute;
+  left: 95px; //!!!!!!!!!!
+
+  .vertical-rule {
+    width: 5px;
+    background-color: #fdd8d7;
+    transition: 0.75s cubic-bezier(0.38, 0.04, 0.44, 1);
+    transition-delay: 0.55s;
+    height: 0vh;
+    &.active {
+      height: 100vh;
+    }
+  }
+}
