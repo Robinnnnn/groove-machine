@@ -4,7 +4,7 @@ import './Form.scss'
 
 const StyledForm = () => (
   <div className='splash-search-form'>
-    <SearchForm />
+    <SearchForm ctaPosition='bottom' />
   </div>
 )
 

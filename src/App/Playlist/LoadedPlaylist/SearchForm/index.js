@@ -4,7 +4,7 @@ import './Form.scss'
 
 const StyledForm = ({ visible }) => (
   <div className='playlist-search-form'>
-    <SearchForm visible={visible} />
+    <SearchForm visible={visible} ctaPosition='right' />
   </div>
 )
 

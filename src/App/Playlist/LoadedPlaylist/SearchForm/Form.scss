@@ -14,75 +14,101 @@
 
   .search-form {
     width: 100%;
-  }
 
-  .playlist-input {
-    border: none;
-    // border-bottom: 1px solid #999999;
-    outline: none;
+    .search-bar-container {
+      position: relative;
+      display: flex;
 
-    padding: 24px 0px;
-    width: 100%;
+      .input-container {
+        width: 100%;
+        .playlist-input {
+          width: calc(100% - 72px);
+          text-overflow: ellipsis;
 
-    font-size: 16px;
-    font-family: 'Roboto Mono';
+          border: none;
+          outline: none;
 
-    &::placeholder {
-      font-family: 'Playfair Display';
-      transition: 0.55s $transition-style;
-      padding: 8px;
-    }
-    &:focus::placeholder {
-      color: lighten(#999, 10%);
-    }
-  }
+          padding: 24px 0px;
+          // width: 100%;
 
-  .playlist-input-label {
-    position: relative;
-    display: block;
-    margin-top: -2px;
-    margin-left: -100px; //!!!!!!!!!!!!
-    height: 5px;
-    width: 0%;
-    background-color: lighten(#4e49e4, 15%);
-    transition: 0.95s cubic-bezier(0.79, -0.01, 0.15, 0.97);
-    &.focused {
-      width: calc(100vw - 200px); //!!!!!!!!!!!!!
-    }
-    &.valid {
-      background-color: darken(#4e49e4, 10%);
-    }
-    &.invalid {
-      background-color: lighten(#e44e49, 10%);
-    }
-  }
+          font-size: 16px;
+          font-family: 'Roboto Mono';
 
-  .form-footer-container {
-    // width: 100%;
-    width: calc(100vw - 200px); //!!!!!!!!!!!!!
-    margin-left: -100px; //!!!!!!!!!!!!!
-    height: 50px;
-    display: flex;
-    justify-content: center;
-    border-radius: 0px 0px 4px 4px;
-    color: white;
-    transition: 0.55s $transition-style;
-    font-family: 'Roboto Mono';
-    .footer-content {
-      padding-top: 12px;
-    }
-    &.valid {
-      cursor: pointer;
-      background-color: lighten(#4e49e4, 5%);
-      &:hover {
-        background-color: lighten(#4e49e4, 10%);
-        letter-spacing: 5px;
+          &::placeholder {
+            font-family: 'Playfair Display';
+            transition: 0.55s $transition-style;
+            padding: 8px;
+          }
+          &:focus::placeholder {
+            color: lighten(#999, 10%);
+          }
+        }
+
+        .playlist-input-label {
+          position: relative;
+          display: block;
+          margin-top: -2px;
+          margin-left: -100px; //!!!!!!!!!!!!
+          height: 5px;
+          width: 0%;
+          background-color: lighten(#4e49e4, 15%);
+          transition: 0.95s cubic-bezier(0.79, -0.01, 0.15, 0.97);
+          &.focused {
+            width: calc(100vw - 200px); //!!!!!!!!!!!!!
+          }
+          &.valid {
+            background-color: darken(#4e49e4, 0%);
+          }
+          &.invalid {
+            background-color: lighten(#e44e49, 10%);
+          }
+        }
+      }
+
+      .cta-container {
+        position: absolute;
+        right: 0;
+        display: flex;
+        align-items: center;
+        height: calc(100% - 5px);
+        pointer-events: none;
+        .cta {
+          transition: 0.55s $transition-style;
+          fill: white;
+          margin: 24px;
+        }
+        &.valid {
+          cursor: pointer;
+          pointer-events: all;
+          .cta {
+            fill: darken(#4e49e4, 0%);
+          }
+          &:hover {
+            transform: scale(1.1);
+          }
+        }
       }
     }
-    &.invalid {
-      // font-size: 15px;
-      color: darken(#e44e49, 5%);
-      // background-color: lighten(#e44e49, 10%);
+
+    .form-footer-container {
+      // width: 100%;
+      width: calc(100vw - 200px); //!!!!!!!!!!!!!
+      margin-left: -100px; //!!!!!!!!!!!!!
+      height: 50px;
+      display: flex;
+      justify-content: center;
+      border-radius: 0px 0px 4px 4px;
+      color: white;
+      transition: 0.55s $transition-style;
+      font-family: 'Roboto Mono';
+      .footer-content {
+        padding-top: 12px;
+      }
+      &.invalid {
+        // font-size: 15px;
+        color: darken(#e44e49, 5%);
+        // background-color: lighten(#e44e49, 10%);
+      }
     }
   }
 }

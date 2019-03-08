@@ -47,6 +47,20 @@ class Playlist extends Component {
     this.setState({ spotify, playlist })
   }
 
+  async componentDidUpdate(prevProps) {
+    const {
+      state: { spotify }
+    } = this.context
+    const { id } = this.props
+    if (this.props.id !== prevProps.id) {
+      this.setState({ playlist: null })
+
+      // TODO: Ensure this takes some time to get loading animation
+      const playlist = await this.getPlaylist(spotify, id)
+      this.setState({ playlist })
+    }
+  }
+
   componentWillUnmount() {
     window.removeEventListener('scroll', this.determineViewContext)
   }
