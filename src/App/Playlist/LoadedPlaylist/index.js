@@ -26,6 +26,7 @@ class LoadedPlaylist extends Component {
       }, 1500)
       return
     }
+    document.addEventListener('mousemove', this.determineSidebarDisplay)
   }
 
   componentWillUnmount() {
