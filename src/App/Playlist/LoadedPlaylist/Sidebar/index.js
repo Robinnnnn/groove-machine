@@ -1,10 +1,9 @@
 import React, { useContext } from 'react'
 import { SpotifyContext } from 'Contexts/index'
-import { navigate } from '@reach/router'
-import { ReactComponent as SearchLogo } from './search2.svg'
+import Search from './SearchIcon'
 import MediaControls from './MediaControls'
-import Shuffle from './Shuffle'
-import Lock from './Lock'
+import Shuffle from './ShuffleIcon'
+import Lock from './LockIcon'
 import VerticalRule from './VerticalRule'
 import './Sidebar.scss'
 
@@ -49,9 +48,7 @@ const Sidebar = ({
 
   return (
     <div className='sidebar' style={{ width }}>
-      <div className='search-icon-container'>
-        <SearchLogo className='search-icon' onClick={toggleSearch} />
-      </div>
+      <Search toggleSearch={toggleSearch} />
       <MediaControls
         playlist={playlist}
         isPlaying={playback.is_playing}
