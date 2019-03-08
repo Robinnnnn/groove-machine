@@ -52,6 +52,7 @@ const InputForm = ({
       <div className='search-bar-container'>
         <div className='input-container'>
           <Field
+            autoFocus
             name='playlist'
             component='input'
             placeholder='Paste a link to a Spotify playlist'
