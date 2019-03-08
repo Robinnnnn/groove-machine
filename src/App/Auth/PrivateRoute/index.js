@@ -124,7 +124,7 @@ class PrivateRoute extends Component {
     if (isAuthenticating && !isAuthenticated)
       return <Loader message={loaderMessage} />
     if (!isAuthenticating && isAuthenticated)
-      return <AuthenticatedComponent {...rest} />
+      return <AuthenticatedComponent location={location} {...rest} />
     if (!isAuthenticating && !isAuthenticated)
       return <Login location={location} />
   }

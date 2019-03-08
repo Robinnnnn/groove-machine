@@ -8,9 +8,6 @@ const SearchForm = ({ visible, ctaPosition }) => {
   const [highlighted, toggleHighlight] = useState(false)
   const [valid, toggleValid] = useState(false)
 
-  // const loadPlaylist = () =>
-  //   highlighted && valid && navigate(`/playlist/${valid}`)
-
   const loadPlaylist = () => {
     console.log(highlighted && valid)
     highlighted && valid && navigate(`/playlist/${valid}`)

@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import { navigate } from '@reach/router'
+import queryString from 'query-string'
 import Sidebar from './Sidebar'
 import SearchForm from './SearchForm'
 import Main from './Main'
@@ -13,6 +15,16 @@ class LoadedPlaylist extends Component {
   }
 
   componentDidMount() {
+    const {
+      location: { search }
+    } = this.props
+    const params = queryString.parse(search)
+    if (params.search === 'true') {
+      setTimeout(() => {
+        this.setState({ sidebarActive: true, searchActive: true })
+      }, 1500)
+    }
+
     document.addEventListener('mousemove', this.determineSidebarDisplay)
   }
 
@@ -34,7 +46,16 @@ class LoadedPlaylist extends Component {
       this.setState({ sidebarActive: shouldsidebarActive })
   }
 
-  toggleSearch = () => this.setState({ searchActive: !this.state.searchActive })
+  toggleSearch = () => {
+    const {
+      location: { pathname, search }
+    } = this.props
+    this.setState({ searchActive: !this.state.searchActive })
+    const params = queryString.parse(search)
+    let query = ''
+    if (!params.search) query = '?search=true'
+    navigate(pathname + query)
+  }
 
   toggleSidebarLock = () =>
     this.setState({ sidebarLocked: !this.state.sidebarLocked })

@@ -138,6 +138,7 @@ class Playlist extends Component {
 
   render() {
     const { state } = this.context
+    const { location } = this.props
     const {
       loaderMessage,
       playlist,
@@ -160,6 +161,7 @@ class Playlist extends Component {
         {loaded ? (
           <>
             <LoadedPlaylist
+              location={location}
               playlist={playlist}
               spotify={state.spotify}
               playback={playback}
