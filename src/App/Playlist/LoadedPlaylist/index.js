@@ -82,10 +82,9 @@ class LoadedPlaylist extends Component {
       transform: `translateX(${sidebarActive ? 0 : sidebarWidth * -1 + 60}px)`
     }
 
-    const searchWidth = window.innerWidth - sidebarWidth - 200
-    const searchStyle = {
-      width: window.innerWidth - sidebarWidth - 200
-    }
+    let searchWidth = window.innerWidth - sidebarWidth - 200
+    if (searchWidth > 640) searchWidth = 640
+    const searchStyle = { width: searchWidth }
 
     const mainStyle = {
       transform: `translateX(${
