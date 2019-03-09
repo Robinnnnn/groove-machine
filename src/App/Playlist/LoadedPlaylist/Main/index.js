@@ -9,18 +9,22 @@ const Main = ({
   currentTrackId,
   activeTrack,
   progressMs,
-  overrideActiveTrack
+  overrideActiveTrack,
+  tracklistDisplacement
 }) => (
   <div className='main-container'>
     <PlaylistHeader playlist={playlist} />
-    <Tracklist
-      spotify={spotify}
-      playlist={playlist}
-      currentTrackId={currentTrackId || ''}
-      activeTrack={activeTrack}
-      progressMs={progressMs}
-      overrideActiveTrack={overrideActiveTrack}
-    />
+    <div className='tracklist-container'>
+      <Tracklist
+        spotify={spotify}
+        playlist={playlist}
+        currentTrackId={currentTrackId || ''}
+        activeTrack={activeTrack}
+        progressMs={progressMs}
+        overrideActiveTrack={overrideActiveTrack}
+        tracklistDisplacement={tracklistDisplacement}
+      />
+    </div>
   </div>
 )
 

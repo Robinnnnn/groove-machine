@@ -82,8 +82,7 @@ class LoadedPlaylist extends Component {
       transform: `translateX(${sidebarActive ? 0 : sidebarWidth * -1 + 60}px)`
     }
 
-    let searchWidth = window.innerWidth - sidebarWidth - 200
-    if (searchWidth > 640) searchWidth = 640
+    let searchWidth = Math.min(window.innerWidth - sidebarWidth - 200, 640)
     const searchStyle = { width: searchWidth }
 
     const mainStyle = {
@@ -91,6 +90,11 @@ class LoadedPlaylist extends Component {
         sidebarActive ? sidebarWidth + (searchActive ? searchWidth : 0) : 0
       }px)`
     }
+
+    const vw = window.innerWidth / 100
+    const tracklistDisplacement = searchActive
+      ? Math.max(10 * vw * -1, (100 * vw - 740 - 40) * -1)
+      : 0
 
     return (
       <div className='loaded-playlist-container'>
@@ -120,6 +124,7 @@ class LoadedPlaylist extends Component {
             activeTrack={activeTrack}
             progressMs={progressMs}
             overrideActiveTrack={overrideActiveTrack}
+            tracklistDisplacement={tracklistDisplacement}
           />
         </div>
         {
