@@ -1,9 +1,17 @@
 @import 'styles/_transitions.scss';
 
 .loaded-playlist-container {
-  .playlist-sidebar-container,
+  // background: #9ba0ff;
+  // background: #8f8cee;
+  // background: #4d4d4d;
+  // background: white;
+  .playlist-sidebar-container {
+    // transition: 0.55s $transition-style;
+    transition: 0.45s cubic-bezier(0.71, 0.01, 0.44, 1);
+  }
   .playlist-main-container {
-    transition: 0.55s $transition-style;
+    // transition: 0.55s $transition-style;
+    transition: 0.45s cubic-bezier(0.71, 0.01, 0.44, 1);
   }
 
   .playlist-sidebar-container {
@@ -11,7 +19,16 @@
   }
 
   .playlist-main-container {
+    width: 100vw;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 5px 34px -3px,
       rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+  }
+
+  .playlist-search-container {
+    position: fixed;
+    background: white;
+    left: 100px;
+    height: 100vh;
+    width: 500px;
   }
 }

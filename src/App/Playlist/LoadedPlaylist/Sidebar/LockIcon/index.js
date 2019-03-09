@@ -14,7 +14,7 @@ const Lock = ({ toggleSidebarLock }) => {
   return (
     <div className='lock-icon-container' onClick={toggleLock}>
       {locked ? (
-        <LockedIcon className='unlocked-icon' />
+        <LockedIcon className='lock-icon' />
       ) : (
         <UnlockedIcon className='unlocked-icon' />
       )}

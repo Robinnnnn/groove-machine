@@ -8,8 +8,8 @@
   .previous-icon,
   .next-container,
   .next-icon {
-    width: 24px;
-    height: 24px;
+    width: 30px;
+    height: 30px;
     cursor: pointer;
   }
   .previous-container,
@@ -21,12 +21,13 @@
     fill: #4d4d4d;
     transition: 0.15s $transition-style;
     &:hover {
-      transform: scale(1.2);
+      transform: scale(1.12);
     }
   }
   .play-pause-container {
     width: 40px;
     height: 40px;
+    margin-bottom: 3px;
     display: flex;
     justify-content: center;
     align-items: center;

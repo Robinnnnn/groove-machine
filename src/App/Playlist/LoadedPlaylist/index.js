@@ -1,12 +1,31 @@
 import React, { Component } from 'react'
+import { navigate } from '@reach/router'
+import queryString from 'query-string'
 import Sidebar from './Sidebar'
+import SearchForm from './SearchForm'
 import Main from './Main'
 import './LoadedPlaylist.scss'
 
 class LoadedPlaylist extends Component {
-  state = { displaySidebar: false, sidebarWidth: 100, sidebarLocked: false }
+  state = {
+    sidebarActive: false,
+    sidebarWidth: 100,
+    sidebarLocked: false,
+    searchActive: false
+  }
 
   componentDidMount() {
+    const {
+      location: { search }
+    } = this.props
+    const params = queryString.parse(search)
+    if (params.search === 'true') {
+      setTimeout(() => {
+        document.addEventListener('mousemove', this.determineSidebarDisplay)
+        this.setState({ sidebarActive: true, searchActive: true })
+      }, 1500)
+      return
+    }
     document.addEventListener('mousemove', this.determineSidebarDisplay)
   }
 
@@ -15,12 +34,28 @@ class LoadedPlaylist extends Component {
   }
 
   determineSidebarDisplay = e => {
-    const { sidebarWidth, displaySidebar, sidebarLocked } = this.state
+    const {
+      sidebarWidth,
+      sidebarActive,
+      sidebarLocked,
+      searchActive
+    } = this.state
     if (sidebarLocked) return
-    let shouldDisplaySidebar = false
-    if (e.clientX < sidebarWidth) shouldDisplaySidebar = true
-    if (shouldDisplaySidebar !== displaySidebar)
-      this.setState({ displaySidebar: shouldDisplaySidebar })
+    let shouldsidebarActive = false
+    if (e.clientX < sidebarWidth) shouldsidebarActive = true
+    if (shouldsidebarActive !== sidebarActive && !searchActive)
+      this.setState({ sidebarActive: shouldsidebarActive })
+  }
+
+  toggleSearch = () => {
+    const {
+      location: { pathname, search }
+    } = this.props
+    this.setState({ searchActive: !this.state.searchActive })
+    const params = queryString.parse(search)
+    let query = ''
+    if (!params.search) query = '?search=true'
+    navigate(pathname + query)
   }
 
   toggleSidebarLock = () =>
@@ -33,6 +68,7 @@ class LoadedPlaylist extends Component {
       playlist,
       spotify,
       playback,
+      isShuffleActive,
       currentTrackId,
       activeTrack,
       progressMs,
@@ -40,37 +76,55 @@ class LoadedPlaylist extends Component {
       markPaused,
       overrideActiveTrack
     } = this.props
-    const { displaySidebar, sidebarWidth } = this.state
+    const { sidebarActive, sidebarWidth, searchActive } = this.state
 
     const sidebarStyle = {
-      transform: `translateX(${displaySidebar ? 0 : sidebarWidth * -1 + 60}px)`
+      transform: `translateX(${sidebarActive ? 0 : sidebarWidth * -1 + 60}px)`
     }
+
+    let searchWidth = Math.min(window.innerWidth - sidebarWidth - 200, 640)
+    const searchStyle = { width: searchWidth }
+
     const mainStyle = {
-      transform: `translateX(${displaySidebar ? sidebarWidth : 0}px)`
+      transform: `translateX(${
+        sidebarActive ? sidebarWidth + (searchActive ? searchWidth : 0) : 0
+      }px)`
     }
+
+    const vw = window.innerWidth / 100
+    const tracklistDisplacement = searchActive
+      ? Math.max(10 * vw * -1, (100 * vw - 740 - 40) * -1)
+      : 0
 
     return (
       <div className='loaded-playlist-container'>
         <div className='playlist-sidebar-container' style={sidebarStyle}>
           <Sidebar
             width={sidebarWidth}
+            searchActive={searchActive}
+            toggleSearch={this.toggleSearch}
             toggleSidebarLock={this.toggleSidebarLock}
-            currentTrackId={currentTrackId}
             playlist={playlist}
             playback={playback}
+            isShuffleActive={isShuffleActive}
+            currentTrackId={currentTrackId}
             overrideActiveTrack={overrideActiveTrack}
             markPlaying={markPlaying}
             markPaused={markPaused}
           />
         </div>
+        <div className='playlist-search-container' style={searchStyle}>
+          <SearchForm visible={searchActive} />
+        </div>
         <div className='playlist-main-container' style={mainStyle}>
           <Main
-            playlist={playlist}
             spotify={spotify}
+            playlist={playlist}
             currentTrackId={currentTrackId}
             activeTrack={activeTrack}
             progressMs={progressMs}
             overrideActiveTrack={overrideActiveTrack}
+            tracklistDisplacement={tracklistDisplacement}
           />
         </div>
         {

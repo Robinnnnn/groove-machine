@@ -10,7 +10,8 @@ const Tracklist = ({
   currentTrackId,
   activeTrack,
   progressMs,
-  overrideActiveTrack
+  overrideActiveTrack,
+  tracklistDisplacement
 }) => {
   const [mounted, set] = useState(false)
   const config = { mass: 5, tension: 2000, friction: 200 }
@@ -31,7 +32,10 @@ const Tracklist = ({
   })
 
   return (
-    <div className='tracklist-container'>
+    <div
+      className='tracklist'
+      style={{ transform: `translateX(${tracklistDisplacement}px)` }}
+    >
       {trail.map(({ x, height, ...rest }, index) => {
         const { track, added_by } = playlist.tracks.items[index]
         return (

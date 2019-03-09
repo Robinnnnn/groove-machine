@@ -1,8 +1,6 @@
-.tracklist-container {
-  min-height: 100vh; // Otherwise the sidebar is visible while the view is rendered downwards
-  background: #ffcece;
+.tracklist {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 40px 0px;
+  transition: 0.45s cubic-bezier(0.71, 0.01, 0.44, 1);
 }

@@ -9,7 +9,9 @@ class OAuth extends Component {
 
   state = {
     redirectReady: false,
-    playlistId: ''
+    playlistId: '',
+    defaultPlaylistId: '37i9dQZF1DXcBWIGoYBM5M' // Today's Top Hits
+    // '3a6kAci1fsVoCPJXltCvIv' // Valentine's playlist ID
   }
 
   componentDidMount() {
@@ -29,8 +31,6 @@ class OAuth extends Component {
       }
     })
 
-    // let valentinesPlaylistId = '3a6kAci1fsVoCPJXltCvIv'
-
     this.setState({
       redirectReady: true,
       playlistId: playlist_id
@@ -38,11 +38,12 @@ class OAuth extends Component {
   }
 
   render() {
-    const { redirectReady, playlistId } = this.state
+    const { redirectReady, playlistId, defaultPlaylistId } = this.state
     if (!redirectReady) return null
-    if (!playlistId) return <Redirect to='search' noThrow />
-    console.log(`navigating to playlist ${playlistId} ...`)
-    if (playlistId) return <Redirect to={`playlist/${playlistId}`} noThrow />
+
+    const defaultRedirect = `${defaultPlaylistId}?search=true`
+    const redirect = `playlist/${playlistId || defaultRedirect}`
+    return <Redirect to={redirect} noThrow />
   }
 }
 

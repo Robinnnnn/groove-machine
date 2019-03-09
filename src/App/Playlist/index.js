@@ -47,6 +47,20 @@ class Playlist extends Component {
     this.setState({ spotify, playlist })
   }
 
+  async componentDidUpdate(prevProps) {
+    const {
+      state: { spotify }
+    } = this.context
+    const { id } = this.props
+    if (this.props.id !== prevProps.id) {
+      this.setState({ playlist: null })
+
+      // TODO: Ensure this takes some time to get loading animation
+      const playlist = await this.getPlaylist(spotify, id)
+      this.setState({ playlist })
+    }
+  }
+
   componentWillUnmount() {
     window.removeEventListener('scroll', this.determineViewContext)
   }
@@ -124,6 +138,7 @@ class Playlist extends Component {
 
   render() {
     const { state } = this.context
+    const { location } = this.props
     const {
       loaderMessage,
       playlist,
@@ -146,9 +161,11 @@ class Playlist extends Component {
         {loaded ? (
           <>
             <LoadedPlaylist
+              location={location}
               playlist={playlist}
               spotify={state.spotify}
               playback={playback}
+              isShuffleActive={playback.shuffle_state}
               currentTrackId={currentTrackId || ''}
               activeTrack={activeTrack}
               progressMs={progressMs}
