@@ -38,13 +38,12 @@ class Playlist extends Component {
 
     window.addEventListener('scroll', this.determineViewContext)
 
+    this.setState({ spotify })
+
     // Frequently check for the latest playback state
     setInterval(() => this.getPlayback(spotify), 1000)
 
-    const playlist = await this.getPlaylist(spotify, id)
-    console.log('retrieved playlist data!', { playlist })
-
-    this.setState({ spotify, playlist })
+    this.setPlaylist(spotify, id)
   }
 
   async componentDidUpdate(prevProps) {
@@ -55,14 +54,18 @@ class Playlist extends Component {
     if (this.props.id !== prevProps.id) {
       this.setState({ playlist: null })
 
-      // TODO: Ensure this takes some time to get loading animation
-      const playlist = await this.getPlaylist(spotify, id)
-      this.setState({ playlist })
+      this.setPlaylist(spotify, id)
     }
   }
 
   componentWillUnmount() {
     window.removeEventListener('scroll', this.determineViewContext)
+  }
+
+  setPlaylist = async (spotify, id) => {
+    const playlist = await this.getPlaylist(spotify, id)
+    playlist.tracks.items = playlist.tracks.items.filter(t => t.track)
+    this.setState({ playlist })
   }
 
   determineViewContext = () => {
