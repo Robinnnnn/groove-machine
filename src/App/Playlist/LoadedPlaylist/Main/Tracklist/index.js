@@ -20,7 +20,7 @@ const Tracklist = ({
   // animating all of them at once can really screw with performance.
   // TODO1: This number should be calculated dynamically by dividing the device's
   // viewport height by the height of each list element.
-  const numVisibleAnimatedItems = 10
+  const numVisibleAnimatedItems = Math.min(10, playlist.tracks.items.length)
 
   const trail = useTrail(numVisibleAnimatedItems, {
     config,

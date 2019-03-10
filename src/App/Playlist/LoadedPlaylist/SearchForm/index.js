@@ -10,7 +10,7 @@ const SearchForm = ({ visible }) => {
   const [valid, toggleValid] = useState(false)
 
   const loadPlaylist = () =>
-    highlighted && valid && navigate(`/playlist/${valid}`)
+    (highlighted || visible) && valid && navigate(`/playlist/${valid}`)
 
   return (
     <div className='playlist-search-form'>
@@ -21,8 +21,8 @@ const SearchForm = ({ visible }) => {
           <InputForm
             formProps={props}
             autocomplete={false}
-            visible={visible}
             highlighted={highlighted}
+            visible={visible}
             valid={valid}
             toggleHighlight={b => toggleHighlight(b)}
             loadPlaylist={loadPlaylist}
@@ -44,9 +44,9 @@ class InputForm extends PureComponent {
   render() {
     const {
       formProps,
-      visible,
       toggleHighlight,
       highlighted,
+      visible,
       valid,
       loadPlaylist
     } = this.props
