@@ -65,8 +65,9 @@ class LoadedPlaylist extends Component {
     // TODO: A lot of these props should just be
     // directly ingested further down via context
     const {
-      playlist,
       spotify,
+      playlist,
+      setPlaylist,
       playback,
       isShuffleActive,
       currentTrackId,
@@ -114,7 +115,7 @@ class LoadedPlaylist extends Component {
           />
         </div>
         <div className='playlist-search-container' style={searchStyle}>
-          <SearchForm visible={searchActive} />
+          <SearchForm visible={searchActive} setPlaylist={setPlaylist} />
         </div>
         <div className='playlist-main-container' style={mainStyle}>
           <Main

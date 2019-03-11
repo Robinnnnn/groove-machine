@@ -1,16 +1,25 @@
 import React, { PureComponent, useState } from 'react'
 import { Form as FinalForm, Field } from 'react-final-form'
 import { navigate } from '@reach/router'
-import { ReactComponent as SendLogo } from './send.svg'
+import { ReactComponent as SendIcon } from './send.svg'
+import { ReactComponent as LoadingGif } from 'App/Auth/Login/ripple.svg'
 import { validate } from './validate'
 import './SearchForm.scss'
 
-const SearchForm = ({ visible }) => {
+const SearchForm = ({ visible, setPlaylist }) => {
   const [highlighted, toggleHighlight] = useState(false)
   const [valid, toggleValid] = useState(false)
+  const [loaded, toggleLoaded] = useState(true)
 
-  const loadPlaylist = () =>
-    (highlighted || visible) && valid && navigate(`/playlist/${valid}`)
+  const loadPlaylist = () => {
+    if ((highlighted || visible) && valid) {
+      toggleLoaded(false)
+      setTimeout(async () => {
+        await setPlaylist(valid)
+        toggleLoaded(true)
+      }, 1000)
+    }
+  }
 
   return (
     <div className='playlist-search-form'>
@@ -25,6 +34,7 @@ const SearchForm = ({ visible }) => {
             visible={visible}
             valid={valid}
             toggleHighlight={b => toggleHighlight(b)}
+            loaded={loaded}
             loadPlaylist={loadPlaylist}
           />
         )}
@@ -48,6 +58,7 @@ class InputForm extends PureComponent {
       highlighted,
       visible,
       valid,
+      loaded,
       loadPlaylist
     } = this.props
 
@@ -83,7 +94,11 @@ class InputForm extends PureComponent {
             />
           </div>
           <div className={`cta-container ${validClass}`} onClick={loadPlaylist}>
-            <SendLogo className='cta' />
+            {loaded ? (
+              <SendIcon className='cta' />
+            ) : (
+              <LoadingGif className='loading' />
+            )}
           </div>
         </div>
 
