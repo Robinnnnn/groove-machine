@@ -62,9 +62,7 @@ class LoadedPlaylist extends Component {
     this.setState({ sidebarLocked: !this.state.sidebarLocked })
 
   setNewPlaylist = id => {
-    if (this.props.playlist.id !== id) {
-      navigate(`/playlist/${id}`)
-    }
+    navigate(`/playlist/${id}`)
     this.setState({
       searchActive: false,
       sidebarActive: this.state.sidebarLocked
