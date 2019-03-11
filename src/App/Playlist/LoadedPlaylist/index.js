@@ -61,12 +61,20 @@ class LoadedPlaylist extends Component {
   toggleSidebarLock = () =>
     this.setState({ sidebarLocked: !this.state.sidebarLocked })
 
+  setNewPlaylist = id => {
+    navigate(`/playlist/${id}`)
+    this.setState({
+      searchActive: false,
+      sidebarActive: this.state.sidebarLocked
+    })
+  }
+
   render() {
     // TODO: A lot of these props should just be
     // directly ingested further down via context
     const {
-      playlist,
       spotify,
+      playlist,
       playback,
       isShuffleActive,
       currentTrackId,
@@ -114,7 +122,7 @@ class LoadedPlaylist extends Component {
           />
         </div>
         <div className='playlist-search-container' style={searchStyle}>
-          <SearchForm visible={searchActive} />
+          <SearchForm visible={searchActive} onSubmit={this.setNewPlaylist} />
         </div>
         <div className='playlist-main-container' style={mainStyle}>
           <Main

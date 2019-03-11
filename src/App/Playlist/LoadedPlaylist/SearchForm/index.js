@@ -1,16 +1,26 @@
 import React, { PureComponent, useState } from 'react'
 import { Form as FinalForm, Field } from 'react-final-form'
-import { navigate } from '@reach/router'
-import { ReactComponent as SendLogo } from './send.svg'
+import { ReactComponent as SendIcon } from './send.svg'
+import { ReactComponent as LoadingGif } from 'App/Auth/Login/ripple.svg'
 import { validate } from './validate'
 import './SearchForm.scss'
 
-const SearchForm = ({ visible }) => {
+const SearchForm = ({ visible, onSubmit }) => {
   const [highlighted, toggleHighlight] = useState(false)
   const [valid, toggleValid] = useState(false)
+  const [loaded, toggleLoaded] = useState(true)
 
   const loadPlaylist = () =>
-    (highlighted || visible) && valid && navigate(`/playlist/${valid}`)
+    new Promise(resolve => {
+      if ((highlighted || visible) && valid) {
+        toggleLoaded(false)
+        setTimeout(async () => {
+          await onSubmit(valid)
+          toggleLoaded(true)
+          resolve()
+        }, 1000)
+      }
+    })
 
   return (
     <div className='playlist-search-form'>
@@ -25,6 +35,7 @@ const SearchForm = ({ visible }) => {
             visible={visible}
             valid={valid}
             toggleHighlight={b => toggleHighlight(b)}
+            loaded={loaded}
             loadPlaylist={loadPlaylist}
           />
         )}
@@ -48,17 +59,24 @@ class InputForm extends PureComponent {
       highlighted,
       visible,
       valid,
+      loaded,
       loadPlaylist
     } = this.props
 
-    const { handleSubmit, dirty } = formProps
+    const { dirty, form } = formProps
+
+    const onSubmit = async e => {
+      e.preventDefault()
+      await loadPlaylist()
+      form.reset()
+    }
 
     const labelClass = highlighted || visible ? 'focused' : ''
     const validClass = valid ? 'valid' : ''
     const invalidClass = !valid && dirty ? 'invalid' : ''
 
     return (
-      <form className='search-form' onSubmit={handleSubmit}>
+      <form className='search-form' onSubmit={onSubmit}>
         <div className='search-bar-container'>
           <div className='input-container'>
             <Field
@@ -82,15 +100,18 @@ class InputForm extends PureComponent {
               )}
             />
           </div>
-          <div className={`cta-container ${validClass}`} onClick={loadPlaylist}>
-            <SendLogo className='cta' />
+          <div className={`cta-container ${validClass}`} onClick={onSubmit}>
+            {loaded ? (
+              <SendIcon className='cta' />
+            ) : (
+              <LoadingGif className='loading' />
+            )}
           </div>
         </div>
 
         <div
           className={`form-footer-container ${highlighted &&
             validClass} ${invalidClass}`}
-          onClick={loadPlaylist}
         >
           <div className='footer-content'>
             {invalidClass ? "hmm, are you sure that's a real link?" : ''}

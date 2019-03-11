@@ -43,18 +43,13 @@ class Playlist extends Component {
     // Frequently check for the latest playback state
     setInterval(() => this.getPlayback(spotify), 1000)
 
-    this.setPlaylist(spotify, id)
+    this.setPlaylist(id)
   }
 
   async componentDidUpdate(prevProps) {
-    const {
-      state: { spotify }
-    } = this.context
     const { id } = this.props
     if (this.props.id !== prevProps.id) {
-      this.setState({ playlist: null })
-
-      this.setPlaylist(spotify, id)
+      this.setPlaylist(id)
     }
   }
 
@@ -62,10 +57,14 @@ class Playlist extends Component {
     window.removeEventListener('scroll', this.determineViewContext)
   }
 
-  setPlaylist = async (spotify, id) => {
+  setPlaylist = async id => {
+    const {
+      state: { spotify }
+    } = this.context
     const playlist = await this.getPlaylist(spotify, id)
     playlist.tracks.items = playlist.tracks.items.filter(t => t.track)
     this.setState({ playlist })
+    return
   }
 
   determineViewContext = () => {
@@ -165,8 +164,8 @@ class Playlist extends Component {
           <>
             <LoadedPlaylist
               location={location}
-              playlist={playlist}
               spotify={state.spotify}
+              playlist={playlist}
               playback={playback}
               isShuffleActive={playback.shuffle_state}
               currentTrackId={currentTrackId || ''}
