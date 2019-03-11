@@ -49,8 +49,6 @@ class Playlist extends Component {
   async componentDidUpdate(prevProps) {
     const { id } = this.props
     if (this.props.id !== prevProps.id) {
-      this.setState({ playlist: null })
-
       this.setPlaylist(id)
     }
   }
@@ -168,7 +166,6 @@ class Playlist extends Component {
               location={location}
               spotify={state.spotify}
               playlist={playlist}
-              setPlaylist={this.setPlaylist}
               playback={playback}
               isShuffleActive={playback.shuffle_state}
               currentTrackId={currentTrackId || ''}

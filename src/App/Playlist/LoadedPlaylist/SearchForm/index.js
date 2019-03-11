@@ -1,12 +1,11 @@
 import React, { PureComponent, useState } from 'react'
 import { Form as FinalForm, Field } from 'react-final-form'
-import { navigate } from '@reach/router'
 import { ReactComponent as SendIcon } from './send.svg'
 import { ReactComponent as LoadingGif } from 'App/Auth/Login/ripple.svg'
 import { validate } from './validate'
 import './SearchForm.scss'
 
-const SearchForm = ({ visible, onSubmitSuccess }) => {
+const SearchForm = ({ visible, onSubmit }) => {
   const [highlighted, toggleHighlight] = useState(false)
   const [valid, toggleValid] = useState(false)
   const [loaded, toggleLoaded] = useState(true)
@@ -16,7 +15,7 @@ const SearchForm = ({ visible, onSubmitSuccess }) => {
       if ((highlighted || visible) && valid) {
         toggleLoaded(false)
         setTimeout(async () => {
-          await onSubmitSuccess(valid)
+          await onSubmit(valid)
           toggleLoaded(true)
           resolve()
         }, 1000)

@@ -61,8 +61,8 @@ class LoadedPlaylist extends Component {
   toggleSidebarLock = () =>
     this.setState({ sidebarLocked: !this.state.sidebarLocked })
 
-  onSubmitSuccess = playlistId => {
-    this.props.setPlaylist(playlistId)
+  setNewPlaylist = id => {
+    navigate(`/playlist/${id}`)
     this.setState({
       searchActive: false,
       sidebarActive: this.state.sidebarLocked
@@ -122,10 +122,7 @@ class LoadedPlaylist extends Component {
           />
         </div>
         <div className='playlist-search-container' style={searchStyle}>
-          <SearchForm
-            visible={searchActive}
-            onSubmitSuccess={this.onSubmitSuccess}
-          />
+          <SearchForm visible={searchActive} onSubmit={this.setNewPlaylist} />
         </div>
         <div className='playlist-main-container' style={mainStyle}>
           <Main
