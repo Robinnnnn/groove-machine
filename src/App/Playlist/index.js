@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { SpotifyContext } from 'Contexts/index'
 import PageTitle from './PageTitle'
+import SpotifyConnect from './SpotifyConnect'
 import Loader from 'Elements/Loader'
 import LoadedPlaylist from './LoadedPlaylist'
 import ActiveTrackSeeker from './ActiveTrackSeeker'
@@ -63,6 +64,7 @@ class Playlist extends Component {
     } = this.context
     const playlist = await this.getPlaylist(spotify, id)
     playlist.tracks.items = playlist.tracks.items.filter(t => t.track)
+    console.log('retrieved playlist', playlist)
     this.setState({ playlist })
     return
   }
@@ -82,6 +84,7 @@ class Playlist extends Component {
 
   getPlayback = async spotify => {
     const playback = await spotify.getMyCurrentPlaybackState()
+    // console.log({ playback })
 
     // Handles race condition where async call returns an outdated track
     const { playback: statePlayback, activeTrack, isOverriding } = this.state
@@ -151,6 +154,7 @@ class Playlist extends Component {
     } = this.state
 
     const loaded = playlist && retrievedPlayback
+    const loadedWithoutPlayback = loaded && !playback
     const currentTrack = playback && playback.item
     const currentTrackId = currentTrack && currentTrack.id
     const currentTrackTitle = currentTrack && currentTrack.name
@@ -159,6 +163,14 @@ class Playlist extends Component {
     return (
       <div className='playlist-container'>
         <PageTitle title={currentTrackTitle} />
+
+        <SpotifyConnect />
+
+        {loadedWithoutPlayback && (
+          <div className='error-message'>
+            NO PLAYBACK DETECTED! PLEASE SELECT A DEVICE:
+          </div>
+        )}
 
         {loaded ? (
           <>
