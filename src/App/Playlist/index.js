@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { SpotifyContext } from 'Contexts/index'
 import PageTitle from './PageTitle'
-import SpotifyConnect from './SpotifyConnect'
 import Loader from 'Elements/Loader'
 import LoadedPlaylist from './LoadedPlaylist'
 import ActiveTrackSeeker from './ActiveTrackSeeker'
@@ -163,8 +162,6 @@ class Playlist extends Component {
     return (
       <div className='playlist-container'>
         <PageTitle title={currentTrackTitle} />
-
-        <SpotifyConnect />
 
         {loadedWithoutPlayback && (
           <div className='error-message'>

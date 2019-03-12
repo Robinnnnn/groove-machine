@@ -1,13 +1,48 @@
 import Spotify from 'spotify-web-api-js'
 
-// Creates a spotify client
-export const initSpotifyClient = ({ access_token, refresh_token }) => {
+const waitForSpotifyWebPlaybackSDK = () =>
+  new Promise(resolve => {
+    if (window.Spotify) resolve(window.Spotify)
+    else window.onSpotifyWebPlaybackSDKReady = () => resolve(window.Spotify)
+  })
+
+const handleWebAPI = (accessToken, refreshToken) => {
   const spotify = new Spotify()
-  if (access_token) {
-    spotify.setAccessToken(access_token)
+  if (accessToken) {
+    spotify.setAccessToken(accessToken)
     // Set token to refresh periodically
     const tenMinutes = 1000 * 60 * 10
-    setInterval(() => requestNewToken(refresh_token, spotify), tenMinutes)
+    setInterval(() => requestNewToken(refreshToken, spotify), tenMinutes)
+    return spotify
+  }
+  return null
+}
+
+const handleWebPlaybackSDK = async (spotify, accessToken, refreshToken) => {
+  // Programmatically load Connect SDK
+  const script = document.createElement('script')
+  script.src = 'https://sdk.scdn.co/spotify-player.js'
+  script.async = true
+  document.body.appendChild(script)
+
+  const { Player } = await waitForSpotifyWebPlaybackSDK()
+  const sdk = new Player({
+    name: 'GROOVE MACHINE 💖',
+    volume: 1.0,
+    getOAuthToken: callback => {
+      requestNewToken(refreshToken, spotify)
+      callback(accessToken)
+    }
+  })
+  const connected = await sdk.connect()
+  if (connected) console.log('Established connection with Web Playback SDK')
+}
+
+// Creates a spotify client
+export const initSpotifyClient = async ({ access_token, refresh_token }) => {
+  const spotify = await handleWebAPI(access_token, refresh_token)
+  if (spotify) {
+    await handleWebPlaybackSDK(spotify, access_token, refresh_token)
     return spotify
   }
   return null
