@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import { SpotifyContext } from 'Contexts/index'
 import Search from './SearchIcon'
 import MediaControls from './MediaControls'
+import Devices from './DevicesIcon'
 import Shuffle from './ShuffleIcon'
 import Lock from './LockIcon'
 import VerticalRule from './VerticalRule'
@@ -57,6 +58,7 @@ const Sidebar = ({
         progressMs={playback.progress_ms}
         controller={controller}
       />
+      <Devices />
       <Shuffle
         isShuffleActive={isShuffleActive}
         toggleSidebarShuffle={spotify.setShuffle}
