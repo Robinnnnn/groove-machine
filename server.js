@@ -49,15 +49,29 @@ app.get('/api/login', function(req, res) {
   const playlistId = req.query.playlist_id
   if (playlistId) res.cookie(playlistQueryKey, playlistId)
 
-  // your application requests authorization
-  const scope =
-    'user-read-private user-read-email user-read-birthdate user-read-playback-state user-modify-playback-state streaming'
+  // https://developer.spotify.com/documentation/general/guides/scopes
+  const scope = [
+    // for validating user's Premium subscription (https://github.com/spotify/web-playback-sdk/issues/11#issuecomment-362274430)
+    'user-read-email',
+    'user-read-birthdate',
+
+    // for accessig private playlists
+    'user-read-private',
+
+    // for displaying + controlling playback
+    'user-read-playback-state',
+    'user-modify-playback-state',
+
+    // for streaming directly from the browser
+    'streaming'
+  ]
+
   res.redirect(
     'https://accounts.spotify.com/authorize?' +
       querystring.stringify({
         response_type: 'code',
         client_id: clientId,
-        scope: scope,
+        scope: scope.join(' '),
         redirect_uri: `${baseurl}/api/oauth`,
         state: state
       })
