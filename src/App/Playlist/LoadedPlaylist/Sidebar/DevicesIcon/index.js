@@ -2,8 +2,10 @@ import React, { useState } from 'react'
 import { ReactComponent as DevicesIcon } from './devices.svg'
 import './Devices.scss'
 
-const Devices = ({ devices, activeDevice, selectDevice }) => {
+const Devices = ({ devices, selectDevice }) => {
   const [devicesIconActive, toggleDevicesIcon] = useState(false)
+
+  console.log(devices)
 
   const iconClass = devicesIconActive ? 'active' : ''
 

@@ -74,6 +74,7 @@ class LoadedPlaylist extends Component {
     // directly ingested further down via context
     const {
       spotify,
+      devices,
       playlist,
       playback,
       isShuffleActive,
@@ -112,6 +113,7 @@ class LoadedPlaylist extends Component {
             searchActive={searchActive}
             toggleSearch={this.toggleSearch}
             toggleSidebarLock={this.toggleSidebarLock}
+            devices={devices}
             playlist={playlist}
             playback={playback}
             isShuffleActive={isShuffleActive}

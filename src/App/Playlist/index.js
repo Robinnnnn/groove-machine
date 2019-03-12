@@ -44,6 +44,8 @@ class Playlist extends Component {
     setInterval(() => this.getPlayback(spotify), 1000)
 
     this.setPlaylist(id)
+
+    this.setDevices(spotify)
   }
 
   async componentDidUpdate(prevProps) {
@@ -55,30 +57,6 @@ class Playlist extends Component {
 
   componentWillUnmount() {
     window.removeEventListener('scroll', this.determineViewContext)
-  }
-
-  setPlaylist = async id => {
-    const {
-      state: { spotify }
-    } = this.context
-    const playlist = await this.getPlaylist(spotify, id)
-    playlist.tracks.items = playlist.tracks.items.filter(t => t.track)
-    console.log('retrieved playlist', playlist)
-    this.setState({ playlist })
-    return
-  }
-
-  determineViewContext = () => {
-    const {
-      state: { activeTrackNode }
-    } = this.context
-    if (activeTrackNode) {
-      const bounds = activeTrackNode.getBoundingClientRect()
-      let relativeTo = 'within'
-      if (bounds.top > window.innerHeight) relativeTo = 'below'
-      else if (bounds.bottom < 0) relativeTo = 'above'
-      this.setState({ activeTrackPosition: `${relativeTo}_viewport` })
-    }
   }
 
   getPlayback = async spotify => {
@@ -100,6 +78,35 @@ class Playlist extends Component {
 
   getPlaylist = async (spotify, playlistId) =>
     await spotify.getPlaylist(playlistId)
+
+  setPlaylist = async id => {
+    const {
+      state: { spotify }
+    } = this.context
+    const playlist = await this.getPlaylist(spotify, id)
+    playlist.tracks.items = playlist.tracks.items.filter(t => t.track)
+    console.log('retrieved playlist', playlist)
+    this.setState({ playlist })
+    return
+  }
+
+  setDevices = async spotify => {
+    const { devices } = await spotify.getMyDevices()
+    this.setState({ devices })
+  }
+
+  determineViewContext = () => {
+    const {
+      state: { activeTrackNode }
+    } = this.context
+    if (activeTrackNode) {
+      const bounds = activeTrackNode.getBoundingClientRect()
+      let relativeTo = 'within'
+      if (bounds.top > window.innerHeight) relativeTo = 'below'
+      else if (bounds.bottom < 0) relativeTo = 'above'
+      this.setState({ activeTrackPosition: `${relativeTo}_viewport` })
+    }
+  }
 
   // Allows instant UI response for active track display;
   // otherwise there would be an ugly delay between track
@@ -145,6 +152,7 @@ class Playlist extends Component {
     const { location } = this.props
     const {
       loaderMessage,
+      devices,
       playlist,
       playback,
       retrievedPlayback,
@@ -165,7 +173,8 @@ class Playlist extends Component {
 
         {loadedWithoutPlayback && (
           <div className='error-message'>
-            NO PLAYBACK DETECTED! PLEASE SELECT A DEVICE:
+            NO PLAYBACK DETECTED! PLEASE SELECT A DEVICE:{' '}
+            {devices.reduce((s, d) => `${s} | ${d.name}`, '')}
           </div>
         )}
 
@@ -174,6 +183,7 @@ class Playlist extends Component {
             <LoadedPlaylist
               location={location}
               spotify={state.spotify}
+              devices={devices}
               playlist={playlist}
               playback={playback}
               isShuffleActive={playback.shuffle_state}
