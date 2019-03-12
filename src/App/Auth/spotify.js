@@ -26,7 +26,8 @@ const handleWebPlaybackSDK = async (spotify, accessToken, refreshToken) => {
   document.body.appendChild(script)
 
   const { Player } = await waitForSpotifyWebPlaybackSDK()
-  const sdk = new Player({
+
+  const player = new Player({
     name: 'GROOVE MACHINE 💖',
     volume: 1.0,
     getOAuthToken: callback => {
@@ -34,18 +35,27 @@ const handleWebPlaybackSDK = async (spotify, accessToken, refreshToken) => {
       callback(accessToken)
     }
   })
-  const connected = await sdk.connect()
+
+  const connected = await player.connect()
   if (connected) console.log('Established connection with Web Playback SDK')
+
+  return new Promise(resolve => {
+    player.addListener('ready', ({ device_id }) => resolve(device_id))
+  })
 }
 
 // Creates a spotify client
 export const initSpotifyClient = async ({ access_token, refresh_token }) => {
   const spotify = await handleWebAPI(access_token, refresh_token)
   if (spotify) {
-    await handleWebPlaybackSDK(spotify, access_token, refresh_token)
-    return spotify
+    const deviceId = await handleWebPlaybackSDK(
+      spotify,
+      access_token,
+      refresh_token
+    )
+    return { spotify, deviceId }
   }
-  return null
+  return {}
 }
 
 // Retrieves a new access token using a refresh token

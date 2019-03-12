@@ -5,7 +5,7 @@ import './Devices.scss'
 const Devices = ({ devices, selectDevice }) => {
   const [devicesIconActive, toggleDevicesIcon] = useState(false)
 
-  console.log(devices)
+  // console.log(devices)
 
   const iconClass = devicesIconActive ? 'active' : ''
 

@@ -92,6 +92,18 @@ class Playlist extends Component {
 
   setDevices = async spotify => {
     const { devices } = await spotify.getMyDevices()
+    const noActiveDevice = !devices.reduce((v, d) => v || d.is_active, false)
+    // If no active device is detected, select the current browser by default
+    if (noActiveDevice) {
+      const {
+        state: { currentDeviceId }
+      } = this.context
+      console.log(
+        'No active device detected. Selecting current browser as active device.',
+        currentDeviceId
+      )
+      spotify.transferMyPlayback([currentDeviceId])
+    }
     this.setState({ devices })
   }
 
@@ -161,7 +173,6 @@ class Playlist extends Component {
     } = this.state
 
     const loaded = playlist && retrievedPlayback
-    const loadedWithoutPlayback = loaded && !playback
     const currentTrack = playback && playback.item
     const currentTrackId = currentTrack && currentTrack.id
     const currentTrackTitle = currentTrack && currentTrack.name
@@ -170,13 +181,6 @@ class Playlist extends Component {
     return (
       <div className='playlist-container'>
         <PageTitle title={currentTrackTitle} />
-
-        {loadedWithoutPlayback && (
-          <div className='error-message'>
-            NO PLAYBACK DETECTED! PLEASE SELECT A DEVICE:{' '}
-            {devices.reduce((s, d) => `${s} | ${d.name}`, '')}
-          </div>
-        )}
 
         {loaded ? (
           <>
