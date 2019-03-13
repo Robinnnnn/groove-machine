@@ -30,9 +30,9 @@ const handleWebPlaybackSDK = async (spotify, accessToken, refreshToken) => {
   const player = new Player({
     name: 'GROOVE MACHINE 💖',
     volume: 1.0,
-    getOAuthToken: callback => {
-      requestNewToken(refreshToken, spotify)
-      callback(accessToken)
+    getOAuthToken: async callback => {
+      const refreshedToken = await requestNewToken(refreshToken, spotify)
+      callback(refreshedToken)
     }
   })
 
