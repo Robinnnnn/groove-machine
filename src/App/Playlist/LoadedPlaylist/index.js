@@ -3,6 +3,7 @@ import { navigate } from '@reach/router'
 import queryString from 'query-string'
 import Sidebar from './Sidebar'
 import SearchForm from './SearchForm'
+import DevicesList from './DevicesList'
 import Main from './Main'
 import './LoadedPlaylist.scss'
 
@@ -100,6 +101,8 @@ class LoadedPlaylist extends Component {
       }px)`
     }
 
+    const devicesStyle = {}
+
     const vw = window.innerWidth / 100
     const tracklistDisplacement = searchActive
       ? Math.max(10 * vw * -1, (100 * vw - 740 - 40) * -1)
@@ -125,6 +128,9 @@ class LoadedPlaylist extends Component {
         </div>
         <div className='playlist-search-container' style={searchStyle}>
           <SearchForm visible={searchActive} onSubmit={this.setNewPlaylist} />
+        </div>
+        <div className='playlist-devices-container' style={devicesStyle}>
+          <DevicesList devices={devices} />
         </div>
         <div className='playlist-main-container' style={mainStyle}>
           <Main

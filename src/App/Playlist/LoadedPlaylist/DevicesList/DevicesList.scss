@@ -1,0 +1,56 @@
+@import 'styles/_colors.scss';
+
+.devices-list {
+  padding: 28px;
+  .device {
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding: 5px;
+    margin: 10px;
+    cursor: pointer;
+    .device-dot {
+      position: absolute;
+      width: 5px;
+      height: 5px;
+      left: -8px;
+      opacity: 0;
+      background: $blueberry;
+      border-radius: 100%;
+    }
+    .device-type {
+      height: 24px;
+      width: 24px;
+      padding-right: 8px;
+    }
+    .device-name {
+      font-family: 'Roboto Mono';
+    }
+
+    color: lighten(black, 50%);
+    .device-type {
+      fill: lighten(black, 50%);
+    }
+    &.inactive:hover {
+      color: darken($pink, 0%);
+      // background: black;
+      .device-dot {
+        opacity: 1;
+        background: darken($pink, 0%);
+      }
+      .device-type {
+        fill: darken($pink, 0%);
+      }
+    }
+    &.active {
+      color: $blackberry;
+      font-weight: 500;
+      .device-dot {
+        opacity: 1;
+      }
+      .device-type {
+        fill: darken($pink, 15%);
+      }
+    }
+  }
+}
