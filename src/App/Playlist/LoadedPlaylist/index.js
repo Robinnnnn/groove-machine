@@ -90,6 +90,7 @@ class LoadedPlaylist extends Component {
     const {
       spotify,
       devices,
+      setDevice,
       playlist,
       playback,
       isShuffleActive,
@@ -180,7 +181,11 @@ class LoadedPlaylist extends Component {
           <SearchForm visible={searchActive} onSubmit={this.setNewPlaylist} />
         </div>
         <div className='playlist-devices-container' style={devicesStyle}>
-          <DevicesList visible={devicesActive} devices={devices} />
+          <DevicesList
+            visible={devicesActive}
+            devices={devices}
+            setDevice={setDevice}
+          />
         </div>
         <div className='playlist-main-container' style={mainStyle}>
           <Main

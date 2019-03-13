@@ -22,12 +22,15 @@ const getDeviceIcon = name => {
   }
 }
 
-const DevicesList = ({ visible, devices }) => {
+const DevicesList = ({ visible, devices, setDevice }) => {
   const visibleClass = visible ? 'visible' : ''
   let colorIdx = 0
   const highlightColors = ['#ffdca2', '#f2a2f0', '#8cecee']
   const getHighlightColor = () =>
     highlightColors[colorIdx++ % highlightColors.length]
+  const handleDeviceSelection = id => {
+    setDevice(id)
+  }
 
   return (
     <>
@@ -39,7 +42,11 @@ const DevicesList = ({ visible, devices }) => {
             const DeviceType = getDeviceIcon(d.type)
             const activeClass = d.is_active ? 'active' : 'inactive'
             return (
-              <div className={`device ${activeClass}`} key={d.id}>
+              <div
+                className={`device ${activeClass}`}
+                key={d.id}
+                onClick={() => handleDeviceSelection(d.id)}
+              >
                 <div
                   className='highlighter'
                   style={{ background: !d.is_active && getHighlightColor() }}

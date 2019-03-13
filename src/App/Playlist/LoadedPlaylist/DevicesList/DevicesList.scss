@@ -51,6 +51,7 @@
       border-radius: 100%;
     }
     .device-type {
+      transition: 0.5s $transition-style;
       height: 24px;
       width: 24px;
       padding-right: 8px;

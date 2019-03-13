@@ -18,6 +18,7 @@ class Playlist extends Component {
 
   state = {
     loaderMessage: '',
+    devices: [],
     playlist: null,
     playback: null,
     retrievedPlayback: false,
@@ -45,7 +46,7 @@ class Playlist extends Component {
 
     this.setPlaylist(id)
 
-    this.setDevices(spotify)
+    this.setDeviceList(true)
   }
 
   async componentDidUpdate(prevProps) {
@@ -90,11 +91,38 @@ class Playlist extends Component {
     return
   }
 
-  setDevices = async spotify => {
+  setDevice = async deviceId => {
+    const { devices } = this.state
+    const {
+      state: { spotify }
+    } = this.context
+
+    // Instantly select device on client
+    const newDevices = devices.slice().map(d => {
+      const device = { ...d, is_active: false }
+      if (device.id === deviceId) device.is_active = true
+      return device
+    })
+    this.setState({ devices: newDevices })
+
+    console.log('Transferring playback', deviceId)
+    await spotify.transferMyPlayback([deviceId])
+
+    setTimeout(() => {
+      console.log('Fetching latest devices list')
+      this.setDeviceList(false)
+    }, 2000)
+  }
+
+  setDeviceList = async defaultSelect => {
+    const {
+      state: { spotify }
+    } = this.context
     const { devices } = await spotify.getMyDevices()
+    console.log('retrieved devices', devices)
     const noActiveDevice = !devices.reduce((v, d) => v || d.is_active, false)
     // If no active device is detected, select the current browser by default
-    if (noActiveDevice) {
+    if (noActiveDevice && defaultSelect) {
       const {
         state: { currentDeviceId }
       } = this.context
@@ -102,7 +130,7 @@ class Playlist extends Component {
         'No active device detected. Selecting current browser as active device.',
         currentDeviceId
       )
-      spotify.transferMyPlayback([currentDeviceId])
+      this.setDevice(currentDeviceId)
     }
     this.setState({ devices })
   }
@@ -188,6 +216,7 @@ class Playlist extends Component {
               location={location}
               spotify={state.spotify}
               devices={devices}
+              setDevice={this.setDevice}
               playlist={playlist}
               playback={playback}
               isShuffleActive={playback.shuffle_state}
