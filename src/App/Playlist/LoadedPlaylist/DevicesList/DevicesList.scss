@@ -1,4 +1,5 @@
 @import 'styles/_colors.scss';
+@import 'styles/_transitions.scss';
 
 .devices-list {
   padding: 28px;
@@ -9,6 +10,14 @@
     padding: 5px;
     margin: 10px;
     cursor: pointer;
+    .highlighter {
+      position: absolute;
+      height: 5px;
+      width: 0%;
+      background: darken($pink, 10%);
+      opacity: 0.4;
+      transition: 0.5s $transition-style;
+    }
     .device-dot {
       position: absolute;
       width: 5px;
@@ -32,14 +41,17 @@
       fill: lighten(black, 50%);
     }
     &.inactive:hover {
-      color: darken($pink, 0%);
+      color: $light-purple;
       // background: black;
+      .highlighter {
+        width: 100%;
+      }
       .device-dot {
-        opacity: 1;
-        background: darken($pink, 0%);
+        // opacity: 1;
+        // background: $quite-light-purple;
       }
       .device-type {
-        fill: darken($pink, 0%);
+        fill: lighten(black, 70%);
       }
     }
     &.active {

@@ -31,6 +31,7 @@ const DevicesList = ({ devices }) => (
         const activeClass = d.is_active ? 'active' : 'inactive'
         return (
           <div className={`device ${activeClass}`} key={d.id}>
+            <div className='highlighter' />
             <div className='device-dot' />
             <div className='device-type'>
               <DeviceType className='device-icon' />
