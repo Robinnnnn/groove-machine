@@ -12,7 +12,8 @@ class LoadedPlaylist extends Component {
     sidebarActive: false,
     sidebarWidth: 100,
     sidebarLocked: false,
-    searchActive: false
+    searchActive: false,
+    devicesActive: false
   }
 
   componentDidMount() {
@@ -62,6 +63,9 @@ class LoadedPlaylist extends Component {
   toggleSidebarLock = () =>
     this.setState({ sidebarLocked: !this.state.sidebarLocked })
 
+  toggleDevices = () =>
+    this.setState({ devicesActive: !this.state.devicesActive })
+
   setNewPlaylist = id => {
     navigate(`/playlist/${id}`)
     this.setState({
@@ -86,22 +90,33 @@ class LoadedPlaylist extends Component {
       markPaused,
       overrideActiveTrack
     } = this.props
-    const { sidebarActive, sidebarWidth, searchActive } = this.state
+    const {
+      sidebarActive,
+      sidebarWidth,
+      searchActive,
+      devicesActive
+    } = this.state
 
+    // Calculate openness based on certain factors
+    let openWidth = 0
+    let searchWidth = Math.min(window.innerWidth - sidebarWidth - 200, 640)
+    if (sidebarActive) openWidth += sidebarWidth
+    if (searchActive) openWidth += searchWidth
+
+    // Sidebar is either hidden or poking out by its own width;
+    // the +60 is for a parallax effect when it slides out
     const sidebarStyle = {
       transform: `translateX(${sidebarActive ? 0 : sidebarWidth * -1 + 60}px)`
     }
 
-    let searchWidth = Math.min(window.innerWidth - sidebarWidth - 200, 640)
-    const searchStyle = { width: searchWidth }
-
+    // The main view will be displaced by the total open width
     const mainStyle = {
-      transform: `translateX(${
-        sidebarActive ? sidebarWidth + (searchActive ? searchWidth : 0) : 0
-      }px)`
+      transform: `translateX(${openWidth}px)`
     }
 
-    const devicesStyle = {}
+    const searchStyle = { width: searchWidth }
+
+    const devicesStyle = { width: searchWidth }
 
     const vw = window.innerWidth / 100
     const tracklistDisplacement = searchActive
@@ -116,7 +131,7 @@ class LoadedPlaylist extends Component {
             searchActive={searchActive}
             toggleSearch={this.toggleSearch}
             toggleSidebarLock={this.toggleSidebarLock}
-            devices={devices}
+            toggleDevices={this.toggleDevices}
             playlist={playlist}
             playback={playback}
             isShuffleActive={isShuffleActive}
@@ -130,7 +145,7 @@ class LoadedPlaylist extends Component {
           <SearchForm visible={searchActive} onSubmit={this.setNewPlaylist} />
         </div>
         <div className='playlist-devices-container' style={devicesStyle}>
-          <DevicesList devices={devices} />
+          <DevicesList visible={devicesActive} devices={devices} />
         </div>
         <div className='playlist-main-container' style={mainStyle}>
           <Main

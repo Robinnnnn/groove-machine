@@ -22,25 +22,39 @@ const getDeviceIcon = name => {
   }
 }
 
-const DevicesList = ({ devices }) => (
-  <div className='devices-list'>
-    {devices
-      .sort((a, b) => (a.type < b.type ? -1 : a.type > b.type ? 1 : 0))
-      .map(d => {
-        const DeviceType = getDeviceIcon(d.type)
-        const activeClass = d.is_active ? 'active' : 'inactive'
-        return (
-          <div className={`device ${activeClass}`} key={d.id}>
-            <div className='highlighter' />
-            <div className='device-dot' />
-            <div className='device-type'>
-              <DeviceType className='device-icon' />
-            </div>
-            <div className='device-name'>{d.name}</div>
-          </div>
-        )
-      })}
-  </div>
-)
+const DevicesList = ({ visible, devices }) => {
+  const visibleClass = visible ? 'visible' : ''
+  let colorIdx = 0
+  const highlightColors = ['#ffdca2', '#f2a2f0', '#8cecee']
+  const getHighlightColor = () =>
+    highlightColors[colorIdx++ % highlightColors.length]
+
+  return (
+    <>
+      <div className={`devices-horizontal-rule ${visibleClass}`} />
+      <div className={`devices-list ${visibleClass}`}>
+        {devices
+          .sort((a, b) => (a.type < b.type ? -1 : a.type > b.type ? 1 : 0))
+          .map(d => {
+            const DeviceType = getDeviceIcon(d.type)
+            const activeClass = d.is_active ? 'active' : 'inactive'
+            return (
+              <div className={`device ${activeClass}`} key={d.id}>
+                <div
+                  className='highlighter'
+                  style={{ background: !d.is_active && getHighlightColor() }}
+                />
+                <div className='device-dot' />
+                <div className='device-type'>
+                  <DeviceType className='device-icon' />
+                </div>
+                <div className='device-name'>{d.name}</div>
+              </div>
+            )
+          })}
+      </div>
+    </>
+  )
+}
 
 export default DevicesList

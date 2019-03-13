@@ -13,8 +13,8 @@ const Sidebar = ({
   searchActive,
   toggleSearch,
   toggleSidebarLock,
+  toggleDevices,
   currentTrackId,
-  devices,
   playlist,
   playback,
   isShuffleActive,
@@ -55,11 +55,11 @@ const Sidebar = ({
         playlist={playlist}
         isPlaying={playback.is_playing}
         isShuffleActive={isShuffleActive}
-        currentTrackId={currentTrackId}
         progressMs={playback.progress_ms}
+        currentTrackId={currentTrackId}
         controller={controller}
       />
-      <Devices devices={devices} />
+      <Devices toggleDevices={toggleDevices} />
       <Shuffle
         isShuffleActive={isShuffleActive}
         toggleSidebarShuffle={spotify.setShuffle}
