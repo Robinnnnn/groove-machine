@@ -13,6 +13,7 @@ const Sidebar = ({
   searchActive,
   toggleSearch,
   toggleSidebarLock,
+  devicesActive,
   toggleDevices,
   currentTrackId,
   playlist,
@@ -65,7 +66,7 @@ const Sidebar = ({
         toggleSidebarShuffle={spotify.setShuffle}
       />
       <Lock toggleSidebarLock={toggleSidebarLock} />
-      <VerticalRule active={searchActive} />
+      <VerticalRule active={searchActive || devicesActive} />
     </div>
   )
 }
