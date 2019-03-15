@@ -3,7 +3,7 @@ import { navigate } from '@reach/router'
 import queryString from 'query-string'
 import Sidebar from './Sidebar'
 import SearchForm from './SearchForm'
-import DevicesList from './DevicesList'
+import Devices from './Devices'
 import Main from './Main'
 import './LoadedPlaylist.scss'
 
@@ -91,8 +91,6 @@ class LoadedPlaylist extends Component {
     // directly ingested further down via context
     const {
       spotify,
-      devices,
-      setDevice,
       playlist,
       playback,
       isShuffleActive,
@@ -183,11 +181,7 @@ class LoadedPlaylist extends Component {
           <SearchForm visible={searchActive} onSubmit={this.setNewPlaylist} />
         </div>
         <div className='playlist-devices-container' style={devicesStyle}>
-          <DevicesList
-            visible={devicesActive}
-            devices={devices}
-            setDevice={setDevice}
-          />
+          <Devices visible={devicesActive} />
         </div>
         <div className='playlist-main-container' style={mainStyle}>
           <Main

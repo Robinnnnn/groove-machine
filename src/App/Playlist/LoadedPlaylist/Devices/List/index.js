@@ -4,7 +4,7 @@ import { ReactComponent as Tablet } from './icons/tablet.svg'
 import { ReactComponent as Smartphone } from './icons/smartphone.svg'
 import { ReactComponent as TV } from './icons/tv.svg'
 import { ReactComponent as Speaker } from './icons/speaker.svg'
-import './DevicesList.scss'
+import './List.scss'
 
 const getDeviceIcon = name => {
   switch (name) {
@@ -22,15 +22,13 @@ const getDeviceIcon = name => {
   }
 }
 
-const DevicesList = ({ visible, devices, setDevice }) => {
+const List = ({ visible, devices, setDevice }) => {
   const visibleClass = visible ? 'visible' : ''
   let colorIdx = 0
   const highlightColors = ['#ffdca2', '#f2a2f0', '#8cecee']
   const getHighlightColor = () =>
     highlightColors[colorIdx++ % highlightColors.length]
-  const handleDeviceSelection = id => {
-    setDevice(id)
-  }
+  const handleDeviceSelection = id => setDevice(id)
 
   return (
     <>
@@ -64,4 +62,4 @@ const DevicesList = ({ visible, devices, setDevice }) => {
   )
 }
 
-export default DevicesList
+export default List

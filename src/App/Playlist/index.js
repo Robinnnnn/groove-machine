@@ -18,7 +18,6 @@ class Playlist extends Component {
 
   state = {
     loaderMessage: '',
-    devices: [],
     playlist: null,
     playback: null,
     retrievedPlayback: false,
@@ -45,8 +44,6 @@ class Playlist extends Component {
     setInterval(() => this.getPlayback(spotify), 1000)
 
     this.setPlaylist(id)
-
-    this.setDeviceList(true)
   }
 
   async componentDidUpdate(prevProps) {
@@ -89,50 +86,6 @@ class Playlist extends Component {
     console.log('retrieved playlist', playlist)
     this.setState({ playlist })
     return
-  }
-
-  setDevice = async deviceId => {
-    const { devices } = this.state
-    const {
-      state: { spotify }
-    } = this.context
-
-    // Instantly select device on client
-    const newDevices = devices.slice().map(d => {
-      const device = { ...d, is_active: false }
-      if (device.id === deviceId) device.is_active = true
-      return device
-    })
-    this.setState({ devices: newDevices })
-
-    console.log('Transferring playback', deviceId)
-    await spotify.transferMyPlayback([deviceId])
-
-    setTimeout(() => {
-      console.log('Fetching latest devices list')
-      this.setDeviceList(false)
-    }, 2000)
-  }
-
-  setDeviceList = async defaultSelect => {
-    const {
-      state: { spotify }
-    } = this.context
-    const { devices } = await spotify.getMyDevices()
-    console.log('retrieved devices', devices)
-    const noActiveDevice = !devices.reduce((v, d) => v || d.is_active, false)
-    // If no active device is detected, select the current browser by default
-    if (noActiveDevice && defaultSelect) {
-      const {
-        state: { currentDeviceId }
-      } = this.context
-      console.log(
-        'No active device detected. Selecting current browser as active device.',
-        currentDeviceId
-      )
-      this.setDevice(currentDeviceId)
-    }
-    this.setState({ devices })
   }
 
   determineViewContext = () => {
@@ -192,7 +145,6 @@ class Playlist extends Component {
     const { location } = this.props
     const {
       loaderMessage,
-      devices,
       playlist,
       playback,
       retrievedPlayback,
@@ -215,8 +167,6 @@ class Playlist extends Component {
             <LoadedPlaylist
               location={location}
               spotify={state.spotify}
-              devices={devices}
-              setDevice={this.setDevice}
               playlist={playlist}
               playback={playback}
               isShuffleActive={playback.shuffle_state}
