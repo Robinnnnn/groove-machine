@@ -57,31 +57,9 @@ class Playlist extends Component {
     window.removeEventListener('scroll', this.determineViewContext)
   }
 
-  setPlaylist = async id => {
-    const {
-      state: { spotify }
-    } = this.context
-    const playlist = await this.getPlaylist(spotify, id)
-    playlist.tracks.items = playlist.tracks.items.filter(t => t.track)
-    this.setState({ playlist })
-    return
-  }
-
-  determineViewContext = () => {
-    const {
-      state: { activeTrackNode }
-    } = this.context
-    if (activeTrackNode) {
-      const bounds = activeTrackNode.getBoundingClientRect()
-      let relativeTo = 'within'
-      if (bounds.top > window.innerHeight) relativeTo = 'below'
-      else if (bounds.bottom < 0) relativeTo = 'above'
-      this.setState({ activeTrackPosition: `${relativeTo}_viewport` })
-    }
-  }
-
   getPlayback = async spotify => {
     const playback = await spotify.getMyCurrentPlaybackState()
+    // console.log({ playback })
 
     // Handles race condition where async call returns an outdated track
     const { playback: statePlayback, activeTrack, isOverriding } = this.state
@@ -98,6 +76,30 @@ class Playlist extends Component {
 
   getPlaylist = async (spotify, playlistId) =>
     await spotify.getPlaylist(playlistId)
+
+  setPlaylist = async id => {
+    const {
+      state: { spotify }
+    } = this.context
+    const playlist = await this.getPlaylist(spotify, id)
+    playlist.tracks.items = playlist.tracks.items.filter(t => t.track)
+    console.log('retrieved playlist', playlist)
+    this.setState({ playlist })
+    return
+  }
+
+  determineViewContext = () => {
+    const {
+      state: { activeTrackNode }
+    } = this.context
+    if (activeTrackNode) {
+      const bounds = activeTrackNode.getBoundingClientRect()
+      let relativeTo = 'within'
+      if (bounds.top > window.innerHeight) relativeTo = 'below'
+      else if (bounds.bottom < 0) relativeTo = 'above'
+      this.setState({ activeTrackPosition: `${relativeTo}_viewport` })
+    }
+  }
 
   // Allows instant UI response for active track display;
   // otherwise there would be an ugly delay between track

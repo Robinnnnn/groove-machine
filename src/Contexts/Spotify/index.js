@@ -7,6 +7,7 @@ const SpotifyContext = createContext()
 const initialState = {
   ID: 'spotify',
   spotify: null,
+  currentDeviceId: '',
   aToken: '',
   rToken: '',
   lastTokenIssueTime: 0,
@@ -19,7 +20,8 @@ const reducer = (state, action) => {
     case 'initialize':
       return {
         ...state,
-        spotify: action.payload
+        spotify: action.payload.spotify,
+        currentDeviceId: action.payload.deviceId
       }
     case 'teardown':
       return initialState
