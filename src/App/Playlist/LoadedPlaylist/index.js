@@ -78,6 +78,7 @@ class LoadedPlaylist extends Component {
 
   setNewPlaylist = id => {
     navigate(`/playlist/${id}`)
+    window.scrollTo(0, 0)
     this.setState({
       searchActive: false,
       devicesActive: false,
