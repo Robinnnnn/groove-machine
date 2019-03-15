@@ -80,6 +80,7 @@ class LoadedPlaylist extends Component {
     navigate(`/playlist/${id}`)
     this.setState({
       searchActive: false,
+      devicesActive: false,
       sidebarActive: this.state.sidebarLocked
     })
   }

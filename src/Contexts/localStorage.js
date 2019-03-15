@@ -11,7 +11,7 @@ export const loadState = key => {
 }
 
 export const saveState = (key, state) => {
-  console.log('saving state', key, state)
+  // console.log('saving state', key, state)
   try {
     const serializedState = JSON.stringify(state)
     window.localStorage.setItem(key, serializedState)
