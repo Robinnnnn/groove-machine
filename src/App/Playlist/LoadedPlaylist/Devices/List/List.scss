@@ -21,10 +21,12 @@
   opacity: 0;
   pointer-events: none;
   transition: 0.5s $transition-style;
+  transform: translateX(-10px);
 
   &.visible {
     opacity: 1;
     pointer-events: all;
+    transform: translateX(30px);
   }
 
   .device {

@@ -6,13 +6,12 @@ import { validate } from './validate'
 import './SearchForm.scss'
 
 const SearchForm = ({ visible, onSubmit }) => {
-  const [highlighted, toggleHighlight] = useState(false)
   const [valid, toggleValid] = useState(false)
   const [loaded, toggleLoaded] = useState(true)
 
   const loadPlaylist = () =>
     new Promise(resolve => {
-      if ((highlighted || visible) && valid) {
+      if (visible && valid) {
         toggleLoaded(false)
         setTimeout(async () => {
           await onSubmit(valid)
@@ -31,10 +30,8 @@ const SearchForm = ({ visible, onSubmit }) => {
           <InputForm
             formProps={props}
             autocomplete={false}
-            highlighted={highlighted}
-            visible={visible}
+            highlighted={visible}
             valid={valid}
-            toggleHighlight={b => toggleHighlight(b)}
             loaded={loaded}
             loadPlaylist={loadPlaylist}
           />
@@ -47,21 +44,13 @@ const SearchForm = ({ visible, onSubmit }) => {
 class InputForm extends PureComponent {
   componentDidUpdate(prevProps) {
     // Autofocus if search bar is being opened
-    if (!prevProps.visible && this.props.visible) {
+    if (!prevProps.highlighted && this.props.highlighted) {
       this.textInput.focus()
     }
   }
 
   render() {
-    const {
-      formProps,
-      toggleHighlight,
-      highlighted,
-      visible,
-      valid,
-      loaded,
-      loadPlaylist
-    } = this.props
+    const { formProps, highlighted, valid, loaded, loadPlaylist } = this.props
 
     const { dirty, form } = formProps
 
@@ -71,7 +60,7 @@ class InputForm extends PureComponent {
       form.reset()
     }
 
-    const labelClass = highlighted || visible ? 'focused' : ''
+    const labelClass = highlighted ? 'focused' : ''
     const validClass = valid ? 'valid' : ''
     const invalidClass = !valid && dirty ? 'invalid' : ''
 
@@ -89,8 +78,6 @@ class InputForm extends PureComponent {
                     className='playlist-input'
                     placeholder='Paste a link to a Spotify playlist'
                     spellCheck={false}
-                    onFocus={() => toggleHighlight(true)}
-                    onBlur={() => !valid && toggleHighlight(false)}
                     {...input}
                   />
                   <label

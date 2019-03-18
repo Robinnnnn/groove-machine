@@ -8,6 +8,7 @@ class Devices extends Component {
 
   state = {
     devices: [],
+    activeDeviceId: null,
     intervalId: '',
     isOverriding: false
   }
@@ -31,37 +32,42 @@ class Devices extends Component {
     }
   }
 
-  setDevice = async deviceId => {
-    const { devices } = this.state
+  setDevice = async (deviceId, devices = this.state.devices) => {
     const {
       state: { spotify }
     } = this.context
+    const { activeDeviceId } = this.state
+
+    // Disable unnecessary server request
+    if (deviceId === activeDeviceId) return
 
     // Instantly select device on client
-    this.setState({ isOverriding: true })
     const newDevices = devices.slice().map(d => {
       const device = { ...d, is_active: false }
       if (device.id === deviceId) device.is_active = true
       return device
     })
-    this.setState({ devices: newDevices })
+    this.setState({
+      isOverriding: true,
+      devices: newDevices,
+      activeDeviceId: deviceId
+    })
 
     console.log('Transferring playback', deviceId)
     await spotify.transferMyPlayback([deviceId])
-
-    this.setState({ isOverriding: false })
   }
 
   setDeviceList = async defaultSelect => {
     const {
       state: { spotify }
     } = this.context
-    const { isOverriding } = this.state
+    const { isOverriding, activeDeviceId } = this.state
     const { devices } = await spotify.getMyDevices()
-    console.log('Retrieved devices', devices)
+    const activeDevice = devices.find(d => d.is_active)
+    const serverActiveDeviceId = activeDevice && activeDevice.id
 
     // Handle race condition where async call returns an outdated device
-    if (isOverriding) return
+    if (isOverriding && serverActiveDeviceId !== activeDeviceId) return
 
     const noActiveDevice = !devices.reduce((v, d) => v || d.is_active, false)
     // If no active device is detected, select the current browser by default
@@ -73,9 +79,13 @@ class Devices extends Component {
         'No active device detected. Selecting current browser as active device.',
         currentDeviceId
       )
-      this.setDevice(currentDeviceId)
+      this.setDevice(currentDeviceId, devices)
+      return
     }
-    this.setState({ devices })
+    this.setState({
+      devices,
+      activeDeviceId: serverActiveDeviceId
+    })
   }
 
   render() {

@@ -178,7 +178,10 @@ class LoadedPlaylist extends Component {
           />
         </div>
         <div className='playlist-search-container' style={searchStyle}>
-          <SearchForm visible={searchActive} onSubmit={this.setNewPlaylist} />
+          <SearchForm
+            visible={shouldFullyReveal}
+            onSubmit={this.setNewPlaylist}
+          />
         </div>
         <div className='playlist-devices-container' style={devicesStyle}>
           <Devices visible={devicesActive} />
