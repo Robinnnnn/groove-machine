@@ -1,19 +1,11 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { ReactComponent as DevicesIcon } from './devices.svg'
 import './Devices.scss'
 
-const Devices = ({ toggleDevices }) => {
-  const [devicesIconActive, toggleDevicesIcon] = useState(false)
-
-  const handleToggleDevices = () => {
-    toggleDevices()
-    toggleDevicesIcon(!devicesIconActive)
-  }
-
-  const iconClass = devicesIconActive ? 'active' : ''
-
+const Devices = ({ devicesActive, toggleDevices }) => {
+  const iconClass = devicesActive ? 'active' : ''
   return (
-    <div className='devices-icon-container' onClick={handleToggleDevices}>
+    <div className='devices-icon-container' onClick={toggleDevices}>
       <DevicesIcon className={`devices-icon ${iconClass}`} />
     </div>
   )

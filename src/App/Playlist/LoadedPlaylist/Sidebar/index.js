@@ -60,7 +60,7 @@ const Sidebar = ({
         currentTrackId={currentTrackId}
         controller={controller}
       />
-      <Devices toggleDevices={toggleDevices} />
+      <Devices devicesActive={devicesActive} toggleDevices={toggleDevices} />
       <Shuffle
         isShuffleActive={isShuffleActive}
         toggleSidebarShuffle={spotify.setShuffle}
