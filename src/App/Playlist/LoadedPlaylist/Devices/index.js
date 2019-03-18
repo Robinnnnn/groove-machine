@@ -32,11 +32,11 @@ class Devices extends Component {
     }
   }
 
-  setDevice = async deviceId => {
-    const { devices, activeDeviceId } = this.state
+  setDevice = async (deviceId, devices = this.state.devices) => {
     const {
       state: { spotify }
     } = this.context
+    const { activeDeviceId } = this.state
 
     // Disable unnecessary server request
     if (deviceId === activeDeviceId) return
@@ -79,7 +79,8 @@ class Devices extends Component {
         'No active device detected. Selecting current browser as active device.',
         currentDeviceId
       )
-      this.setDevice(currentDeviceId)
+      this.setDevice(currentDeviceId, devices)
+      return
     }
     this.setState({
       devices,
