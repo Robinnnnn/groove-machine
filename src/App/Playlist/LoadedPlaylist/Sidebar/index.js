@@ -3,9 +3,7 @@ import { SpotifyContext } from 'Contexts/index'
 import VerticalRule from './VerticalRule'
 import MediaControls from './MediaControls'
 import Search from './Icons/SearchIcon'
-import Devices from './Icons/DevicesIcon'
-import Shuffle from './Icons/ShuffleIcon'
-import Lock from './Icons/LockIcon'
+import Icons from './Icons'
 import './Sidebar.scss'
 
 const Sidebar = ({
@@ -52,6 +50,7 @@ const Sidebar = ({
   return (
     <div className='sidebar' style={{ width }}>
       <Search toggleSearch={toggleSearch} />
+
       <MediaControls
         playlist={playlist}
         isPlaying={playback.is_playing}
@@ -60,12 +59,15 @@ const Sidebar = ({
         currentTrackId={currentTrackId}
         controller={controller}
       />
-      <Devices devicesActive={devicesActive} toggleDevices={toggleDevices} />
-      <Shuffle
+
+      <Icons
+        devicesActive={devicesActive}
+        toggleDevices={toggleDevices}
         isShuffleActive={isShuffleActive}
-        toggleSidebarShuffle={spotify.setShuffle}
+        toggleShuffle={spotify.setShuffle}
+        toggleSidebarLock={toggleSidebarLock}
       />
-      <Lock toggleSidebarLock={toggleSidebarLock} />
+
       <VerticalRule active={searchActive || devicesActive} />
     </div>
   )

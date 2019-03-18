@@ -1,0 +1,16 @@
+@import 'styles/_transitions.scss';
+
+.logout-icon-container {
+  position: absolute;
+  bottom: 20px;
+  .logout-icon {
+    width: 24px;
+    height: 24px;
+    fill: #4d4d4d;
+    cursor: pointer;
+    transition: $track-transition;
+    &:hover {
+      transform: scale(1.06);
+    }
+  }
+}
