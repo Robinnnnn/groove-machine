@@ -1,11 +1,11 @@
 import React, { useContext } from 'react'
 import { SpotifyContext } from 'Contexts/index'
-import Search from './SearchIcon'
-import MediaControls from './MediaControls'
-import Devices from './DevicesIcon'
-import Shuffle from './ShuffleIcon'
-import Lock from './LockIcon'
 import VerticalRule from './VerticalRule'
+import MediaControls from './MediaControls'
+import Search from './Icons/SearchIcon'
+import Devices from './Icons/DevicesIcon'
+import Shuffle from './Icons/ShuffleIcon'
+import Lock from './Icons/LockIcon'
 import './Sidebar.scss'
 
 const Sidebar = ({
