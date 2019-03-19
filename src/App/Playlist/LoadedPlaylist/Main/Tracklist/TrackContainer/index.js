@@ -89,6 +89,19 @@ class TrackContainer extends Component {
     window.open(`https://google.com/search?q=${q}`, '_blank')
   }
 
+  getContributor = id => {
+    switch (id) {
+      case '125900943':
+        return 'MW'
+      case 'uplifted':
+        return 'RK'
+      case '1292416555':
+        return 'GS'
+      default:
+        return ''
+    }
+  }
+
   render() {
     const { isHovering } = this.state
     const { track, isPlaying, progressMs, contributor } = this.props
@@ -116,7 +129,7 @@ class TrackContainer extends Component {
 
         <MainInfo
           track={track}
-          contributor={contributor}
+          contributor={this.getContributor(contributor.id)}
           isPlaying={isPlaying}
           progressMs={progressMs}
         />

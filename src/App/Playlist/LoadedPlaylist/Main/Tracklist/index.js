@@ -58,7 +58,7 @@ const Tracklist = ({
                 track.id === (activeTrack && activeTrack.id)
               }
               progressMs={progressMs}
-              contributor={added_by.id === 'uplifted' ? 'R' : 'M'}
+              contributor={added_by}
               overrideActiveTrack={overrideActiveTrack}
               animatedLoadComplete={mounted}
             />
@@ -79,7 +79,7 @@ const Tracklist = ({
                 track.id === (activeTrack && activeTrack.id)
               }
               progressMs={progressMs}
-              contributor={added_by.id === 'uplifted' ? 'R' : 'M'}
+              contributor={added_by}
               overrideActiveTrack={overrideActiveTrack}
               animatedLoadComplete={mounted}
             />
