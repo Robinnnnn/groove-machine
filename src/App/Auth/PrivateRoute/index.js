@@ -39,12 +39,16 @@ class PrivateRoute extends Component {
     }
 
     // Use tokens to initialize spotify client using tokens
-    const { spotify, deviceId } = await initSpotifyClient(tokens)
+    const { spotify, deviceID, tokenIntervalID } = await initSpotifyClient(
+      tokens
+    )
+
     spotifyDispatch({
       type: 'initialize',
       payload: {
         spotify,
-        deviceId
+        currentDeviceID: deviceID,
+        tokenIntervalID
       }
     })
 
