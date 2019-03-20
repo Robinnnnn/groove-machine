@@ -12,18 +12,28 @@ const Icons = ({
   toggleShuffle,
   toggleSidebarLock
 }) => {
+  const icons = [
+    <Devices devicesActive={devicesActive} toggleDevices={toggleDevices} />,
+    <Shuffle
+      isShuffleActive={isShuffleActive}
+      toggleSidebarShuffle={toggleShuffle}
+    />,
+    <Lock toggleSidebarLock={toggleSidebarLock} />,
+    <Logout />
+  ]
   return (
     <div className='icons-container'>
-      {[
-        <Devices devicesActive={devicesActive} toggleDevices={toggleDevices} />,
-        <Shuffle
-          isShuffleActive={isShuffleActive}
-          toggleSidebarShuffle={toggleShuffle}
-        />,
-        <Lock toggleSidebarLock={toggleSidebarLock} />,
-        <Logout />
-      ].map(i => (
-        <div className='icon-container'>{i}</div>
+      {icons.map((icon, i) => (
+        <div
+          key={icon.key + i}
+          className='icon-container'
+          style={{
+            position: 'absolute',
+            bottom: `${50 * (icons.length - i) - 20}px`
+          }}
+        >
+          {icon}
+        </div>
       ))}
     </div>
   )

@@ -2,8 +2,6 @@
 @import 'styles/_colors.scss';
 
 .devices-icon-container {
-  position: absolute;
-  bottom: 100px;
   .devices-icon {
     transition: 0.15s $transition-style;
     width: 24px;
@@ -11,7 +9,6 @@
     cursor: pointer;
     fill: lighten(#000, 70%);
     &:hover {
-      transform: scale(1.06);
       fill: lighten(#000, 60%);
     }
     &.active {
