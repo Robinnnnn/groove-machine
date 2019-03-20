@@ -19,7 +19,8 @@ const Sidebar = ({
   isShuffleActive,
   overrideActiveTrack,
   markPlaying,
-  markPaused
+  markPaused,
+  logoutUser
 }) => {
   const context = useContext(SpotifyContext)
   const {
@@ -66,6 +67,7 @@ const Sidebar = ({
         isShuffleActive={isShuffleActive}
         toggleShuffle={spotify.setShuffle}
         toggleSidebarLock={toggleSidebarLock}
+        logoutUser={logoutUser}
       />
 
       <VerticalRule active={searchActive || devicesActive} />

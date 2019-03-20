@@ -99,7 +99,8 @@ class LoadedPlaylist extends Component {
       progressMs,
       markPlaying,
       markPaused,
-      overrideActiveTrack
+      overrideActiveTrack,
+      logoutUser
     } = this.props
     const {
       sidebarActive,
@@ -175,6 +176,7 @@ class LoadedPlaylist extends Component {
             overrideActiveTrack={overrideActiveTrack}
             markPlaying={markPlaying}
             markPaused={markPaused}
+            logoutUser={logoutUser}
           />
         </div>
         <div className='playlist-search-container' style={searchStyle}>

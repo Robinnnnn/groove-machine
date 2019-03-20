@@ -8,6 +8,7 @@ import ActiveTrackSeeker from './ActiveTrackSeeker'
 import getLoaderMessage from 'Elements/Loader/sillyExcuses'
 // import MediaPlayer from './MediaPlayer'
 import './Playlist.scss'
+import { navigate } from '@reach/router'
 
 class Playlist extends Component {
   static contextType = SpotifyContext
@@ -140,6 +141,10 @@ class Playlist extends Component {
     })
   }
 
+  logoutUser = () => {
+    navigate('/login')
+  }
+
   render() {
     const { state } = this.context
     const { location } = this.props
@@ -178,6 +183,7 @@ class Playlist extends Component {
               overrideActiveTrack={this.overrideActiveTrack}
               activeTrackPosition={activeTrackPosition}
               locateActiveTrack={state.scrollToActiveTrack}
+              logoutUser={this.logoutUser}
             />
             <ActiveTrackSeeker
               activeTrackPosition={activeTrackPosition}

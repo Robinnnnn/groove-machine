@@ -10,7 +10,8 @@ const Icons = ({
   toggleDevices,
   isShuffleActive,
   toggleShuffle,
-  toggleSidebarLock
+  toggleSidebarLock,
+  logoutUser
 }) => {
   const icons = [
     <Devices devicesActive={devicesActive} toggleDevices={toggleDevices} />,
@@ -19,8 +20,9 @@ const Icons = ({
       toggleSidebarShuffle={toggleShuffle}
     />,
     <Lock toggleSidebarLock={toggleSidebarLock} />,
-    <Logout />
+    <Logout logout={logoutUser} />
   ]
+
   return (
     <div className='icons-container'>
       {icons.map((icon, i) => (
