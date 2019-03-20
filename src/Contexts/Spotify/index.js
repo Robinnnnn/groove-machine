@@ -7,10 +7,11 @@ const SpotifyContext = createContext()
 const initialState = {
   ID: 'spotify',
   spotify: null,
-  currentDeviceId: '',
+  tokenIntervalID: '',
   aToken: '',
   rToken: '',
   lastTokenIssueTime: 0,
+  currentDeviceID: '',
   activeTrackNode: null,
   scrollToActiveTrack: () => {}
 }
@@ -20,10 +21,10 @@ const reducer = (state, action) => {
     case 'initialize':
       return {
         ...state,
-        spotify: action.payload.spotify,
-        currentDeviceId: action.payload.deviceId
+        ...action.payload
       }
     case 'teardown':
+      clearInterval(state.tokenIntervalID)
       return initialState
     case 'set_tokens':
       return {

@@ -5,8 +5,11 @@ import './Devices.scss'
 const Devices = ({ devicesActive, toggleDevices }) => {
   const iconClass = devicesActive ? 'active' : ''
   return (
-    <div className='devices-icon-container' onClick={toggleDevices}>
-      <DevicesIcon className={`devices-icon ${iconClass}`} />
+    <div
+      className='icon-content devices-icon-container'
+      onClick={toggleDevices}
+    >
+      <DevicesIcon className={`icon devices-icon ${iconClass}`} />
     </div>
   )
 }

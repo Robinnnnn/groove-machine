@@ -13,8 +13,11 @@ const Shuffle = ({ isShuffleActive, toggleSidebarShuffle }) => {
   const iconClass = shuffleActive ? 'active' : ''
 
   return (
-    <div className='shuffle-icon-container' onClick={toggleShuffle}>
-      <ShuffleIcon className={`shuffle-icon ${iconClass}`} />
+    <div
+      className='icon-content shuffle-icon-container'
+      onClick={toggleShuffle}
+    >
+      <ShuffleIcon className={`icon shuffle-icon ${iconClass}`} />
     </div>
   )
 }

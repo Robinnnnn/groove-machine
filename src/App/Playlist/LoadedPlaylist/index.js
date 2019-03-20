@@ -94,12 +94,13 @@ class LoadedPlaylist extends Component {
       playlist,
       playback,
       isShuffleActive,
-      currentTrackId,
+      currentTrackID,
       activeTrack,
       progressMs,
       markPlaying,
       markPaused,
-      overrideActiveTrack
+      overrideActiveTrack,
+      logoutUser
     } = this.props
     const {
       sidebarActive,
@@ -171,10 +172,11 @@ class LoadedPlaylist extends Component {
             playlist={playlist}
             playback={playback}
             isShuffleActive={isShuffleActive}
-            currentTrackId={currentTrackId}
+            currentTrackID={currentTrackID}
             overrideActiveTrack={overrideActiveTrack}
             markPlaying={markPlaying}
             markPaused={markPaused}
+            logoutUser={logoutUser}
           />
         </div>
         <div className='playlist-search-container' style={searchStyle}>
@@ -190,7 +192,7 @@ class LoadedPlaylist extends Component {
           <Main
             spotify={spotify}
             playlist={playlist}
-            currentTrackId={currentTrackId}
+            currentTrackID={currentTrackID}
             activeTrack={activeTrack}
             progressMs={progressMs}
             overrideActiveTrack={overrideActiveTrack}

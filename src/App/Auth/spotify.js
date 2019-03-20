@@ -12,8 +12,11 @@ const handleWebAPI = (accessToken, refreshToken) => {
     spotify.setAccessToken(accessToken)
     // Set token to refresh periodically
     const tenMinutes = 1000 * 60 * 10
-    setInterval(() => requestNewToken(refreshToken, spotify), tenMinutes)
-    return spotify
+    const _id = setInterval(
+      () => requestNewToken(refreshToken, spotify),
+      tenMinutes
+    )
+    return { spotify, tokenIntervalID: _id }
   }
   return null
 }
@@ -46,14 +49,17 @@ const handleWebPlaybackSDK = async (spotify, accessToken, refreshToken) => {
 
 // Creates a spotify client
 export const initSpotifyClient = async ({ access_token, refresh_token }) => {
-  const spotify = await handleWebAPI(access_token, refresh_token)
+  const { spotify, tokenIntervalID } = await handleWebAPI(
+    access_token,
+    refresh_token
+  )
   if (spotify) {
-    const deviceId = await handleWebPlaybackSDK(
+    const deviceID = await handleWebPlaybackSDK(
       spotify,
       access_token,
       refresh_token
     )
-    return { spotify, deviceId }
+    return { spotify, deviceID, tokenIntervalID }
   }
   return {}
 }

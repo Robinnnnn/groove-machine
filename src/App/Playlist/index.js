@@ -6,8 +6,8 @@ import Loader from 'Elements/Loader'
 import LoadedPlaylist from './LoadedPlaylist'
 import ActiveTrackSeeker from './ActiveTrackSeeker'
 import getLoaderMessage from 'Elements/Loader/sillyExcuses'
-// import MediaPlayer from './MediaPlayer'
 import './Playlist.scss'
+import { navigate } from '@reach/router'
 
 class Playlist extends Component {
   static contextType = SpotifyContext
@@ -21,6 +21,7 @@ class Playlist extends Component {
     playlist: null,
     playback: null,
     retrievedPlayback: false,
+    playbackListenerID: '',
     activeTrack: {},
     activeTrackPosition: '',
     isOverriding: false
@@ -41,7 +42,8 @@ class Playlist extends Component {
     this.setState({ spotify })
 
     // Frequently check for the latest playback state
-    setInterval(() => this.getPlayback(spotify), 1000)
+    const _id = setInterval(() => this.getPlayback(spotify), 1000)
+    this.setState({ playbackListenerID: _id })
 
     this.setPlaylist(id)
   }
@@ -54,6 +56,8 @@ class Playlist extends Component {
   }
 
   componentWillUnmount() {
+    const { playbackListenerID } = this.state
+    clearInterval(playbackListenerID)
     window.removeEventListener('scroll', this.determineViewContext)
   }
 
@@ -74,8 +78,8 @@ class Playlist extends Component {
     })
   }
 
-  getPlaylist = async (spotify, playlistId) =>
-    await spotify.getPlaylist(playlistId)
+  getPlaylist = async (spotify, playlistID) =>
+    await spotify.getPlaylist(playlistID)
 
   setPlaylist = async id => {
     const {
@@ -140,6 +144,12 @@ class Playlist extends Component {
     })
   }
 
+  logoutUser = async () => {
+    const { dispatch } = this.context
+    await navigate('/login')
+    dispatch({ type: 'teardown' })
+  }
+
   render() {
     const { state } = this.context
     const { location } = this.props
@@ -154,7 +164,7 @@ class Playlist extends Component {
 
     const loaded = playlist && retrievedPlayback
     const currentTrack = playback && playback.item
-    const currentTrackId = currentTrack && currentTrack.id
+    const currentTrackID = currentTrack && currentTrack.id
     const currentTrackTitle = currentTrack && currentTrack.name
     const progressMs = playback && playback.progress_ms
 
@@ -170,7 +180,7 @@ class Playlist extends Component {
               playlist={playlist}
               playback={playback}
               isShuffleActive={playback.shuffle_state}
-              currentTrackId={currentTrackId || ''}
+              currentTrackID={currentTrackID || ''}
               activeTrack={activeTrack}
               progressMs={progressMs}
               markPlaying={this.instaPlay}
@@ -178,6 +188,7 @@ class Playlist extends Component {
               overrideActiveTrack={this.overrideActiveTrack}
               activeTrackPosition={activeTrackPosition}
               locateActiveTrack={state.scrollToActiveTrack}
+              logoutUser={this.logoutUser}
             />
             <ActiveTrackSeeker
               activeTrackPosition={activeTrackPosition}

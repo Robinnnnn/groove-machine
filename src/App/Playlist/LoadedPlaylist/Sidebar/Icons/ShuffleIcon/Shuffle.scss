@@ -2,8 +2,6 @@
 @import 'styles/_colors.scss';
 
 .shuffle-icon-container {
-  position: absolute;
-  bottom: 60px;
   .shuffle-icon {
     transition: 0.15s $transition-style;
     width: 22px;
@@ -11,7 +9,6 @@
     cursor: pointer;
     stroke: lighten(#000, 70%);
     &:hover {
-      transform: scale(1.06);
       stroke: lighten(#000, 60%);
     }
     &.active {

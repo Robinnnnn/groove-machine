@@ -1,24 +1,18 @@
 @import 'styles/_transitions.scss';
 @import 'styles/_colors.scss';
 
-.lock-icon-container {
-  position: absolute;
-  bottom: 20px;
-  .lock-icon,
-  .unlocked-icon {
+.devices-icon-container {
+  .devices-icon {
     transition: 0.15s $transition-style;
+    width: 24px;
+    height: 24px;
     cursor: pointer;
-    &:hover {
-      transform: scale(1.06);
-    }
-  }
-  .lock-icon {
-    fill: $light-purple;
-  }
-  .unlocked-icon {
     fill: lighten(#000, 70%);
     &:hover {
       fill: lighten(#000, 60%);
+    }
+    &.active {
+      fill: $light-purple;
     }
   }
 }

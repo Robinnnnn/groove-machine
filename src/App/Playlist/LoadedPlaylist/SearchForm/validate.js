@@ -26,7 +26,7 @@ const isSpotifyUri = s => {
 
 // Validates a string to be a Spotify ID
 // Example: 5zwn4IStxMhOicloSwzvgx
-const isSpotifyId = s => {
+const isSpotifyID = s => {
   const rx = /^[a-zA-Z0-9]{22}$/i
   const match = rx.exec(s)
   return match && match[0]

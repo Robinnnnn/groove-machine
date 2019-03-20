@@ -1,11 +1,9 @@
 import React, { useContext } from 'react'
 import { SpotifyContext } from 'Contexts/index'
-import Search from './SearchIcon'
-import MediaControls from './MediaControls'
-import Devices from './DevicesIcon'
-import Shuffle from './ShuffleIcon'
-import Lock from './LockIcon'
 import VerticalRule from './VerticalRule'
+import MediaControls from './MediaControls'
+import Search from './Icons/SearchIcon'
+import Icons from './Icons'
 import './Sidebar.scss'
 
 const Sidebar = ({
@@ -15,13 +13,14 @@ const Sidebar = ({
   toggleSidebarLock,
   devicesActive,
   toggleDevices,
-  currentTrackId,
+  currentTrackID,
   playlist,
   playback,
   isShuffleActive,
   overrideActiveTrack,
   markPlaying,
-  markPaused
+  markPaused,
+  logoutUser
 }) => {
   const context = useContext(SpotifyContext)
   const {
@@ -52,20 +51,25 @@ const Sidebar = ({
   return (
     <div className='sidebar' style={{ width }}>
       <Search toggleSearch={toggleSearch} />
+
       <MediaControls
         playlist={playlist}
         isPlaying={playback.is_playing}
         isShuffleActive={isShuffleActive}
         progressMs={playback.progress_ms}
-        currentTrackId={currentTrackId}
+        currentTrackID={currentTrackID}
         controller={controller}
       />
-      <Devices devicesActive={devicesActive} toggleDevices={toggleDevices} />
-      <Shuffle
+
+      <Icons
+        devicesActive={devicesActive}
+        toggleDevices={toggleDevices}
         isShuffleActive={isShuffleActive}
-        toggleSidebarShuffle={spotify.setShuffle}
+        toggleShuffle={spotify.setShuffle}
+        toggleSidebarLock={toggleSidebarLock}
+        logoutUser={logoutUser}
       />
-      <Lock toggleSidebarLock={toggleSidebarLock} />
+
       <VerticalRule active={searchActive || devicesActive} />
     </div>
   )

@@ -1,6 +1,7 @@
 {
   "name": "spotify-playlist",
-  "version": "0.1.0",
+  "version": "0.0.1",
+  "license": "MIT",
   "private": true,
   "dependencies": {
     "@reach/router": "^1.2.1",
