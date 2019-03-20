@@ -6,7 +6,7 @@ import './Main.scss'
 const Main = ({
   spotify,
   playlist,
-  currentTrackId,
+  currentTrackID,
   activeTrack,
   progressMs,
   overrideActiveTrack,
@@ -18,7 +18,7 @@ const Main = ({
       <Tracklist
         spotify={spotify}
         playlist={playlist}
-        currentTrackId={currentTrackId || ''}
+        currentTrackID={currentTrackID || ''}
         activeTrack={activeTrack}
         progressMs={progressMs}
         overrideActiveTrack={overrideActiveTrack}

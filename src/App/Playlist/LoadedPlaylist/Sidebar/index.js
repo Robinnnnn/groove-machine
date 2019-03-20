@@ -13,7 +13,7 @@ const Sidebar = ({
   toggleSidebarLock,
   devicesActive,
   toggleDevices,
-  currentTrackId,
+  currentTrackID,
   playlist,
   playback,
   isShuffleActive,
@@ -57,7 +57,7 @@ const Sidebar = ({
         isPlaying={playback.is_playing}
         isShuffleActive={isShuffleActive}
         progressMs={playback.progress_ms}
-        currentTrackId={currentTrackId}
+        currentTrackID={currentTrackID}
         controller={controller}
       />
 

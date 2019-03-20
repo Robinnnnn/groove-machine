@@ -24,10 +24,10 @@ const getDeviceIcon = name => {
 
 const List = ({ visible, devices, setDevice }) => {
   const visibleClass = visible ? 'visible' : ''
-  let colorIdx = 0
+  let colorIDx = 0
   const highlightColors = ['#ffdca2', '#f2a2f0', '#8cecee']
   const getHighlightColor = () =>
-    highlightColors[colorIdx++ % highlightColors.length]
+    highlightColors[colorIDx++ % highlightColors.length]
   const handleDeviceSelection = id => setDevice(id)
 
   return (

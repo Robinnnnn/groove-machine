@@ -7,7 +7,7 @@ import './Tracklist.scss'
 const Tracklist = ({
   spotify,
   playlist,
-  currentTrackId,
+  currentTrackID,
   activeTrack,
   progressMs,
   overrideActiveTrack,
@@ -54,7 +54,7 @@ const Tracklist = ({
               playlistUri={playlist.uri}
               play={spotify.play}
               isPlaying={
-                track.id === currentTrackId ||
+                track.id === currentTrackID ||
                 track.id === (activeTrack && activeTrack.id)
               }
               progressMs={progressMs}
@@ -75,7 +75,7 @@ const Tracklist = ({
               playlistUri={playlist.uri}
               play={spotify.play}
               isPlaying={
-                track.id === currentTrackId ||
+                track.id === currentTrackID ||
                 track.id === (activeTrack && activeTrack.id)
               }
               progressMs={progressMs}
@@ -91,7 +91,7 @@ const Tracklist = ({
 Tracklist.propTypes = {
   spotify: PropTypes.shape({}).isRequired,
   playlist: PropTypes.shape({}).isRequired,
-  currentTrackId: PropTypes.string.isRequired,
+  currentTrackID: PropTypes.string.isRequired,
   activeTrack: PropTypes.shape({}).isRequired,
   progressMs: PropTypes.number.isRequired,
   overrideActiveTrack: PropTypes.func.isRequired

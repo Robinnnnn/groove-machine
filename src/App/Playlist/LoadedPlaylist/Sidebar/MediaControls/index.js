@@ -10,13 +10,13 @@ const Controls = ({
   playlist,
   isPlaying,
   isShuffleActive,
-  currentTrackId,
+  currentTrackID,
   progressMs,
   controller
 }) => {
   const tracks = playlist.tracks.items
   const currentTrackIndex = playlist.tracks.items.findIndex(
-    t => t.track.id === currentTrackId
+    t => t.track.id === currentTrackID
   )
 
   const handleSkip = async action => {
@@ -35,9 +35,9 @@ const Controls = ({
     await controller[action]()
     const _id = setInterval(async () => {
       const nextTrack = await controller.getCurrentTrackFromServer()
-      const nextTrackId = nextTrack.item.id
-      if (nextTrackId !== currentTrackId) {
-        const nextItem = tracks.find(t => t.track.id === nextTrackId)
+      const nextTrackID = nextTrack.item.id
+      if (nextTrackID !== currentTrackID) {
+        const nextItem = tracks.find(t => t.track.id === nextTrackID)
         controller.overrideActiveTrack(nextItem.track)
         clearInterval(_id)
       }
