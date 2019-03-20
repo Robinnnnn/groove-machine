@@ -3,7 +3,7 @@ export const validate = ({ playlist }) =>
   [
     isSpotifyUrl,
     isSpotifyUri,
-    isSpotifyId,
+    isSpotifyID,
     isValentinesPassword,
     isVIPPassword
   ].reduce((r, f) => r || f(playlist && playlist.trim()), false)
