@@ -1,9 +1,12 @@
 // Validates the input value to encapsulate a Spotify playlist
 export const validate = ({ playlist }) =>
-  [isSpotifyUrl, isSpotifyUri, isSpotifyID, isValentinesPassword].reduce(
-    (r, f) => r || f(playlist && playlist.trim()),
-    false
-  )
+  [
+    isSpotifyUrl,
+    isSpotifyUri,
+    isSpotifyId,
+    isValentinesPassword,
+    isVIPPassword
+  ].reduce((r, f) => r || f(playlist && playlist.trim()), false)
 
 // Validates a string to be a Spotify URL
 // Example: https://open.spotify.com/user/spotify/playlist/37i9dQZF1DXcBWIGoYBM5M?si=ra_1itFoTZehUBHH3-oz4g
@@ -34,4 +37,11 @@ const isValentinesPassword = s => {
   const rx = /^vday2019$/i
   const match = rx.exec(s)
   return match && '3a6kAci1fsVoCPJXltCvIv'
+}
+
+// Validates VIP easter egg
+const isVIPPassword = s => {
+  const rx = /^vip$/i
+  const match = rx.exec(s)
+  return match && '3ifHiGvR9LBYB6gtD9AvfL'
 }
