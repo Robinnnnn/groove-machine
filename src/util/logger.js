@@ -7,11 +7,12 @@ export const log = (type, ...messages) => {
     info: 'color: #353AD8',
     error: 'background: #e2312b; color: #ffffff'
   }
-  messages.forEach(m => {
-    if (typeof m === 'object') {
-      console.log(`%c[${ts}]`, style[type], ' ', m)
-      return
-    }
-    console.log(`%c[${ts}] ${m}`, style[type])
+  messages.forEach((m, i) => {
+    const indent = !i ? '' : ' '
+    const output =
+      typeof m === 'object'
+        ? [`%c[${ts}]`, style[type], indent, m]
+        : [`%c[${ts}] ${indent}${m}`, style[type]]
+    console.log(...output)
   })
 }
