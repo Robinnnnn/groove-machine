@@ -5,3 +5,5 @@ export const msToMinutesAndSeconds = ms => {
   const seconds = Math.floor((ms % 60000) / 1000).toFixed(0)
   return `${minutes}:${_appendLeadingZero(seconds)}`
 }
+
+export { log } from './logger'

@@ -1,4 +1,5 @@
 import Spotify from 'spotify-web-api-js'
+import { log } from 'util/index'
 
 const waitForSpotifyWebPlaybackSDK = () =>
   new Promise(resolve => {
@@ -40,7 +41,7 @@ const handleWebPlaybackSDK = async (spotify, accessToken, refreshToken) => {
   })
 
   const connected = await player.connect()
-  if (connected) console.log('Established connection with Web Playback SDK')
+  if (connected) log('info', 'established connection with web playback sdk')
 
   return new Promise(resolve => {
     player.addListener('ready', ({ device_id }) => resolve(device_id))
@@ -71,6 +72,6 @@ export const requestNewToken = async (refreshToken, spotify) => {
   const json = await res.json()
   const aToken = json.access_token
   spotify.setAccessToken(aToken)
-  console.log('refreshed the user token!')
+  log('info', 'refreshed user token')
   return aToken
 }

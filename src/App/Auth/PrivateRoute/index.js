@@ -4,6 +4,7 @@ import Loader from 'Elements/Loader'
 import getLoaderMessage from 'Elements/Loader/sillyExcuses'
 import { ConsumerContainer } from 'Contexts/index'
 import { initSpotifyClient, requestNewToken } from '../spotify'
+import { log } from 'util/index'
 
 const PrivateRouteContainer = props => (
   <ConsumerContainer child={PrivateRoute} {...props} />
@@ -58,10 +59,10 @@ class PrivateRoute extends Component {
     // Get user metadata
     try {
       const user = await spotify.getMe()
-      console.log('authed from private route!', { spotify, user })
+      log('info', 'authenticated from private route', { spotify, user })
       userDispatch({ type: 'login', payload: user })
     } catch (e) {
-      console.log('Error retrieving user data', e.response)
+      log('error', 'error retrieving user data', e.message)
       return this.kickUser()
     }
 
@@ -95,7 +96,7 @@ class PrivateRoute extends Component {
     const tenMinutes = 1000 * 60 * 10
     const tokenIsOld = now - lastTokenIssueTime > tenMinutes
     if (tokenIsOld) {
-      console.log('token needs a refresh!')
+      log('info', 'token is old; attempting refresh')
       const newToken = await requestNewToken(rToken, spotify)
       spotifyDispatch({
         type: 'set_refreshed_token',

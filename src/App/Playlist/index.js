@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { navigate } from '@reach/router'
 import { SpotifyContext } from 'Contexts/index'
+import { log } from 'util/index'
 import PageTitle from './PageTitle'
 import Loader from 'Elements/Loader'
 import LoadedPlaylist from './LoadedPlaylist'
 import ActiveTrackSeeker from './ActiveTrackSeeker'
 import getLoaderMessage from 'Elements/Loader/sillyExcuses'
 import './Playlist.scss'
-import { navigate } from '@reach/router'
 
 class Playlist extends Component {
   static contextType = SpotifyContext
@@ -63,7 +64,7 @@ class Playlist extends Component {
 
   getPlayback = async spotify => {
     const playback = await spotify.getMyCurrentPlaybackState()
-    // console.log({ playback })
+    // log('trace', playback)
 
     // Handles race condition where async call returns an outdated track
     const { playback: statePlayback, activeTrack, isOverriding } = this.state
@@ -87,7 +88,7 @@ class Playlist extends Component {
     } = this.context
     const playlist = await this.getPlaylist(spotify, id)
     playlist.tracks.items = playlist.tracks.items.filter(t => t.track)
-    console.log('retrieved playlist', playlist)
+    log('info', `retrieved playlist: ${playlist.id}`, playlist)
     this.setState({ playlist })
     return
   }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { SpotifyContext } from 'Contexts/index'
+import { log } from 'util/index'
 import AlbumCover from './AlbumCover'
 import MainInfo from './MainInfo'
 import ProgressBar from './ProgressBar'
@@ -32,10 +33,16 @@ class TrackContainer extends Component {
 
   handleCurrentlyPlayingTrack = () => {
     const { registeredCurrentlyPlayingTrack } = this.state
-    const { isPlaying, animatedLoadComplete } = this.props
+    const { track, isPlaying, animatedLoadComplete } = this.props
     const { dispatch } = this.context
     if (!registeredCurrentlyPlayingTrack && isPlaying && animatedLoadComplete) {
-      console.log('NOW PLAYING', this.props.track.name)
+      log(
+        'trace',
+        `now playing: ${track.name}`,
+        `id: ${track.id}`,
+        `artist: ${track.artists[0].name}`,
+        `album: ${track.album.name}`
+      )
       // Must register that the track is being played on this
       // component's state as to not overload SpotifyContext
       // with a stream of `dispatch` calls.

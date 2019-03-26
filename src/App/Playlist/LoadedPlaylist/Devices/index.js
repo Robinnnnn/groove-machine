@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { SpotifyContext } from 'Contexts/index'
+import { log } from 'util/index'
 import List from './List'
 import './Devices.scss'
 
@@ -53,7 +54,7 @@ class Devices extends Component {
       activeDeviceID: deviceID
     })
 
-    console.log('Transferring playback', deviceID)
+    log('info', `transferring playback: ${deviceID}`)
     await spotify.transferMyPlayback([deviceID])
   }
 
@@ -75,9 +76,9 @@ class Devices extends Component {
       const {
         state: { currentDeviceID }
       } = this.context
-      console.log(
-        'No active device detected. Selecting current browser as active device.',
-        currentDeviceID
+      log(
+        'info',
+        `no active device detected. Selecting current browser as active device: ${currentDeviceID}`
       )
       this.setDevice(currentDeviceID, devices)
       return
