@@ -5,7 +5,6 @@ import Sidebar from './Sidebar'
 import SearchForm from './SearchForm'
 import Devices from './Devices'
 import Main from './Main'
-import { activateKeyboardControls, removeKeyboardControls } from './keyboard'
 import './LoadedPlaylist.scss'
 
 class LoadedPlaylist extends Component {
@@ -27,8 +26,7 @@ class LoadedPlaylist extends Component {
 
   componentDidMount() {
     const {
-      location: { search },
-      spotify
+      location: { search }
     } = this.props
     const params = queryString.parse(search)
     if (params.search === 'true') {
@@ -39,12 +37,10 @@ class LoadedPlaylist extends Component {
       return
     }
     document.addEventListener('mousemove', this.determineSidebarDisplay)
-    activateKeyboardControls(spotify)
   }
 
   componentWillUnmount() {
     document.removeEventListener('mousemove', this.determineSidebarDisplay)
-    removeKeyboardControls()
   }
 
   determineSidebarDisplay = e => {

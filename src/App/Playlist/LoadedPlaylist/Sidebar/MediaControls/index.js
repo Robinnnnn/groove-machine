@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import Controls from './Controls'
 import './Controls.scss'
@@ -45,20 +45,31 @@ const ControlsContainer = ({
 
   const handleNext = () => handleSkip('next')
 
-  const play = () => {
+  const togglePlayPause = () => {
+    if (isPlaying) {
+      controller.overrideUIPaused()
+      controller.pause()
+      return
+    }
     controller.overrideUIPlaying()
     controller.play()
   }
 
-  const pause = () => {
-    controller.overrideUIPaused()
-    controller.pause()
+  const onKeyDown = e => {
+    e.preventDefault()
+    if (e.key === ' ') togglePlayPause()
+    if (e.metaKey) {
+      if (e.key === 'ArrowUp') handlePrevious()
+      if (e.key === 'ArrowDown') handleNext()
+    }
   }
 
-  const togglePlayPause = () => {
-    if (isPlaying) return pause()
-    return play()
-  }
+  useEffect(() => {
+    // Since we are identifying the callback function by name,
+    // the event will not register multiple times
+    document.addEventListener('keydown', onKeyDown)
+    return () => document.removeEventListener('keydown', onKeyDown)
+  })
 
   return (
     <Controls
