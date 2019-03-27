@@ -10,7 +10,7 @@ const Tracklist = ({
   currentTrackID,
   activeTrack,
   progressMs,
-  overrideActiveTrack,
+  overrideUIActiveTrack,
   tracklistDisplacement
 }) => {
   const [mounted, set] = useState(false)
@@ -59,7 +59,7 @@ const Tracklist = ({
               }
               progressMs={progressMs}
               contributor={added_by}
-              overrideActiveTrack={overrideActiveTrack}
+              overrideUIActiveTrack={overrideUIActiveTrack}
               animatedLoadComplete={mounted}
             />
           </animated.div>
@@ -80,7 +80,7 @@ const Tracklist = ({
               }
               progressMs={progressMs}
               contributor={added_by}
-              overrideActiveTrack={overrideActiveTrack}
+              overrideUIActiveTrack={overrideUIActiveTrack}
               animatedLoadComplete={mounted}
             />
           ))}
@@ -94,7 +94,7 @@ Tracklist.propTypes = {
   currentTrackID: PropTypes.string.isRequired,
   activeTrack: PropTypes.shape({}).isRequired,
   progressMs: PropTypes.number.isRequired,
-  overrideActiveTrack: PropTypes.func.isRequired
+  overrideUIActiveTrack: PropTypes.func.isRequired
 }
 
 export default Tracklist

@@ -17,9 +17,9 @@ const Sidebar = ({
   playlist,
   playback,
   isShuffleActive,
-  overrideActiveTrack,
-  markPlaying,
-  markPaused,
+  overrideUIActiveTrack,
+  overrideUIPlaying,
+  overrideUIPaused,
   logoutUser
 }) => {
   const context = useContext(SpotifyContext)
@@ -27,25 +27,19 @@ const Sidebar = ({
     state: { spotify }
   } = context
 
-  const controlPlay = () => {
-    markPlaying()
-    spotify.play()
-  }
-
-  const controlPause = () => {
-    markPaused()
-    spotify.pause()
-  }
-
   const controller = {
-    play: controlPlay,
-    pause: controlPause,
+    // spotify controls
+    play: spotify.play,
+    pause: spotify.pause,
     seek: spotify.seek,
     previous: spotify.skipToPrevious,
     next: spotify.skipToNext,
+    getCurrentTrackFromServer: spotify.getMyCurrentPlayingTrack,
 
-    overrideActiveTrack,
-    getCurrentTrackFromServer: spotify.getMyCurrentPlayingTrack
+    // native UI controls
+    overrideUIPlaying,
+    overrideUIPaused,
+    overrideUIActiveTrack
   }
 
   return (

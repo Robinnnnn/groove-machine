@@ -25,7 +25,7 @@ const Controls = ({
       controller[action]()
       const nextIndex = currentTrackIndex + (action === 'next' ? 1 : -1)
       const { track: nextTrack } = tracks.find((_, i) => i === nextIndex)
-      return controller.overrideActiveTrack(nextTrack)
+      return controller.overrideUIActiveTrack(nextTrack)
     }
 
     // Otherwise, we need to immediately start polling for the next track data as
@@ -38,7 +38,7 @@ const Controls = ({
       const nextTrackID = nextTrack.item.id
       if (nextTrackID !== currentTrackID) {
         const nextItem = tracks.find(t => t.track.id === nextTrackID)
-        controller.overrideActiveTrack(nextItem.track)
+        controller.overrideUIActiveTrack(nextItem.track)
         clearInterval(_id)
       }
     }, 100)
@@ -48,9 +48,19 @@ const Controls = ({
 
   const handleNext = () => handleSkip('next')
 
+  const play = () => {
+    controller.overrideUIPlaying()
+    controller.play()
+  }
+
+  const pause = () => {
+    controller.overrideUIPaused()
+    controller.pause()
+  }
+
   const togglePlayPause = () => {
-    if (isPlaying) return controller.pause()
-    return controller.play()
+    if (isPlaying) return pause()
+    return play()
   }
 
   const playButtonClass = isPlaying ? 'pressed' : ''
@@ -91,7 +101,10 @@ Controls.propTypes = {
     seek: PropTypes.func.isRequired,
     previous: PropTypes.func.isRequired,
     next: PropTypes.func.isRequired,
-    overrideActiveTrack: PropTypes.func.isRequired,
+
+    overrideUIPlaying: PropTypes.func.isRequired,
+    overrideUIPaused: PropTypes.func.isRequired,
+    overrideUIActiveTrack: PropTypes.func.isRequired,
     getCurrentTrackFromServer: PropTypes.func.isRequired
   }).isRequired
 }

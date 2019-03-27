@@ -109,7 +109,7 @@ class Playlist extends Component {
   // Allows instant UI response for active track display;
   // otherwise there would be an ugly delay between track
   // selection and visual activation
-  overrideActiveTrack = track => {
+  overrideUIActiveTrack = track => {
     const { playback } = this.state
     this.setState({
       playback: {
@@ -184,9 +184,9 @@ class Playlist extends Component {
               currentTrackID={currentTrackID || ''}
               activeTrack={activeTrack}
               progressMs={progressMs}
-              markPlaying={this.instaPlay}
-              markPaused={this.instaPause}
-              overrideActiveTrack={this.overrideActiveTrack}
+              overrideUIPlaying={this.instaPlay}
+              overrideUIPaused={this.instaPause}
+              overrideUIActiveTrack={this.overrideUIActiveTrack}
               activeTrackPosition={activeTrackPosition}
               locateActiveTrack={state.scrollToActiveTrack}
               logoutUser={this.logoutUser}

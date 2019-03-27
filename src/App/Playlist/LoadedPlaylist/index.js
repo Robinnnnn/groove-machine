@@ -5,6 +5,7 @@ import Sidebar from './Sidebar'
 import SearchForm from './SearchForm'
 import Devices from './Devices'
 import Main from './Main'
+import { activateKeyboardControls, removeKeyboardControls } from './keyboard'
 import './LoadedPlaylist.scss'
 
 class LoadedPlaylist extends Component {
@@ -26,7 +27,8 @@ class LoadedPlaylist extends Component {
 
   componentDidMount() {
     const {
-      location: { search }
+      location: { search },
+      spotify
     } = this.props
     const params = queryString.parse(search)
     if (params.search === 'true') {
@@ -37,10 +39,12 @@ class LoadedPlaylist extends Component {
       return
     }
     document.addEventListener('mousemove', this.determineSidebarDisplay)
+    activateKeyboardControls(spotify)
   }
 
   componentWillUnmount() {
     document.removeEventListener('mousemove', this.determineSidebarDisplay)
+    removeKeyboardControls()
   }
 
   determineSidebarDisplay = e => {
@@ -97,9 +101,9 @@ class LoadedPlaylist extends Component {
       currentTrackID,
       activeTrack,
       progressMs,
-      markPlaying,
-      markPaused,
-      overrideActiveTrack,
+      overrideUIPlaying,
+      overrideUIPaused,
+      overrideUIActiveTrack,
       logoutUser
     } = this.props
     const {
@@ -173,9 +177,9 @@ class LoadedPlaylist extends Component {
             playback={playback}
             isShuffleActive={isShuffleActive}
             currentTrackID={currentTrackID}
-            overrideActiveTrack={overrideActiveTrack}
-            markPlaying={markPlaying}
-            markPaused={markPaused}
+            overrideUIActiveTrack={overrideUIActiveTrack}
+            overrideUIPlaying={overrideUIPlaying}
+            overrideUIPaused={overrideUIPaused}
             logoutUser={logoutUser}
           />
         </div>
@@ -195,7 +199,7 @@ class LoadedPlaylist extends Component {
             currentTrackID={currentTrackID}
             activeTrack={activeTrack}
             progressMs={progressMs}
-            overrideActiveTrack={overrideActiveTrack}
+            overrideUIActiveTrack={overrideUIActiveTrack}
             tracklistDisplacement={tracklistDisplacement}
           />
         </div>
