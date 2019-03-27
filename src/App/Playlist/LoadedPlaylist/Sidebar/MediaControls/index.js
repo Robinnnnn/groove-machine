@@ -1,12 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { ReactComponent as BackLogo } from './icons/up2.svg'
-import { ReactComponent as NextLogo } from './icons/down2.svg'
-import { ReactComponent as PlayLogo } from './icons/play2.svg'
-import { ReactComponent as PauseLogo } from './icons/pause2.svg'
+import Controls from './Controls'
 import './Controls.scss'
 
-const Controls = ({
+const ControlsContainer = ({
   playlist,
   isPlaying,
   isShuffleActive,
@@ -63,36 +60,17 @@ const Controls = ({
     return play()
   }
 
-  const playButtonClass = isPlaying ? 'pressed' : ''
-
   return (
-    <div className='controls-container'>
-      <div className='previous-container'>
-        <BackLogo
-          // NOTE : seek feature has a delayed UI response, just use handlePrevious for now
-          // onClick={() => (progressMs > 3000 ? seek(0) : handlePrevious())}
-          onClick={handlePrevious}
-          className='previous-icon'
-        />
-      </div>
-      <div
-        className={`play-pause-container ${playButtonClass}`}
-        onClick={togglePlayPause}
-      >
-        {isPlaying ? (
-          <PauseLogo className='pause-icon' />
-        ) : (
-          <PlayLogo className='play-icon' />
-        )}
-      </div>
-      <div className='next-container'>
-        <NextLogo onClick={handleNext} className='next-icon' />
-      </div>
-    </div>
+    <Controls
+      isPlaying={isPlaying}
+      togglePlayPause={togglePlayPause}
+      playPrevious={handlePrevious}
+      playNext={handleNext}
+    />
   )
 }
 
-Controls.propTypes = {
+ControlsContainer.propTypes = {
   isPlaying: PropTypes.bool.isRequired,
   progressMs: PropTypes.number.isRequired,
   controller: PropTypes.shape({
@@ -101,12 +79,11 @@ Controls.propTypes = {
     seek: PropTypes.func.isRequired,
     previous: PropTypes.func.isRequired,
     next: PropTypes.func.isRequired,
-
+    getCurrentTrackFromServer: PropTypes.func.isRequired,
     overrideUIPlaying: PropTypes.func.isRequired,
     overrideUIPaused: PropTypes.func.isRequired,
-    overrideUIActiveTrack: PropTypes.func.isRequired,
-    getCurrentTrackFromServer: PropTypes.func.isRequired
+    overrideUIActiveTrack: PropTypes.func.isRequired
   }).isRequired
 }
 
-export default Controls
+export default ControlsContainer
