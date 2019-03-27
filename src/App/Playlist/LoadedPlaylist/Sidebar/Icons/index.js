@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Devices from './DevicesIcon'
 import Shuffle from './ShuffleIcon'
 import Lock from './LockIcon'
@@ -10,6 +10,7 @@ const Icons = ({
   toggleDevices,
   isShuffleActive,
   toggleShuffle,
+  sidebarLocked,
   toggleSidebarLock,
   logoutUser
 }) => {
@@ -19,9 +20,26 @@ const Icons = ({
       isShuffleActive={isShuffleActive}
       toggleSidebarShuffle={toggleShuffle}
     />,
-    <Lock toggleSidebarLock={toggleSidebarLock} />,
+    <Lock
+      sidebarLocked={sidebarLocked}
+      toggleSidebarLock={toggleSidebarLock}
+    />,
     <Logout logout={logoutUser} />
   ]
+
+  const onKeydown = e => {
+    e.preventDefault()
+    console.log(e.key)
+    if (e.key === 'l') toggleSidebarLock()
+    // if (e.key === ' ') togglePlayPause()
+  }
+
+  useEffect(() => {
+    // Since we are identifying the callback function by name,
+    // the event will not register multiple times
+    document.addEventListener('keydown', onKeydown)
+    return () => document.removeEventListener('keydown', onKeydown)
+  })
 
   return (
     <div className='icons-container'>

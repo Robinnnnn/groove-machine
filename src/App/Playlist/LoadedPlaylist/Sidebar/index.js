@@ -10,6 +10,7 @@ const Sidebar = ({
   width,
   searchActive,
   toggleSearch,
+  sidebarLocked,
   toggleSidebarLock,
   devicesActive,
   toggleDevices,
@@ -60,6 +61,7 @@ const Sidebar = ({
         toggleDevices={toggleDevices}
         isShuffleActive={isShuffleActive}
         toggleShuffle={spotify.setShuffle}
+        sidebarLocked={sidebarLocked}
         toggleSidebarLock={toggleSidebarLock}
         logoutUser={logoutUser}
       />

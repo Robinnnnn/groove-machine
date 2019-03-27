@@ -104,6 +104,7 @@ class LoadedPlaylist extends Component {
     } = this.props
     const {
       sidebarActive,
+      sidebarLocked,
       searchActive,
       devicesActive,
       sidebarWidth,
@@ -166,6 +167,7 @@ class LoadedPlaylist extends Component {
             width={sidebarWidth}
             searchActive={searchActive}
             toggleSearch={this.toggleSearch}
+            sidebarLocked={sidebarLocked}
             toggleSidebarLock={this.toggleSidebarLock}
             devicesActive={devicesActive}
             toggleDevices={this.toggleDevices}

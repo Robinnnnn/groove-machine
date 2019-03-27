@@ -1,17 +1,13 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { ReactComponent as ShuffleIcon } from './shuffle.svg'
 import './Shuffle.scss'
 
+// TODO : the UI does not update automatically. there may have to be a
+// `overrideShuffle` handler higher up the chain that produces immediate
+// UI response
 const Shuffle = ({ isShuffleActive, toggleSidebarShuffle }) => {
-  const [shuffleActive, toggleShuffleIcon] = useState(isShuffleActive)
-
-  const toggleShuffle = () => {
-    toggleShuffleIcon(!shuffleActive)
-    toggleSidebarShuffle(!shuffleActive)
-  }
-
-  const iconClass = shuffleActive ? 'active' : ''
-
+  const iconClass = isShuffleActive ? 'active' : ''
+  const toggleShuffle = () => toggleSidebarShuffle(!isShuffleActive)
   return (
     <div
       className='icon-content shuffle-icon-container'

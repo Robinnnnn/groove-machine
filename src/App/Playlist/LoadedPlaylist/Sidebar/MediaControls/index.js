@@ -55,7 +55,7 @@ const ControlsContainer = ({
     controller.play()
   }
 
-  const onKeyDown = e => {
+  const onKeydown = e => {
     e.preventDefault()
     if (e.key === ' ') togglePlayPause()
     if (e.metaKey) {
@@ -67,8 +67,8 @@ const ControlsContainer = ({
   useEffect(() => {
     // Since we are identifying the callback function by name,
     // the event will not register multiple times
-    document.addEventListener('keydown', onKeyDown)
-    return () => document.removeEventListener('keydown', onKeyDown)
+    document.addEventListener('keydown', onKeydown)
+    return () => document.removeEventListener('keydown', onKeydown)
   })
 
   return (
