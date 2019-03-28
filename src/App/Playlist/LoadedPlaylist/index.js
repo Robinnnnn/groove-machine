@@ -113,23 +113,24 @@ class LoadedPlaylist extends Component {
           if (sidebarActive && !searchActive)
             this.setState({ sidebarActive: false, sidebarLocked: false })
           break
-        case actions.devices:
-          if (!sidebarActive)
-            this.setState({ sidebarActive: true, sidebarLocked: true })
-          this.toggleDevices()
-          break
         default:
           return
       }
     }
     if (e.altKey) {
       const actions = {
+        devices: 68,
         shuffle: 83,
         locate: 70
       }
       const key = e.keyCode
       if (Object.values(actions).includes(key)) e.preventDefault()
       switch (key) {
+        case actions.devices:
+          if (!sidebarActive)
+            this.setState({ sidebarActive: true, sidebarLocked: true })
+          this.toggleDevices()
+          break
         case actions.shuffle:
           overrideUIShuffle()
           break
