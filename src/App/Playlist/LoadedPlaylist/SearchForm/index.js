@@ -43,9 +43,15 @@ const SearchForm = ({ visible, onSubmit }) => {
 
 class InputForm extends PureComponent {
   componentDidUpdate(prevProps) {
+    const { highlighted, formProps } = this.props
     // Autofocus if search bar is being opened
-    if (!prevProps.highlighted && this.props.highlighted) {
+    if (!prevProps.highlighted && highlighted) {
       this.textInput.focus()
+    }
+    // Blur if being closed
+    if (prevProps.highlighted && !highlighted) {
+      this.textInput.blur()
+      formProps.form.reset()
     }
   }
 
