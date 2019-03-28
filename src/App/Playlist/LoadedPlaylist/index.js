@@ -88,16 +88,17 @@ class LoadedPlaylist extends Component {
   }
 
   onKeydown = e => {
-    if (e.metaKey) {
+    if (e.metaKey || e.altKey) {
       const { sidebarActive, searchActive, devicesActive } = this.state
       const keyboardActions = {
-        open: 'arrowright',
-        close: 'arrowleft',
-        devices: 'd'
+        open: 39,
+        close: 37,
+        devices: 68,
+        shuffle: 83
       }
-      const key = e.key.toLowerCase()
+      const key = e.keyCode
       if (Object.values(keyboardActions).includes(key)) e.preventDefault()
-      switch (key.toLowerCase()) {
+      switch (key) {
         case keyboardActions.open:
           if (!sidebarActive && !searchActive)
             this.setState({ sidebarActive: true, sidebarLocked: true })
@@ -116,6 +117,9 @@ class LoadedPlaylist extends Component {
           if (!sidebarActive)
             this.setState({ sidebarActive: true, sidebarLocked: true })
           this.toggleDevices()
+          break
+        case keyboardActions.shuffle:
+          this.props.overrideUIShuffle()
           break
         default:
           return

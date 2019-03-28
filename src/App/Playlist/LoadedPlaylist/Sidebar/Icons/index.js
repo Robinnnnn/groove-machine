@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import Devices from './DevicesIcon'
 import Shuffle from './ShuffleIcon'
 import Lock from './LockIcon'
@@ -10,18 +10,13 @@ const Icons = ({
   toggleDevices,
   isShuffleActive,
   toggleShuffle,
-  overrideUIShuffle,
   sidebarLocked,
   toggleSidebarLock,
   logoutUser
 }) => {
   const icons = [
     <Devices devicesActive={devicesActive} toggleDevices={toggleDevices} />,
-    <Shuffle
-      isShuffleActive={isShuffleActive}
-      toggleShuffle={toggleShuffle}
-      overrideUIShuffle={overrideUIShuffle}
-    />,
+    <Shuffle isShuffleActive={isShuffleActive} toggleShuffle={toggleShuffle} />,
     <Lock
       sidebarLocked={sidebarLocked}
       toggleSidebarLock={toggleSidebarLock}

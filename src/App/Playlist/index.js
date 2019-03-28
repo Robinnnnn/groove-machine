@@ -95,6 +95,15 @@ class Playlist extends Component {
     return
   }
 
+  toggleShuffle = () => {
+    const {
+      state: { spotify }
+    } = this.context
+    const { playback } = this.state
+    spotify.setShuffle(!playback.shuffle_state)
+    this.overrideUIShuffle()
+  }
+
   determineViewContext = () => {
     const {
       state: { activeTrackNode }
@@ -200,7 +209,7 @@ class Playlist extends Component {
               overrideUIActiveTrack={this.overrideUIActiveTrack}
               overrideUIPlaying={this.overrideUIPlaying}
               overrideUIPaused={this.overrideUIPaused}
-              overrideUIShuffle={this.overrideUIShuffle}
+              overrideUIShuffle={this.toggleShuffle}
               activeTrackPosition={activeTrackPosition}
               locateActiveTrack={state.scrollToActiveTrack}
               logoutUser={this.logoutUser}
