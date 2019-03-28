@@ -90,11 +90,13 @@ class LoadedPlaylist extends Component {
   onKeydown = e => {
     if (e.metaKey || e.altKey) {
       const { sidebarActive, searchActive, devicesActive } = this.state
+      const { overrideUIShuffle, locateActiveTrack } = this.props
       const keyboardActions = {
         open: 39,
         close: 37,
         devices: 68,
-        shuffle: 83
+        shuffle: 83,
+        locate: 70
       }
       const key = e.keyCode
       if (Object.values(keyboardActions).includes(key)) e.preventDefault()
@@ -119,7 +121,10 @@ class LoadedPlaylist extends Component {
           this.toggleDevices()
           break
         case keyboardActions.shuffle:
-          this.props.overrideUIShuffle()
+          overrideUIShuffle()
+          break
+        case keyboardActions.locate:
+          locateActiveTrack()
           break
         default:
           return
