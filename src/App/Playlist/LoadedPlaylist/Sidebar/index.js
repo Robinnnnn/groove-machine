@@ -21,6 +21,7 @@ const Sidebar = ({
   overrideUIActiveTrack,
   overrideUIPlaying,
   overrideUIPaused,
+  overrideUIShuffle,
   logoutUser
 }) => {
   const context = useContext(SpotifyContext)
@@ -61,6 +62,7 @@ const Sidebar = ({
         toggleDevices={toggleDevices}
         isShuffleActive={isShuffleActive}
         toggleShuffle={spotify.setShuffle}
+        overrideUIShuffle={overrideUIShuffle}
         sidebarLocked={sidebarLocked}
         toggleSidebarLock={toggleSidebarLock}
         logoutUser={logoutUser}

@@ -70,6 +70,8 @@ class Playlist extends Component {
     const { playback: statePlayback, activeTrack, isOverriding } = this.state
     if (isOverriding && activeTrack.id !== playback.item.id) return
     if (isOverriding && statePlayback.is_playing !== playback.is_playing) return
+    if (isOverriding && statePlayback.shuffle_state !== playback.shuffle_state)
+      return
 
     this.setState({
       playback,
@@ -123,7 +125,7 @@ class Playlist extends Component {
     })
   }
 
-  instaPlay = () => {
+  overrideUIPlaying = () => {
     const { playback } = this.state
     this.setState({
       playback: {
@@ -134,12 +136,23 @@ class Playlist extends Component {
     })
   }
 
-  instaPause = () => {
+  overrideUIPaused = () => {
     const { playback } = this.state
     this.setState({
       playback: {
         ...playback,
         is_playing: false
+      },
+      isOverriding: true
+    })
+  }
+
+  overrideUIShuffle = () => {
+    const { playback } = this.state
+    this.setState({
+      playback: {
+        ...playback,
+        shuffle_state: !playback.shuffle_state
       },
       isOverriding: true
     })
@@ -184,9 +197,10 @@ class Playlist extends Component {
               currentTrackID={currentTrackID || ''}
               activeTrack={activeTrack}
               progressMs={progressMs}
-              overrideUIPlaying={this.instaPlay}
-              overrideUIPaused={this.instaPause}
               overrideUIActiveTrack={this.overrideUIActiveTrack}
+              overrideUIPlaying={this.overrideUIPlaying}
+              overrideUIPaused={this.overrideUIPaused}
+              overrideUIShuffle={this.overrideUIShuffle}
               activeTrackPosition={activeTrackPosition}
               locateActiveTrack={state.scrollToActiveTrack}
               logoutUser={this.logoutUser}

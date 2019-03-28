@@ -134,9 +134,10 @@ class LoadedPlaylist extends Component {
       currentTrackID,
       activeTrack,
       progressMs,
+      overrideUIActiveTrack,
       overrideUIPlaying,
       overrideUIPaused,
-      overrideUIActiveTrack,
+      overrideUIShuffle,
       logoutUser
     } = this.props
     const {
@@ -215,6 +216,7 @@ class LoadedPlaylist extends Component {
             overrideUIActiveTrack={overrideUIActiveTrack}
             overrideUIPlaying={overrideUIPlaying}
             overrideUIPaused={overrideUIPaused}
+            overrideUIShuffle={overrideUIShuffle}
             logoutUser={logoutUser}
           />
         </div>

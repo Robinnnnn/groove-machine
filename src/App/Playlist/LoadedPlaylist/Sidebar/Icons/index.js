@@ -10,6 +10,7 @@ const Icons = ({
   toggleDevices,
   isShuffleActive,
   toggleShuffle,
+  overrideUIShuffle,
   sidebarLocked,
   toggleSidebarLock,
   logoutUser
@@ -18,7 +19,8 @@ const Icons = ({
     <Devices devicesActive={devicesActive} toggleDevices={toggleDevices} />,
     <Shuffle
       isShuffleActive={isShuffleActive}
-      toggleSidebarShuffle={toggleShuffle}
+      toggleShuffle={toggleShuffle}
+      overrideUIShuffle={overrideUIShuffle}
     />,
     <Lock
       sidebarLocked={sidebarLocked}
