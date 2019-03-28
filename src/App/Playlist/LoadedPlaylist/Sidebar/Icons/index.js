@@ -10,16 +10,17 @@ const Icons = ({
   toggleDevices,
   isShuffleActive,
   toggleShuffle,
+  sidebarLocked,
   toggleSidebarLock,
   logoutUser
 }) => {
   const icons = [
     <Devices devicesActive={devicesActive} toggleDevices={toggleDevices} />,
-    <Shuffle
-      isShuffleActive={isShuffleActive}
-      toggleSidebarShuffle={toggleShuffle}
+    <Shuffle isShuffleActive={isShuffleActive} toggleShuffle={toggleShuffle} />,
+    <Lock
+      sidebarLocked={sidebarLocked}
+      toggleSidebarLock={toggleSidebarLock}
     />,
-    <Lock toggleSidebarLock={toggleSidebarLock} />,
     <Logout logout={logoutUser} />
   ]
 

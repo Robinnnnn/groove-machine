@@ -1,12 +1,9 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { ReactComponent as BackLogo } from './icons/up2.svg'
-import { ReactComponent as NextLogo } from './icons/down2.svg'
-import { ReactComponent as PlayLogo } from './icons/play2.svg'
-import { ReactComponent as PauseLogo } from './icons/pause2.svg'
+import Controls from './Controls'
 import './Controls.scss'
 
-const Controls = ({
+const ControlsContainer = ({
   playlist,
   isPlaying,
   isShuffleActive,
@@ -25,7 +22,7 @@ const Controls = ({
       controller[action]()
       const nextIndex = currentTrackIndex + (action === 'next' ? 1 : -1)
       const { track: nextTrack } = tracks.find((_, i) => i === nextIndex)
-      return controller.overrideActiveTrack(nextTrack)
+      return controller.overrideUIActiveTrack(nextTrack)
     }
 
     // Otherwise, we need to immediately start polling for the next track data as
@@ -38,7 +35,7 @@ const Controls = ({
       const nextTrackID = nextTrack.item.id
       if (nextTrackID !== currentTrackID) {
         const nextItem = tracks.find(t => t.track.id === nextTrackID)
-        controller.overrideActiveTrack(nextItem.track)
+        controller.overrideUIActiveTrack(nextItem.track)
         clearInterval(_id)
       }
     }, 100)
@@ -49,40 +46,50 @@ const Controls = ({
   const handleNext = () => handleSkip('next')
 
   const togglePlayPause = () => {
-    if (isPlaying) return controller.pause()
-    return controller.play()
+    if (isPlaying) {
+      controller.overrideUIPaused()
+      controller.pause()
+      return
+    }
+    controller.overrideUIPlaying()
+    controller.play()
   }
 
-  const playButtonClass = isPlaying ? 'pressed' : ''
+  const onKeydown = e => {
+    if (e.key === ' ') {
+      e.preventDefault()
+      togglePlayPause()
+    }
+    if (e.metaKey) {
+      if (e.key === 'ArrowUp') {
+        e.preventDefault()
+        handlePrevious()
+      }
+      if (e.key === 'ArrowDown') {
+        e.preventDefault()
+        handleNext()
+      }
+    }
+  }
+
+  useEffect(() => {
+    // Since we are identifying the callback function by name,
+    // the event will not register multiple times
+    document.addEventListener('keydown', onKeydown)
+    return () => document.removeEventListener('keydown', onKeydown)
+  })
 
   return (
-    <div className='controls-container'>
-      <div className='previous-container'>
-        <BackLogo
-          // NOTE : seek feature has a delayed UI response, just use handlePrevious for now
-          // onClick={() => (progressMs > 3000 ? seek(0) : handlePrevious())}
-          onClick={handlePrevious}
-          className='previous-icon'
-        />
-      </div>
-      <div
-        className={`play-pause-container ${playButtonClass}`}
-        onClick={togglePlayPause}
-      >
-        {isPlaying ? (
-          <PauseLogo className='pause-icon' />
-        ) : (
-          <PlayLogo className='play-icon' />
-        )}
-      </div>
-      <div className='next-container'>
-        <NextLogo onClick={handleNext} className='next-icon' />
-      </div>
-    </div>
+    <Controls
+      isPlaying={isPlaying}
+      togglePlayPause={togglePlayPause}
+      playPrevious={handlePrevious}
+      playNext={handleNext}
+    />
   )
 }
 
-Controls.propTypes = {
+ControlsContainer.propTypes = {
   isPlaying: PropTypes.bool.isRequired,
   progressMs: PropTypes.number.isRequired,
   controller: PropTypes.shape({
@@ -91,9 +98,11 @@ Controls.propTypes = {
     seek: PropTypes.func.isRequired,
     previous: PropTypes.func.isRequired,
     next: PropTypes.func.isRequired,
-    overrideActiveTrack: PropTypes.func.isRequired,
-    getCurrentTrackFromServer: PropTypes.func.isRequired
+    getCurrentTrackFromServer: PropTypes.func.isRequired,
+    overrideUIPlaying: PropTypes.func.isRequired,
+    overrideUIPaused: PropTypes.func.isRequired,
+    overrideUIActiveTrack: PropTypes.func.isRequired
   }).isRequired
 }
 
-export default Controls
+export default ControlsContainer

@@ -17,7 +17,7 @@ class TrackContainer extends Component {
     isPlaying: PropTypes.bool.isRequired,
     progressMs: PropTypes.number,
     contributor: PropTypes.string.isRequired,
-    overrideActiveTrack: PropTypes.func.isRequired,
+    overrideUIActiveTrack: PropTypes.func.isRequired,
     animatedLoadComplete: PropTypes.bool.isRequired
   }
 
@@ -64,9 +64,9 @@ class TrackContainer extends Component {
   onMouseLeave = () => this.setState({ isHovering: false })
 
   playTrack = () => {
-    const { track, playlistUri, play, overrideActiveTrack } = this.props
+    const { track, playlistUri, play, overrideUIActiveTrack } = this.props
 
-    overrideActiveTrack(track)
+    overrideUIActiveTrack(track)
 
     const options = {
       context_uri: playlistUri,

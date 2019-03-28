@@ -70,6 +70,8 @@ class Playlist extends Component {
     const { playback: statePlayback, activeTrack, isOverriding } = this.state
     if (isOverriding && activeTrack.id !== playback.item.id) return
     if (isOverriding && statePlayback.is_playing !== playback.is_playing) return
+    if (isOverriding && statePlayback.shuffle_state !== playback.shuffle_state)
+      return
 
     this.setState({
       playback,
@@ -93,6 +95,15 @@ class Playlist extends Component {
     return
   }
 
+  toggleShuffle = () => {
+    const {
+      state: { spotify }
+    } = this.context
+    const { playback } = this.state
+    spotify.setShuffle(!playback.shuffle_state)
+    this.overrideUIShuffle()
+  }
+
   determineViewContext = () => {
     const {
       state: { activeTrackNode }
@@ -109,7 +120,7 @@ class Playlist extends Component {
   // Allows instant UI response for active track display;
   // otherwise there would be an ugly delay between track
   // selection and visual activation
-  overrideActiveTrack = track => {
+  overrideUIActiveTrack = track => {
     const { playback } = this.state
     this.setState({
       playback: {
@@ -123,7 +134,7 @@ class Playlist extends Component {
     })
   }
 
-  instaPlay = () => {
+  overrideUIPlaying = () => {
     const { playback } = this.state
     this.setState({
       playback: {
@@ -134,12 +145,23 @@ class Playlist extends Component {
     })
   }
 
-  instaPause = () => {
+  overrideUIPaused = () => {
     const { playback } = this.state
     this.setState({
       playback: {
         ...playback,
         is_playing: false
+      },
+      isOverriding: true
+    })
+  }
+
+  overrideUIShuffle = () => {
+    const { playback } = this.state
+    this.setState({
+      playback: {
+        ...playback,
+        shuffle_state: !playback.shuffle_state
       },
       isOverriding: true
     })
@@ -184,9 +206,10 @@ class Playlist extends Component {
               currentTrackID={currentTrackID || ''}
               activeTrack={activeTrack}
               progressMs={progressMs}
-              markPlaying={this.instaPlay}
-              markPaused={this.instaPause}
-              overrideActiveTrack={this.overrideActiveTrack}
+              overrideUIActiveTrack={this.overrideUIActiveTrack}
+              overrideUIPlaying={this.overrideUIPlaying}
+              overrideUIPaused={this.overrideUIPaused}
+              overrideUIShuffle={this.toggleShuffle}
               activeTrackPosition={activeTrackPosition}
               locateActiveTrack={state.scrollToActiveTrack}
               logoutUser={this.logoutUser}

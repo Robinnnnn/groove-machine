@@ -34,13 +34,14 @@ class LoadedPlaylist extends Component {
         document.addEventListener('mousemove', this.determineSidebarDisplay)
         this.setState({ sidebarActive: true, searchActive: true })
       }, 1500)
-      return
     }
     document.addEventListener('mousemove', this.determineSidebarDisplay)
+    document.addEventListener('keydown', this.onKeydown)
   }
 
   componentWillUnmount() {
     document.removeEventListener('mousemove', this.determineSidebarDisplay)
+    document.removeEventListener('keydown', this.onKeydown)
   }
 
   determineSidebarDisplay = e => {
@@ -86,6 +87,62 @@ class LoadedPlaylist extends Component {
     })
   }
 
+  onKeydown = e => {
+    const { sidebarActive, searchActive, devicesActive } = this.state
+    const { overrideUIShuffle, locateActiveTrack } = this.props
+    if (e.metaKey) {
+      const actions = {
+        open: 39,
+        close: 37,
+        devices: 68
+      }
+      const key = e.keyCode
+      if (Object.values(actions).includes(key)) e.preventDefault()
+      switch (key) {
+        case actions.open:
+          if (!sidebarActive && !searchActive)
+            this.setState({ sidebarActive: true, sidebarLocked: true })
+          if (sidebarActive && !searchActive)
+            this.setState({ searchActive: true })
+          break
+        case actions.close:
+          if (devicesActive) this.setState({ devicesActive: false })
+          if (sidebarActive && searchActive) {
+            this.setState({ searchActive: false })
+          }
+          if (sidebarActive && !searchActive)
+            this.setState({ sidebarActive: false, sidebarLocked: false })
+          break
+        default:
+          return
+      }
+    }
+    if (e.altKey) {
+      const actions = {
+        devices: 68,
+        shuffle: 83,
+        locate: 70
+      }
+      const key = e.keyCode
+      if (Object.values(actions).includes(key)) e.preventDefault()
+      switch (key) {
+        case actions.devices:
+          if (!sidebarActive)
+            this.setState({ sidebarActive: true, sidebarLocked: true })
+          this.toggleDevices()
+          break
+        case actions.shuffle:
+          overrideUIShuffle()
+          break
+        case actions.locate:
+          locateActiveTrack()
+          break
+        default:
+          return
+      }
+    }
+  }
+
   render() {
     // TODO: A lot of these props should just be
     // directly ingested further down via context
@@ -97,13 +154,15 @@ class LoadedPlaylist extends Component {
       currentTrackID,
       activeTrack,
       progressMs,
-      markPlaying,
-      markPaused,
-      overrideActiveTrack,
+      overrideUIActiveTrack,
+      overrideUIPlaying,
+      overrideUIPaused,
+      overrideUIShuffle,
       logoutUser
     } = this.props
     const {
       sidebarActive,
+      sidebarLocked,
       searchActive,
       devicesActive,
       sidebarWidth,
@@ -166,6 +225,7 @@ class LoadedPlaylist extends Component {
             width={sidebarWidth}
             searchActive={searchActive}
             toggleSearch={this.toggleSearch}
+            sidebarLocked={sidebarLocked}
             toggleSidebarLock={this.toggleSidebarLock}
             devicesActive={devicesActive}
             toggleDevices={this.toggleDevices}
@@ -173,9 +233,10 @@ class LoadedPlaylist extends Component {
             playback={playback}
             isShuffleActive={isShuffleActive}
             currentTrackID={currentTrackID}
-            overrideActiveTrack={overrideActiveTrack}
-            markPlaying={markPlaying}
-            markPaused={markPaused}
+            overrideUIActiveTrack={overrideUIActiveTrack}
+            overrideUIPlaying={overrideUIPlaying}
+            overrideUIPaused={overrideUIPaused}
+            overrideUIShuffle={overrideUIShuffle}
             logoutUser={logoutUser}
           />
         </div>
@@ -195,7 +256,7 @@ class LoadedPlaylist extends Component {
             currentTrackID={currentTrackID}
             activeTrack={activeTrack}
             progressMs={progressMs}
-            overrideActiveTrack={overrideActiveTrack}
+            overrideUIActiveTrack={overrideUIActiveTrack}
             tracklistDisplacement={tracklistDisplacement}
           />
         </div>

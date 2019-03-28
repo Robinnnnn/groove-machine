@@ -9,7 +9,7 @@ const Main = ({
   currentTrackID,
   activeTrack,
   progressMs,
-  overrideActiveTrack,
+  overrideUIActiveTrack,
   tracklistDisplacement
 }) => (
   <div className='main-container'>
@@ -21,7 +21,7 @@ const Main = ({
         currentTrackID={currentTrackID || ''}
         activeTrack={activeTrack}
         progressMs={progressMs}
-        overrideActiveTrack={overrideActiveTrack}
+        overrideUIActiveTrack={overrideUIActiveTrack}
         tracklistDisplacement={tracklistDisplacement}
       />
     </div>
