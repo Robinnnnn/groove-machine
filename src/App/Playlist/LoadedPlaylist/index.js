@@ -34,13 +34,14 @@ class LoadedPlaylist extends Component {
         document.addEventListener('mousemove', this.determineSidebarDisplay)
         this.setState({ sidebarActive: true, searchActive: true })
       }, 1500)
-      return
     }
     document.addEventListener('mousemove', this.determineSidebarDisplay)
+    document.addEventListener('keydown', this.onKeydown)
   }
 
   componentWillUnmount() {
     document.removeEventListener('mousemove', this.determineSidebarDisplay)
+    document.removeEventListener('keydown', this.onKeydown)
   }
 
   determineSidebarDisplay = e => {
@@ -84,6 +85,42 @@ class LoadedPlaylist extends Component {
       devicesActive: false,
       sidebarActive: this.state.sidebarLocked
     })
+  }
+
+  onKeydown = e => {
+    if (e.metaKey) {
+      const { sidebarActive, searchActive, devicesActive } = this.state
+      const keyboardActions = {
+        open: 'arrowright',
+        close: 'arrowleft',
+        devices: 'd'
+      }
+      const key = e.key.toLowerCase()
+      if (Object.values(keyboardActions).includes(key)) e.preventDefault()
+      switch (key.toLowerCase()) {
+        case keyboardActions.open:
+          if (!sidebarActive && !searchActive)
+            this.setState({ sidebarActive: true, sidebarLocked: true })
+          if (sidebarActive && !searchActive)
+            this.setState({ searchActive: true })
+          break
+        case keyboardActions.close:
+          if (devicesActive) this.setState({ devicesActive: false })
+          if (sidebarActive && searchActive) {
+            this.setState({ searchActive: false })
+          }
+          if (sidebarActive && !searchActive)
+            this.setState({ sidebarActive: false, sidebarLocked: false })
+          break
+        case keyboardActions.devices:
+          if (!sidebarActive)
+            this.setState({ sidebarActive: true, sidebarLocked: true })
+          this.toggleDevices()
+          break
+        default:
+          return
+      }
+    }
   }
 
   render() {

@@ -56,11 +56,19 @@ const ControlsContainer = ({
   }
 
   const onKeydown = e => {
-    e.preventDefault()
-    if (e.key === ' ') togglePlayPause()
+    if (e.key === ' ') {
+      e.preventDefault()
+      togglePlayPause()
+    }
     if (e.metaKey) {
-      if (e.key === 'ArrowUp') handlePrevious()
-      if (e.key === 'ArrowDown') handleNext()
+      if (e.key === 'ArrowUp') {
+        e.preventDefault()
+        handlePrevious()
+      }
+      if (e.key === 'ArrowDown') {
+        e.preventDefault()
+        handleNext()
+      }
     }
   }
 

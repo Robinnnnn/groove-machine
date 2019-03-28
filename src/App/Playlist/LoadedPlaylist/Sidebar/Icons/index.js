@@ -27,20 +27,6 @@ const Icons = ({
     <Logout logout={logoutUser} />
   ]
 
-  const onKeydown = e => {
-    e.preventDefault()
-    console.log(e.key)
-    if (e.key === 'l') toggleSidebarLock()
-    // if (e.key === ' ') togglePlayPause()
-  }
-
-  useEffect(() => {
-    // Since we are identifying the callback function by name,
-    // the event will not register multiple times
-    document.addEventListener('keydown', onKeydown)
-    return () => document.removeEventListener('keydown', onKeydown)
-  })
-
   return (
     <div className='icons-container'>
       {icons.map((icon, i) => (
