@@ -88,26 +88,24 @@ class LoadedPlaylist extends Component {
   }
 
   onKeydown = e => {
-    if (e.metaKey || e.altKey) {
-      const { sidebarActive, searchActive, devicesActive } = this.state
-      const { overrideUIShuffle, locateActiveTrack } = this.props
-      const keyboardActions = {
+    const { sidebarActive, searchActive, devicesActive } = this.state
+    const { overrideUIShuffle, locateActiveTrack } = this.props
+    if (e.metaKey) {
+      const actions = {
         open: 39,
         close: 37,
-        devices: 68,
-        shuffle: 83,
-        locate: 70
+        devices: 68
       }
       const key = e.keyCode
-      if (Object.values(keyboardActions).includes(key)) e.preventDefault()
+      if (Object.values(actions).includes(key)) e.preventDefault()
       switch (key) {
-        case keyboardActions.open:
+        case actions.open:
           if (!sidebarActive && !searchActive)
             this.setState({ sidebarActive: true, sidebarLocked: true })
           if (sidebarActive && !searchActive)
             this.setState({ searchActive: true })
           break
-        case keyboardActions.close:
+        case actions.close:
           if (devicesActive) this.setState({ devicesActive: false })
           if (sidebarActive && searchActive) {
             this.setState({ searchActive: false })
@@ -115,15 +113,27 @@ class LoadedPlaylist extends Component {
           if (sidebarActive && !searchActive)
             this.setState({ sidebarActive: false, sidebarLocked: false })
           break
-        case keyboardActions.devices:
+        case actions.devices:
           if (!sidebarActive)
             this.setState({ sidebarActive: true, sidebarLocked: true })
           this.toggleDevices()
           break
-        case keyboardActions.shuffle:
+        default:
+          return
+      }
+    }
+    if (e.altKey) {
+      const actions = {
+        shuffle: 83,
+        locate: 70
+      }
+      const key = e.keyCode
+      if (Object.values(actions).includes(key)) e.preventDefault()
+      switch (key) {
+        case actions.shuffle:
           overrideUIShuffle()
           break
-        case keyboardActions.locate:
+        case actions.locate:
           locateActiveTrack()
           break
         default:
