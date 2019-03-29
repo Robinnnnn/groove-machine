@@ -6,13 +6,27 @@
   .title {
     font-size: 80px;
   }
-  .description {
-    font-size: 20px;
+  .subtitle-container {
+    display: flex;
+    align-items: center;
+    .description,
+    .author {
+      font-size: 20px;
+    }
+    .dot {
+      background: #4d4d4d;
+      width: 6px;
+      height: 6px;
+      border-radius: 100%;
+      margin: 3px 10px 0px 10px;
+    }
+    .author {
+      font-style: italic;
+    }
   }
   .stats-container {
     margin-top: 20px;
-    .tracks,
-    .followers {
+    p {
       font-size: 12px;
       font-family: 'Roboto Mono';
     }

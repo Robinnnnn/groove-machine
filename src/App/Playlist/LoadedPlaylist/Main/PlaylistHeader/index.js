@@ -1,21 +1,32 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
+import { msToTimestamp } from 'util/index'
 import './PlaylistHeader.scss'
 
-class PlaylistHeader extends Component {
+class PlaylistHeader extends PureComponent {
   static propTypes = {
     playlist: PropTypes.shape({}).isRequired
   }
 
   render() {
     const { playlist } = this.props
+    const duration = msToTimestamp(
+      playlist.tracks.items.reduce((d, i) => d + i.track.duration_ms, 0)
+    )
+
+    console.log(duration)
 
     return (
       <div className='playlist-header-container'>
         <p className='title'>{playlist.name}</p>
-        <p className='description'>{playlist.description}</p>
+        <div className='subtitle-container'>
+          <p className='description'>{playlist.description}</p>
+          <div className='dot' />
+          <p className='author'>{playlist.owner.display_name}</p>
+        </div>
         <div className='stats-container'>
           <p className='tracks'>Tracks: {playlist.tracks.total}</p>
+          <p className='duration'>Duration: {duration}</p>
           <p className='followers'>Followers: {playlist.followers.total}</p>
         </div>
 
