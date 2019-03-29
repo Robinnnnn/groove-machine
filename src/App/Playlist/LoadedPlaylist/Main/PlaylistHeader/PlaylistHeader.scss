@@ -1,7 +1,9 @@
+@import 'styles/_colors.scss';
+
 .playlist-header-container {
   padding: 100px 80px;
-  color: #4d4d4d;
-  background: #fdf7f7;
+  color: $grey;
+  background: $light-pink;
   font-family: 'Playfair Display';
   .title {
     font-size: 80px;
@@ -14,7 +16,7 @@
       font-size: 20px;
     }
     .dot {
-      background: #4d4d4d;
+      background: $grey;
       width: 6px;
       height: 6px;
       border-radius: 100%;

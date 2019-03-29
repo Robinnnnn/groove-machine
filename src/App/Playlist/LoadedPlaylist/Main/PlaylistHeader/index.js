@@ -14,8 +14,6 @@ class PlaylistHeader extends PureComponent {
       playlist.tracks.items.reduce((d, i) => d + i.track.duration_ms, 0)
     )
 
-    console.log(duration)
-
     return (
       <div className='playlist-header-container'>
         <p className='title'>{playlist.name}</p>

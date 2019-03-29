@@ -1,4 +1,5 @@
 $pink: #ffcece;
+$light-pink: lighten($pink, 8%);
 
 $purple: #4e49e4;
 $barely-purple: lighten($purple, 15%);
@@ -6,3 +7,5 @@ $quite-light-purple: lighten($purple, 10%);
 $light-purple: lighten($purple, 5%);
 $blueberry: darken($purple, 5%);
 $blackberry: darken($purple, 10%);
+
+$grey: #4d4d4d;
