@@ -1,42 +1,44 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { msToTimestamp } from 'util/index'
 import './PlaylistHeader.scss'
 
-class PlaylistHeader extends PureComponent {
-  static propTypes = {
-    playlist: PropTypes.shape({}).isRequired
-  }
+const PlaylistHeader = ({ playlist }) => {
+  const duration = msToTimestamp(
+    playlist.tracks.items.reduce((d, i) => d + i.track.duration_ms, 0)
+  )
+  const shouldDisplayAuthor = isNaN(playlist.owner.display_name)
 
-  render() {
-    const { playlist } = this.props
-    const duration = msToTimestamp(
-      playlist.tracks.items.reduce((d, i) => d + i.track.duration_ms, 0)
-    )
-
-    return (
-      <div className='playlist-header-container'>
-        <p className='title'>{playlist.name}</p>
-        <div className='subtitle-container'>
-          <p className='description'>{playlist.description}</p>
-          <div className='dot' />
-          <p className='author'>{playlist.owner.display_name}</p>
-        </div>
-        <div className='stats-container'>
-          <p className='tracks'>Tracks: {playlist.tracks.total}</p>
-          <p className='duration'>Duration: {duration}</p>
-          <p className='followers'>Followers: {playlist.followers.total}</p>
-        </div>
-
-        {
-          // <p className='signature'>Max & Robin, 2019</p>
-        }
-        {
-          // <pre>{JSON.stringify(playlist, null, 2)}</pre>
-        }
+  return (
+    <div className='playlist-header-container'>
+      <p className='title'>{playlist.name}</p>
+      <div className='subtitle-container'>
+        <p className='description'>{playlist.description}</p>
+        {shouldDisplayAuthor ? (
+          <>
+            <div className='dot' />
+            <a
+              className='author'
+              href={playlist.owner.external_urls.spotify}
+              target='_blank'
+              rel='noopener noreferrer'
+            >
+              {playlist.owner.display_name}
+            </a>
+          </>
+        ) : null}
       </div>
-    )
-  }
+      <div className='stats-container'>
+        <p className='tracks'>Tracks: {playlist.tracks.total}</p>
+        <p className='followers'>Followers: {playlist.followers.total}</p>
+        <p className='duration'>Duration: {duration}</p>
+      </div>
+    </div>
+  )
+}
+
+PlaylistHeader.propTypes = {
+  playlist: PropTypes.shape({}).isRequired
 }
 
 export default PlaylistHeader

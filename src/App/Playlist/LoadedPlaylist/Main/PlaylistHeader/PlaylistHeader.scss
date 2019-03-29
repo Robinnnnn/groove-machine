@@ -24,6 +24,12 @@
     }
     .author {
       font-style: italic;
+      text-decoration: none;
+      color: $grey;
+      cursor: pointer;
+      &:hover {
+        color: $purple;
+      }
     }
   }
   .stats-container {
