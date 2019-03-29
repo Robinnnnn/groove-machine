@@ -61,7 +61,8 @@
 
     .playlist-cover-container {
       .playlist-cover {
-        max-width: 222px;
+        width: 222px;
+        height: 222px;
         border-radius: 100%;
 
         transition: 0.25s cubic-bezier(0.165, 0.84, 0.44, 1);
