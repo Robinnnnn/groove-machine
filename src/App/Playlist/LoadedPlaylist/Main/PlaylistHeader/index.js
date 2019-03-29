@@ -24,7 +24,10 @@ const PlaylistHeader = memo(({ playlist }) => {
             </a>
           </div>
           <div className='subtitle-container'>
-            <p className='description'>{playlist.description}</p>
+            <p
+              className='description'
+              dangerouslySetInnerHTML={{ __html: playlist.description }}
+            />
           </div>
           <div className='stats-container'>
             <p className='tracks'>Tracks: {playlist.tracks.total}</p>
