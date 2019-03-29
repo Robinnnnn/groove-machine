@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import './MediaPlayer.scss'
-import { msToMinutesAndSeconds } from 'util/index'
+import { msToTimestamp } from 'util/index'
 import Controls from './Controls'
 
 class MediaPlayer extends Component {
@@ -70,13 +70,13 @@ class MediaPlayer extends Component {
             <div className='live-playback-container'>
               <div className='progress-duration-timestamp-container'>
                 <div className='timestamp'>
-                  {msToMinutesAndSeconds(playback.progress_ms)}
+                  {msToTimestamp(playback.progress_ms)}
                 </div>
               </div>
               <hr />
               <div className='total-duration-timestamp-container'>
                 <div className='timestamp'>
-                  {msToMinutesAndSeconds(track.duration_ms)}
+                  {msToTimestamp(track.duration_ms)}
                 </div>
               </div>
             </div>

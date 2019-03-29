@@ -25,10 +25,11 @@
       justify-content: center;
       color: lighten(black, 40%);
 
-      .lock-container {
+      .lock-icon {
         position: absolute;
         transition: $track-transition;
-        transform: translateX(-95px);
+        transform: translateX(-100px);
+        fill: lighten(#000, 40%);
       }
 
       .text-container {
@@ -38,11 +39,12 @@
         transform: translateX(10px);
       }
 
-      .heart-container {
+      .key-icon {
         position: absolute;
         transition: $track-transition;
-        transform: translateX(85px);
+        transform: translateX(90px);
         opacity: 0;
+        fill: $purple;
       }
     }
 
@@ -61,12 +63,12 @@
       .text-container {
         transform: translateX(-10px);
       }
-      .lock-container {
-        transform: translateX(-85px);
+      .lock-icon {
+        transform: translateX(-90px);
         opacity: 0;
       }
-      .heart-container {
-        transform: translateX(95px);
+      .key-icon {
+        transform: translateX(100px);
         opacity: 1;
       }
     }

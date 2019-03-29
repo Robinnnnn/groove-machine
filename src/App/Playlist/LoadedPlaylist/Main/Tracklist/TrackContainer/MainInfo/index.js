@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { msToMinutesAndSeconds } from 'util/index'
+import { msToTimestamp } from 'util/index'
 import './MainInfo.scss'
 
 const MainInfo = ({ track, contributor, isPlaying, progressMs }) => (
@@ -36,7 +36,7 @@ const MainInfo = ({ track, contributor, isPlaying, progressMs }) => (
 
     <div className='track-duration-container'>
       <p className='duration'>
-        {msToMinutesAndSeconds(
+        {msToTimestamp(
           isPlaying ? track.duration_ms - progressMs : track.duration_ms
         )}
       </p>
