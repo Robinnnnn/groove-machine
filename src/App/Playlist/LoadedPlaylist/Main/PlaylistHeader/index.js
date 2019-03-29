@@ -1,9 +1,10 @@
-import React, { memo } from 'react'
+import React, { memo, useState } from 'react'
 import PropTypes from 'prop-types'
 import { msToTimestamp } from 'util/index'
 import './PlaylistHeader.scss'
 
 const PlaylistHeader = memo(({ playlist }) => {
+  const [hovering, toggleHover] = useState(false)
   const duration = msToTimestamp(
     playlist.tracks.items.reduce((d, i) => d + i.track.duration_ms, 0)
   )
@@ -13,7 +14,11 @@ const PlaylistHeader = memo(({ playlist }) => {
     <div className='playlist-header-container'>
       <div className='content-container'>
         <div className='info-container'>
-          <div className='title-container'>
+          <div
+            className='title-container'
+            onMouseEnter={() => toggleHover(true)}
+            onMouseLeave={() => toggleHover(false)}
+          >
             <a
               className='title'
               href={playlist.external_urls.spotify}
@@ -22,6 +27,7 @@ const PlaylistHeader = memo(({ playlist }) => {
             >
               {playlist.name}
             </a>
+            <div className={`horizontal-rule ${hovering ? 'active' : ''}`} />
           </div>
           <div className='subtitle-container'>
             <p
