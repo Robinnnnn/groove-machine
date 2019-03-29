@@ -25,7 +25,6 @@
       justify-content: center;
       color: lighten(black, 40%);
 
-      .lock-container,
       .lock-icon {
         position: absolute;
         transition: $track-transition;
@@ -40,7 +39,6 @@
         transform: translateX(10px);
       }
 
-      .heart-container,
       .key-icon {
         position: absolute;
         transition: $track-transition;
@@ -65,12 +63,10 @@
       .text-container {
         transform: translateX(-10px);
       }
-      .lock-container,
       .lock-icon {
         transform: translateX(-90px);
         opacity: 0;
       }
-      .heart-container,
       .key-icon {
         transform: translateX(100px);
         opacity: 1;
