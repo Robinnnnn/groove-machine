@@ -3,37 +3,22 @@
 .playlist-header-container {
   padding: 100px 80px;
   background: $light-pink;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 
   .content-container {
-    color: $grey;
-    font-family: 'Playfair Display';
-    .title {
-      font-size: 80px;
-      text-decoration: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 888px;
+    margin: 0 auto;
+    .info-container {
       color: $grey;
-      cursor: pointer;
-      &:hover {
-        color: $purple;
-      }
-    }
-    .subtitle-container {
-      display: flex;
-      align-items: center;
-      .description {
-        font-size: 20px;
-      }
-    }
-    .stats-container {
-      margin-top: 30px;
-      p {
-        font-size: 12px;
-        font-family: 'Roboto Mono';
-      }
-      .author {
-        a {
+      font-family: 'Playfair Display';
+      margin-right: 30px;
+      .title-container {
+        margin-bottom: 20px;
+        .title {
+          font-size: 80px;
+          line-height: 80px;
           text-decoration: none;
           color: $grey;
           cursor: pointer;
@@ -42,19 +27,49 @@
           }
         }
       }
+      .subtitle-container {
+        display: flex;
+        align-items: center;
+        .description {
+          font-size: 20px;
+        }
+      }
+      .stats-container {
+        margin-top: 30px;
+        p {
+          font-size: 12px;
+          font-family: 'Roboto Mono';
+        }
+        .author {
+          a {
+            text-decoration: none;
+            color: $grey;
+            cursor: pointer;
+            &:hover {
+              color: $purple;
+            }
+          }
+        }
+      }
+      .signature {
+        font-size: 22px;
+        font-style: italic;
+        text-align: right;
+        margin-top: 10px;
+      }
     }
-    .signature {
-      font-size: 22px;
-      font-style: italic;
-      text-align: right;
-      margin-top: 10px;
-    }
-  }
 
-  .playlist-cover-container {
-    .playlist-cover {
-      max-width: 222px;
-      border-radius: 100%;
+    .playlist-cover-container {
+      .playlist-cover {
+        max-width: 222px;
+        border-radius: 100%;
+
+        transition: 0.25s cubic-bezier(0.165, 0.84, 0.44, 1);
+        &:hover {
+          box-shadow: 0 2px 8px 0px rgba(50, 50, 93, 0.35);
+          transform: translateY(-2px);
+        }
+      }
     }
   }
 }
