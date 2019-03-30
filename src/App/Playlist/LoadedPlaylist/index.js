@@ -256,6 +256,7 @@ class LoadedPlaylist extends Component {
             currentTrackID={currentTrackID}
             activeTrack={activeTrack}
             progressMs={progressMs}
+            overrideUIPaused={overrideUIPaused}
             overrideUIActiveTrack={overrideUIActiveTrack}
             tracklistDisplacement={tracklistDisplacement}
           />

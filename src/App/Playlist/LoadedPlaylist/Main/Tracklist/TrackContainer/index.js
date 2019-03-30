@@ -63,18 +63,34 @@ class TrackContainer extends Component {
 
   onMouseLeave = () => this.setState({ isHovering: false })
 
-  playTrack = () => {
-    const { track, playlistUri, play, overrideUIActiveTrack } = this.props
+  handlePlayPause = () => {
+    const {
+      track,
+      isPlaying,
+      playlistUri,
+      play,
+      pause,
+      overrideUIPaused,
+      overrideUIActiveTrack
+    } = this.props
 
-    overrideUIActiveTrack(track)
+    // TODO : Distinguish between SelectedTrack and PlayingTrack
+    console.log('isplaying', isPlaying)
 
-    const options = {
-      context_uri: playlistUri,
-      offset: {
-        uri: track.uri
+    if (!isPlaying) {
+      overrideUIActiveTrack(track)
+
+      const options = {
+        context_uri: playlistUri,
+        offset: {
+          uri: track.uri
+        }
       }
+      return play(options)
     }
-    return play(options)
+
+    overrideUIPaused()
+    pause()
   }
 
   openAlbum = e => {
@@ -121,7 +137,7 @@ class TrackContainer extends Component {
       <div
         className={`track-container ${revealClass} ${activeClass}`}
         ref={t => (this.track = t)}
-        onClick={this.playTrack}
+        onClick={this.handlePlayPause}
         onMouseEnter={this.onMouseEnter}
         onMouseLeave={this.onMouseLeave}
       >

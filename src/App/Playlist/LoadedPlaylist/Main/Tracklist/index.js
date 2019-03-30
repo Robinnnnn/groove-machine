@@ -10,6 +10,7 @@ const Tracklist = ({
   currentTrackID,
   activeTrack,
   progressMs,
+  overrideUIPaused,
   overrideUIActiveTrack,
   tracklistDisplacement
 }) => {
@@ -52,13 +53,15 @@ const Tracklist = ({
               key={track.id}
               track={track}
               playlistUri={playlist.uri}
-              play={spotify.play}
               isPlaying={
                 track.id === currentTrackID ||
                 track.id === (activeTrack && activeTrack.id)
               }
               progressMs={progressMs}
               contributor={added_by}
+              play={spotify.play}
+              pause={spotify.pause}
+              overrideUIPaused={overrideUIPaused}
               overrideUIActiveTrack={overrideUIActiveTrack}
               animatedLoadComplete={mounted}
             />
@@ -74,12 +77,14 @@ const Tracklist = ({
               track={track}
               playlistUri={playlist.uri}
               play={spotify.play}
+              pause={spotify.pause}
               isPlaying={
                 track.id === currentTrackID ||
                 track.id === (activeTrack && activeTrack.id)
               }
               progressMs={progressMs}
               contributor={added_by}
+              overrideUIPaused={overrideUIPaused}
               overrideUIActiveTrack={overrideUIActiveTrack}
               animatedLoadComplete={mounted}
             />

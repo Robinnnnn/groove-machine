@@ -9,6 +9,7 @@ const Main = ({
   currentTrackID,
   activeTrack,
   progressMs,
+  overrideUIPaused,
   overrideUIActiveTrack,
   tracklistDisplacement
 }) => (
@@ -21,6 +22,7 @@ const Main = ({
         currentTrackID={currentTrackID || ''}
         activeTrack={activeTrack}
         progressMs={progressMs}
+        overrideUIPaused={overrideUIPaused}
         overrideUIActiveTrack={overrideUIActiveTrack}
         tracklistDisplacement={tracklistDisplacement}
       />
