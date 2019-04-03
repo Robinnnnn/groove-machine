@@ -69,6 +69,7 @@ class TrackContainer extends Component {
       track,
       isSelected,
       isPlaying,
+      progressMs,
       playlistUri,
       play,
       pause,
@@ -76,25 +77,21 @@ class TrackContainer extends Component {
       overrideUISelectedTrack
     } = this.props
 
-    // TODO : Distinguish between SelectedTrack and PlayingTrack
-    console.log({ isPlaying, isSelected })
-
-    if (!isPlaying) {
-      if (!isSelected) {
-        overrideUISelectedTrack(track)
-
-        const options = {
-          context_uri: playlistUri,
-          offset: {
-            uri: track.uri
-          }
-        }
-        return play(options)
-      }
+    const shouldPlay = !isPlaying
+    const shouldResume = isSelected && !isPlaying
+    const playOptions = {
+      context_uri: playlistUri,
+      offset: { uri: track.uri }
     }
 
-    overrideUIPaused()
-    pause()
+    if (shouldPlay) {
+      overrideUISelectedTrack(track, shouldResume ? progressMs : 0)
+      if (shouldResume) playOptions.position_ms = progressMs
+      play(playOptions)
+    } else {
+      overrideUIPaused()
+      pause()
+    }
   }
 
   openAlbum = e => {
@@ -159,7 +156,7 @@ class TrackContainer extends Component {
         <MainInfo
           track={track}
           contributor={this.getContributor(contributor.id)}
-          isPlaying={isPlaying}
+          isSelected={isSelected}
           progressMs={progressMs}
         />
 

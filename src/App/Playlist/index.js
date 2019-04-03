@@ -120,14 +120,14 @@ class Playlist extends Component {
   // Allows instant UI response for active track display;
   // otherwise there would be an ugly delay between track
   // selection and visual activation
-  overrideUISelectedTrack = track => {
+  overrideUISelectedTrack = (track, progressMs = 0) => {
     const { playback } = this.state
     this.setState({
       playback: {
         ...playback,
         item: track,
         is_playing: true,
-        progress_ms: 0
+        progress_ms: progressMs
       },
       selectedTrack: track,
       isOverriding: true

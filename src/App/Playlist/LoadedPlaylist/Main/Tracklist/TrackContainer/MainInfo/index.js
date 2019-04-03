@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { msToTimestamp } from 'util/index'
 import './MainInfo.scss'
 
-const MainInfo = ({ track, contributor, isPlaying, progressMs }) => (
+const MainInfo = ({ track, contributor, isSelected, progressMs }) => (
   <div className='track-info-container'>
     <div className='track-artist-title-container'>
       <div className='track-title-container'>
@@ -37,7 +37,7 @@ const MainInfo = ({ track, contributor, isPlaying, progressMs }) => (
     <div className='track-duration-container'>
       <p className='duration'>
         {msToTimestamp(
-          isPlaying ? track.duration_ms - progressMs : track.duration_ms
+          isSelected ? track.duration_ms - progressMs : track.duration_ms
         )}
       </p>
     </div>

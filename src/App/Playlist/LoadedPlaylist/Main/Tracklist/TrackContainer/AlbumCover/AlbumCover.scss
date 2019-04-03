@@ -14,7 +14,7 @@
     transform: translateY(0px) scale(1.1);
 
     &:hover {
-      box-shadow: 0 3px 8px 0px rgba(50, 50, 93, 0.35);
+      box-shadow: 0 3px 12px 0px rgba(50, 50, 93, 0.35);
       transform: translateY(-3px) scale(1.1);
     }
 
@@ -24,7 +24,7 @@
       animation-timing-function: linear;
       animation-fill-mode: both;
       filter: brightness(90%);
-      box-shadow: 0 0px 2px 1px rgba(50, 50, 93, 0.35);
+      box-shadow: 0 0px 3px 1px rgba(50, 50, 93, 0.35);
       transition: 0.25s cubic-bezier(0.165, 0.84, 0.44, 1);
     }
 
