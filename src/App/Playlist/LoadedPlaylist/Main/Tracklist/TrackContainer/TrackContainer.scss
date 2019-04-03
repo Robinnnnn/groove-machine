@@ -72,13 +72,21 @@
     }
   }
 
-  &.track-active {
-    transform: translateX(60px);
-    cursor: url('./pause.svg'), pointer;
-  }
-
   &.track-paused {
     transform: translateX(40px);
     cursor: url('./play.svg'), pointer;
+    color: #4d4d4d;
+    .the-circle {
+      opacity: 0.8;
+    }
+    // This class is defined in ProgressBar.scss
+    .progress-bar {
+      opacity: 0.8;
+    }
+  }
+
+  &.track-active {
+    transform: translateX(60px);
+    cursor: url('./pause.svg'), pointer;
   }
 }
