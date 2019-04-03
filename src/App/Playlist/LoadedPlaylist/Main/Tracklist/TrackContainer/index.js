@@ -34,9 +34,13 @@ class TrackContainer extends Component {
 
   handleCurrentlyPlayingTrack = () => {
     const { registeredCurrentlyPlayingTrack } = this.state
-    const { track, isPlaying, animatedLoadComplete } = this.props
+    const { track, isSelected, isPlaying, animatedLoadComplete } = this.props
     const { dispatch } = this.context
-    if (!registeredCurrentlyPlayingTrack && isPlaying && animatedLoadComplete) {
+    if (
+      !registeredCurrentlyPlayingTrack &&
+      animatedLoadComplete &&
+      (isSelected || isPlaying)
+    ) {
       log(
         'trace',
         `now playing: ${track.name}`,

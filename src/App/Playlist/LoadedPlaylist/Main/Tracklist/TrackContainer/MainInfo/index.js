@@ -47,7 +47,7 @@ const MainInfo = ({ track, contributor, isSelected, progressMs }) => (
 MainInfo.propTypes = {
   track: PropTypes.shape({}).isRequired,
   contributor: PropTypes.string.isRequired,
-  isPlaying: PropTypes.bool.isRequired,
+  isSelected: PropTypes.bool.isRequired,
   progressMs: PropTypes.number.isRequired
 }
 
