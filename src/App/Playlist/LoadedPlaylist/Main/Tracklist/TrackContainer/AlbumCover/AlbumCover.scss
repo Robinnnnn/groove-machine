@@ -5,6 +5,7 @@
   align-items: center;
   justify-content: center;
 
+  &.track-paused,
   &.track-active {
     cursor: pointer;
     border-radius: 100%;
@@ -18,14 +19,35 @@
     }
 
     .album-cover {
-      animation: spin 6s linear infinite;
+      animation-name: spin;
+      animation-iteration-count: infinite;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
       filter: brightness(90%);
       box-shadow: 0 0px 2px 1px rgba(50, 50, 93, 0.35);
+      transition: 0.25s cubic-bezier(0.165, 0.84, 0.44, 1);
     }
 
     .hole {
       opacity: 1;
       box-shadow: inset 0 0px 3px 1px rgba(50, 50, 93, 0.35);
+    }
+  }
+
+  &.track-paused {
+    .album-cover {
+      // IMPORTANT TODO: Handle animation transition mid-animation.
+      // May have to ditch CSS altogether and use a JS solution:
+      // https://stackoverflow.com/questions/27556778/css3-changing-animation-duration-speed-mid-animation
+      // animation-duration: 10s;
+      animation-duration: 6s;
+      filter: brightness(70%);
+    }
+  }
+
+  &.track-active {
+    .album-cover {
+      animation-duration: 6s;
     }
   }
 

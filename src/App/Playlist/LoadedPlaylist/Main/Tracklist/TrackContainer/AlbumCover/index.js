@@ -3,13 +3,19 @@ import './AlbumCover.scss'
 
 class AlbumCover extends Component {
   render() {
-    const { imgUrl, activeClass, hoverClass, openAlbum } = this.props
+    const {
+      imgUrl,
+      pausedClass,
+      activeClass,
+      hoverClass,
+      openAlbum
+    } = this.props
 
-    const displayPlay = !activeClass && hoverClass
+    const enableHoverFx = !activeClass && !pausedClass && hoverClass
 
     return (
       <div
-        className={`album-cover-container ${activeClass} ${displayPlay}`}
+        className={`album-cover-container ${activeClass} ${pausedClass} ${enableHoverFx}`}
         onClick={e => activeClass && openAlbum(e)}
       >
         <img className='album-cover' src={imgUrl} alt='cover' />

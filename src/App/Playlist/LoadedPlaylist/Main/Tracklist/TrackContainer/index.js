@@ -14,6 +14,7 @@ class TrackContainer extends Component {
     track: PropTypes.shape({}).isRequired,
     playlistUri: PropTypes.string.isRequired,
     play: PropTypes.func.isRequired,
+    isSelected: PropTypes.bool.isRequired,
     isPlaying: PropTypes.bool.isRequired,
     progressMs: PropTypes.number,
     contributor: PropTypes.string.isRequired,
@@ -66,6 +67,7 @@ class TrackContainer extends Component {
   handlePlayPause = () => {
     const {
       track,
+      isSelected,
       isPlaying,
       playlistUri,
       play,
@@ -75,18 +77,20 @@ class TrackContainer extends Component {
     } = this.props
 
     // TODO : Distinguish between SelectedTrack and PlayingTrack
-    console.log('isplaying', isPlaying)
+    console.log({ isPlaying, isSelected })
 
     if (!isPlaying) {
-      overrideUISelectedTrack(track)
+      if (!isSelected) {
+        overrideUISelectedTrack(track)
 
-      const options = {
-        context_uri: playlistUri,
-        offset: {
-          uri: track.uri
+        const options = {
+          context_uri: playlistUri,
+          offset: {
+            uri: track.uri
+          }
         }
+        return play(options)
       }
-      return play(options)
     }
 
     overrideUIPaused()
@@ -127,15 +131,16 @@ class TrackContainer extends Component {
 
   render() {
     const { isHovering } = this.state
-    const { track, isPlaying, progressMs, contributor } = this.props
+    const { track, isSelected, isPlaying, progressMs, contributor } = this.props
 
     const hoverClass = isHovering ? 'track-hover' : ''
+    const pausedClass = isSelected && !isPlaying ? 'track-paused' : ''
     const activeClass = isPlaying ? 'track-active' : ''
-    const revealClass = isHovering || isPlaying ? 'reveal-track-details' : ''
+    const revealClass = isHovering || isSelected ? 'reveal-track-details' : ''
 
     return (
       <div
-        className={`track-container ${revealClass} ${activeClass}`}
+        className={`track-container ${revealClass} ${activeClass} ${pausedClass}`}
         ref={t => (this.track = t)}
         onClick={this.handlePlayPause}
         onMouseEnter={this.onMouseEnter}
@@ -146,6 +151,7 @@ class TrackContainer extends Component {
         <AlbumCover
           imgUrl={track.album.images[1].url}
           hoverClass={hoverClass}
+          pausedClass={pausedClass}
           activeClass={activeClass}
           openAlbum={this.openAlbum}
         />
@@ -157,7 +163,9 @@ class TrackContainer extends Component {
           progressMs={progressMs}
         />
 
-        {isPlaying && <ProgressBar progress={progressMs / track.duration_ms} />}
+        {(isSelected || isPlaying) && (
+          <ProgressBar progress={progressMs / track.duration_ms} />
+        )}
       </div>
     )
   }
