@@ -89,7 +89,7 @@ class LoadedPlaylist extends Component {
 
   onKeydown = e => {
     const { sidebarActive, searchActive, devicesActive } = this.state
-    const { overrideUIShuffle, locateActiveTrack } = this.props
+    const { overrideUIShuffle, locateSelectedTrack } = this.props
     if (e.metaKey) {
       const actions = {
         open: 39,
@@ -135,7 +135,7 @@ class LoadedPlaylist extends Component {
           overrideUIShuffle()
           break
         case actions.locate:
-          locateActiveTrack()
+          locateSelectedTrack()
           break
         default:
           return
@@ -152,9 +152,9 @@ class LoadedPlaylist extends Component {
       playback,
       isShuffleActive,
       currentTrackID,
-      activeTrack,
+      selectedTrack,
       progressMs,
-      overrideUIActiveTrack,
+      overrideUISelectedTrack,
       overrideUIPlaying,
       overrideUIPaused,
       overrideUIShuffle,
@@ -233,7 +233,7 @@ class LoadedPlaylist extends Component {
             playback={playback}
             isShuffleActive={isShuffleActive}
             currentTrackID={currentTrackID}
-            overrideUIActiveTrack={overrideUIActiveTrack}
+            overrideUISelectedTrack={overrideUISelectedTrack}
             overrideUIPlaying={overrideUIPlaying}
             overrideUIPaused={overrideUIPaused}
             overrideUIShuffle={overrideUIShuffle}
@@ -253,11 +253,12 @@ class LoadedPlaylist extends Component {
           <Main
             spotify={spotify}
             playlist={playlist}
+            playback={playback}
             currentTrackID={currentTrackID}
-            activeTrack={activeTrack}
+            selectedTrack={selectedTrack}
             progressMs={progressMs}
             overrideUIPaused={overrideUIPaused}
-            overrideUIActiveTrack={overrideUIActiveTrack}
+            overrideUISelectedTrack={overrideUISelectedTrack}
             tracklistDisplacement={tracklistDisplacement}
           />
         </div>

@@ -6,7 +6,7 @@ import { log } from 'util/index'
 import PageTitle from './PageTitle'
 import Loader from 'Elements/Loader'
 import LoadedPlaylist from './LoadedPlaylist'
-import ActiveTrackSeeker from './ActiveTrackSeeker'
+import SelectedTrackSeeker from './SelectedTrackSeeker'
 import getLoaderMessage from 'Elements/Loader/sillyExcuses'
 import './Playlist.scss'
 
@@ -23,8 +23,8 @@ class Playlist extends Component {
     playback: null,
     retrievedPlayback: false,
     playbackListenerID: '',
-    activeTrack: {},
-    activeTrackPosition: '',
+    selectedTrack: {},
+    selectedTrackPosition: '',
     isOverriding: false
   }
 
@@ -67,15 +67,15 @@ class Playlist extends Component {
     // log('trace', playback)
 
     // Handles race condition where async call returns an outdated track
-    const { playback: statePlayback, activeTrack, isOverriding } = this.state
-    if (isOverriding && activeTrack.id !== playback.item.id) return
+    const { playback: statePlayback, selectedTrack, isOverriding } = this.state
+    if (isOverriding && selectedTrack.id !== playback.item.id) return
     if (isOverriding && statePlayback.is_playing !== playback.is_playing) return
     if (isOverriding && statePlayback.shuffle_state !== playback.shuffle_state)
       return
 
     this.setState({
       playback,
-      activeTrack: playback.item,
+      selectedTrack: playback.item,
       isOverriding: false,
       retrievedPlayback: true
     })
@@ -106,21 +106,21 @@ class Playlist extends Component {
 
   determineViewContext = () => {
     const {
-      state: { activeTrackNode }
+      state: { selectedTrackNode }
     } = this.context
-    if (activeTrackNode) {
-      const bounds = activeTrackNode.getBoundingClientRect()
+    if (selectedTrackNode) {
+      const bounds = selectedTrackNode.getBoundingClientRect()
       let relativeTo = 'within'
       if (bounds.top > window.innerHeight) relativeTo = 'below'
       else if (bounds.bottom < 0) relativeTo = 'above'
-      this.setState({ activeTrackPosition: `${relativeTo}_viewport` })
+      this.setState({ selectedTrackPosition: `${relativeTo}_viewport` })
     }
   }
 
   // Allows instant UI response for active track display;
   // otherwise there would be an ugly delay between track
   // selection and visual activation
-  overrideUIActiveTrack = track => {
+  overrideUISelectedTrack = track => {
     const { playback } = this.state
     this.setState({
       playback: {
@@ -129,7 +129,7 @@ class Playlist extends Component {
         is_playing: true,
         progress_ms: 0
       },
-      activeTrack: track,
+      selectedTrack: track,
       isOverriding: true
     })
   }
@@ -181,14 +181,13 @@ class Playlist extends Component {
       playlist,
       playback,
       retrievedPlayback,
-      activeTrack,
-      activeTrackPosition
+      selectedTrack,
+      selectedTrackPosition
     } = this.state
 
     const loaded = playlist && retrievedPlayback
-    const currentTrack = playback && playback.item
-    const currentTrackID = currentTrack && currentTrack.id
-    const currentTrackTitle = currentTrack && currentTrack.name
+    const currentTrackID = selectedTrack.id
+    const currentTrackTitle = selectedTrack.name
     const progressMs = playback && playback.progress_ms
 
     return (
@@ -204,19 +203,18 @@ class Playlist extends Component {
               playback={playback}
               isShuffleActive={playback.shuffle_state}
               currentTrackID={currentTrackID || ''}
-              activeTrack={activeTrack}
               progressMs={progressMs}
-              overrideUIActiveTrack={this.overrideUIActiveTrack}
+              overrideUISelectedTrack={this.overrideUISelectedTrack}
               overrideUIPlaying={this.overrideUIPlaying}
               overrideUIPaused={this.overrideUIPaused}
               overrideUIShuffle={this.toggleShuffle}
-              activeTrackPosition={activeTrackPosition}
-              locateActiveTrack={state.scrollToActiveTrack}
+              selectedTrackPosition={selectedTrackPosition}
+              locateSelectedTrack={state.scrollToSelectedTrack}
               logoutUser={this.logoutUser}
             />
-            <ActiveTrackSeeker
-              activeTrackPosition={activeTrackPosition}
-              locateActiveTrack={state.scrollToActiveTrack}
+            <SelectedTrackSeeker
+              selectedTrackPosition={selectedTrackPosition}
+              locateSelectedTrack={state.scrollToSelectedTrack}
             />
           </>
         ) : (

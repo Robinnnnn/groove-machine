@@ -18,7 +18,7 @@ const Sidebar = ({
   playlist,
   playback,
   isShuffleActive,
-  overrideUIActiveTrack,
+  overrideUISelectedTrack,
   overrideUIPlaying,
   overrideUIPaused,
   overrideUIShuffle,
@@ -41,7 +41,7 @@ const Sidebar = ({
     // native UI controls
     overrideUIPlaying,
     overrideUIPaused,
-    overrideUIActiveTrack
+    overrideUISelectedTrack
   }
 
   return (

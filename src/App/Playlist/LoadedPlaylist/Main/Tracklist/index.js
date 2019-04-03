@@ -7,11 +7,11 @@ import './Tracklist.scss'
 const Tracklist = ({
   spotify,
   playlist,
+  playback,
   currentTrackID,
-  activeTrack,
   progressMs,
   overrideUIPaused,
-  overrideUIActiveTrack,
+  overrideUISelectedTrack,
   tracklistDisplacement
 }) => {
   const [mounted, set] = useState(false)
@@ -39,6 +39,8 @@ const Tracklist = ({
     >
       {trail.map(({ x, height, ...rest }, index) => {
         const { track, added_by } = playlist.tracks.items[index]
+        const isSelected = track.id === currentTrackID
+        const isPlaying = isSelected && playback.is_playing
         return (
           <animated.div
             key={track.id}
@@ -53,16 +55,14 @@ const Tracklist = ({
               key={track.id}
               track={track}
               playlistUri={playlist.uri}
-              isPlaying={
-                track.id === currentTrackID ||
-                track.id === (activeTrack && activeTrack.id)
-              }
+              isSelected={isSelected}
+              isPlaying={isPlaying}
               progressMs={progressMs}
               contributor={added_by}
               play={spotify.play}
               pause={spotify.pause}
               overrideUIPaused={overrideUIPaused}
-              overrideUIActiveTrack={overrideUIActiveTrack}
+              overrideUISelectedTrack={overrideUISelectedTrack}
               animatedLoadComplete={mounted}
             />
           </animated.div>
@@ -71,35 +71,35 @@ const Tracklist = ({
       {mounted &&
         playlist.tracks.items
           .slice(numVisibleAnimatedItems)
-          .map(({ track, added_by }) => (
-            <TrackContainer
-              key={track.id}
-              track={track}
-              playlistUri={playlist.uri}
-              play={spotify.play}
-              pause={spotify.pause}
-              isPlaying={
-                track.id === currentTrackID ||
-                track.id === (activeTrack && activeTrack.id)
-              }
-              progressMs={progressMs}
-              contributor={added_by}
-              overrideUIPaused={overrideUIPaused}
-              overrideUIActiveTrack={overrideUIActiveTrack}
-              animatedLoadComplete={mounted}
-            />
-          ))}
+          .map(({ track, added_by }) => {
+            const isSelected = track.id === currentTrackID
+            const isPlaying = isSelected && playback.is_playing
+            return (
+              <TrackContainer
+                key={track.id}
+                track={track}
+                playlistUri={playlist.uri}
+                play={spotify.play}
+                pause={spotify.pause}
+                isSelected={isSelected}
+                isPlaying={isPlaying}
+                progressMs={progressMs}
+                contributor={added_by}
+                overrideUIPaused={overrideUIPaused}
+                overrideUISelectedTrack={overrideUISelectedTrack}
+                animatedLoadComplete={mounted}
+              />
+            )
+          })}
     </div>
   )
 }
 
 Tracklist.propTypes = {
   spotify: PropTypes.shape({}).isRequired,
-  playlist: PropTypes.shape({}).isRequired,
   currentTrackID: PropTypes.string.isRequired,
-  activeTrack: PropTypes.shape({}).isRequired,
   progressMs: PropTypes.number.isRequired,
-  overrideUIActiveTrack: PropTypes.func.isRequired
+  overrideUISelectedTrack: PropTypes.func.isRequired
 }
 
 export default Tracklist

@@ -6,11 +6,12 @@ import './Main.scss'
 const Main = ({
   spotify,
   playlist,
+  playback,
   currentTrackID,
-  activeTrack,
+  selectedTrack,
   progressMs,
   overrideUIPaused,
-  overrideUIActiveTrack,
+  overrideUISelectedTrack,
   tracklistDisplacement
 }) => (
   <div className='main-container'>
@@ -19,11 +20,12 @@ const Main = ({
       <Tracklist
         spotify={spotify}
         playlist={playlist}
+        playback={playback}
         currentTrackID={currentTrackID || ''}
-        activeTrack={activeTrack}
+        selectedTrack={selectedTrack}
         progressMs={progressMs}
         overrideUIPaused={overrideUIPaused}
-        overrideUIActiveTrack={overrideUIActiveTrack}
+        overrideUISelectedTrack={overrideUISelectedTrack}
         tracklistDisplacement={tracklistDisplacement}
       />
     </div>

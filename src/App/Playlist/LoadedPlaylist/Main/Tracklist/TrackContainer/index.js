@@ -17,7 +17,7 @@ class TrackContainer extends Component {
     isPlaying: PropTypes.bool.isRequired,
     progressMs: PropTypes.number,
     contributor: PropTypes.string.isRequired,
-    overrideUIActiveTrack: PropTypes.func.isRequired,
+    overrideUISelectedTrack: PropTypes.func.isRequired,
     animatedLoadComplete: PropTypes.bool.isRequired
   }
 
@@ -71,14 +71,14 @@ class TrackContainer extends Component {
       play,
       pause,
       overrideUIPaused,
-      overrideUIActiveTrack
+      overrideUISelectedTrack
     } = this.props
 
     // TODO : Distinguish between SelectedTrack and PlayingTrack
     console.log('isplaying', isPlaying)
 
     if (!isPlaying) {
-      overrideUIActiveTrack(track)
+      overrideUISelectedTrack(track)
 
       const options = {
         context_uri: playlistUri,
