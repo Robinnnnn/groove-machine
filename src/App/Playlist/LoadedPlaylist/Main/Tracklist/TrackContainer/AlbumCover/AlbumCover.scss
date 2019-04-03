@@ -10,18 +10,17 @@
     border-radius: 100%;
     transition: 0.25s cubic-bezier(0.165, 0.84, 0.44, 1);
     box-shadow: 0 0px 0px 0px rgba(50, 50, 93, 0.35);
-    transform: translateY(0px);
+    transform: translateY(0px) scale(1.1);
+
     &:hover {
-      box-shadow: 0 3px 12px 0px rgba(50, 50, 93, 0.35);
-      transform: translateY(-3px);
+      box-shadow: 0 3px 8px 0px rgba(50, 50, 93, 0.35);
+      transform: translateY(-3px) scale(1.1);
     }
 
     .album-cover {
-      width: 100px;
-      height: 100px;
       animation: spin 6s linear infinite;
       filter: brightness(90%);
-      box-shadow: 0 0px 3px 1px rgba(50, 50, 93, 0.35);
+      box-shadow: 0 0px 2px 1px rgba(50, 50, 93, 0.35);
     }
 
     .hole {
@@ -33,6 +32,7 @@
   &.track-hover {
     .album-cover {
       animation: spin 10s linear infinite;
+      // animation-delay: 1s;
       filter: brightness(70%);
       box-shadow: 0 0px 3px 1px rgba(50, 50, 93, 0.35);
     }
