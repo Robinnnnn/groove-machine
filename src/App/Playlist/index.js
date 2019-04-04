@@ -67,11 +67,22 @@ class Playlist extends Component {
     // log('trace', playback)
 
     // Handles race condition where async call returns an outdated track
+    // TODO : refactor these alongside `overrideUI...` methods
     const { playback: statePlayback, selectedTrack, isOverriding } = this.state
     if (isOverriding && selectedTrack.id !== playback.item.id) return
     if (isOverriding && statePlayback.is_playing !== playback.is_playing) return
     if (isOverriding && statePlayback.shuffle_state !== playback.shuffle_state)
       return
+
+    // Since the server-side progress (ms) will never equal the client-enforced
+    // progress precisely, we'll approximate off the fact that we retrieve playbavk
+    // state every second
+    const playbackProgressIsDefinitelyOff =
+      Math.abs(
+        (statePlayback && statePlayback.progress_ms) -
+          (playback && playback.progress_ms)
+      ) > 1000
+    if (isOverriding && playbackProgressIsDefinitelyOff) return
 
     this.setState({
       playback,
@@ -130,6 +141,18 @@ class Playlist extends Component {
         progress_ms: progressMs
       },
       selectedTrack: track,
+      isOverriding: true
+    })
+  }
+
+  overrideUISeek = progressMs => {
+    const { spotify, playback } = this.state
+    spotify.seek(progressMs)
+    this.setState({
+      playback: {
+        ...playback,
+        progress_ms: progressMs
+      },
       isOverriding: true
     })
   }
@@ -205,6 +228,7 @@ class Playlist extends Component {
               currentTrackID={currentTrackID || ''}
               progressMs={progressMs || 0}
               overrideUISelectedTrack={this.overrideUISelectedTrack}
+              overrideUISeek={this.overrideUISeek}
               overrideUIPlaying={this.overrideUIPlaying}
               overrideUIPaused={this.overrideUIPaused}
               overrideUIShuffle={this.toggleShuffle}

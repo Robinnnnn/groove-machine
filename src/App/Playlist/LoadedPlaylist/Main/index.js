@@ -10,6 +10,7 @@ const Main = ({
   currentTrackID,
   selectedTrack,
   progressMs,
+  overrideUISeek,
   overrideUIPaused,
   overrideUISelectedTrack,
   tracklistDisplacement
@@ -24,6 +25,7 @@ const Main = ({
         currentTrackID={currentTrackID || ''}
         selectedTrack={selectedTrack}
         progressMs={progressMs}
+        overrideUISeek={overrideUISeek}
         overrideUIPaused={overrideUIPaused}
         overrideUISelectedTrack={overrideUISelectedTrack}
         tracklistDisplacement={tracklistDisplacement}

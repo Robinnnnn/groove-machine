@@ -155,6 +155,7 @@ class LoadedPlaylist extends Component {
       selectedTrack,
       progressMs,
       overrideUISelectedTrack,
+      overrideUISeek,
       overrideUIPlaying,
       overrideUIPaused,
       overrideUIShuffle,
@@ -257,6 +258,7 @@ class LoadedPlaylist extends Component {
             currentTrackID={currentTrackID}
             selectedTrack={selectedTrack}
             progressMs={progressMs}
+            overrideUISeek={overrideUISeek}
             overrideUIPaused={overrideUIPaused}
             overrideUISelectedTrack={overrideUISelectedTrack}
             tracklistDisplacement={tracklistDisplacement}

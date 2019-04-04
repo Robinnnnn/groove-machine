@@ -17,6 +17,7 @@ class TrackContainer extends Component {
     isPlaying: PropTypes.bool.isRequired,
     progressMs: PropTypes.number,
     contributor: PropTypes.shape({}).isRequired,
+    overrideUISeek: PropTypes.func.isRequired,
     overrideUISelectedTrack: PropTypes.func.isRequired,
     animatedLoadComplete: PropTypes.bool.isRequired
   }
@@ -130,12 +131,14 @@ class TrackContainer extends Component {
 
   render() {
     const { isHovering } = this.state
-    const { track, isSelected, isPlaying, progressMs, contributor } = this.props
     const {
-      state: {
-        spotify: { seek }
-      }
-    } = this.context
+      track,
+      isSelected,
+      isPlaying,
+      progressMs,
+      contributor,
+      overrideUISeek
+    } = this.props
 
     const hoverClass = isHovering ? 'track-hover' : ''
     const pausedClass = isSelected && !isPlaying ? 'track-paused' : ''
@@ -171,7 +174,7 @@ class TrackContainer extends Component {
           <ProgressBar
             duration={track.duration_ms}
             progress={progressMs / track.duration_ms}
-            seek={seek}
+            seek={overrideUISeek}
           />
         )}
       </div>

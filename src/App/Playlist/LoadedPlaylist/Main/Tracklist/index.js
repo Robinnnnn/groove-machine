@@ -9,6 +9,7 @@ const Tracklist = ({
   playback,
   currentTrackID,
   progressMs,
+  overrideUISeek,
   overrideUIPaused,
   overrideUISelectedTrack,
   tracklistDisplacement
@@ -58,6 +59,7 @@ const Tracklist = ({
               isPlaying={isPlaying}
               progressMs={progressMs}
               contributor={added_by}
+              overrideUISeek={overrideUISeek}
               overrideUIPaused={overrideUIPaused}
               overrideUISelectedTrack={overrideUISelectedTrack}
               animatedLoadComplete={mounted}
@@ -80,6 +82,7 @@ const Tracklist = ({
                 isPlaying={isPlaying}
                 progressMs={progressMs}
                 contributor={added_by}
+                overrideUISeek={overrideUISeek}
                 overrideUIPaused={overrideUIPaused}
                 overrideUISelectedTrack={overrideUISelectedTrack}
                 animatedLoadComplete={mounted}
