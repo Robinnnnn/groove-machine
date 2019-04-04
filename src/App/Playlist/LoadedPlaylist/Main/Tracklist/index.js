@@ -5,7 +5,6 @@ import TrackContainer from './TrackContainer'
 import './Tracklist.scss'
 
 const Tracklist = ({
-  spotify,
   playlist,
   playback,
   currentTrackID,
@@ -59,8 +58,6 @@ const Tracklist = ({
               isPlaying={isPlaying}
               progressMs={progressMs}
               contributor={added_by}
-              play={spotify.play}
-              pause={spotify.pause}
               overrideUIPaused={overrideUIPaused}
               overrideUISelectedTrack={overrideUISelectedTrack}
               animatedLoadComplete={mounted}
@@ -79,8 +76,6 @@ const Tracklist = ({
                 key={track.id}
                 track={track}
                 playlistUri={playlist.uri}
-                play={spotify.play}
-                pause={spotify.pause}
                 isSelected={isSelected}
                 isPlaying={isPlaying}
                 progressMs={progressMs}
