@@ -17,7 +17,7 @@ class TrackContainer extends Component {
     isSelected: PropTypes.bool.isRequired,
     isPlaying: PropTypes.bool.isRequired,
     progressMs: PropTypes.number,
-    contributor: PropTypes.string.isRequired,
+    contributor: PropTypes.shape({}).isRequired,
     overrideUISelectedTrack: PropTypes.func.isRequired,
     animatedLoadComplete: PropTypes.bool.isRequired
   }
@@ -34,13 +34,9 @@ class TrackContainer extends Component {
 
   handleCurrentlyPlayingTrack = () => {
     const { registeredCurrentlyPlayingTrack } = this.state
-    const { track, isSelected, isPlaying, animatedLoadComplete } = this.props
+    const { track, isPlaying, animatedLoadComplete } = this.props
     const { dispatch } = this.context
-    if (
-      !registeredCurrentlyPlayingTrack &&
-      animatedLoadComplete &&
-      (isSelected || isPlaying)
-    ) {
+    if (!registeredCurrentlyPlayingTrack && animatedLoadComplete && isPlaying) {
       log(
         'trace',
         `now playing: ${track.name}`,

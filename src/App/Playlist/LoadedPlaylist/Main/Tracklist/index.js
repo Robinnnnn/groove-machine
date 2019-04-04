@@ -40,7 +40,7 @@ const Tracklist = ({
       {trail.map(({ x, height, ...rest }, index) => {
         const { track, added_by } = playlist.tracks.items[index]
         const isSelected = track.id === currentTrackID
-        const isPlaying = isSelected && playback.is_playing
+        const isPlaying = (isSelected && playback.is_playing) || false
         return (
           <animated.div
             key={track.id}
@@ -73,7 +73,7 @@ const Tracklist = ({
           .slice(numVisibleAnimatedItems)
           .map(({ track, added_by }) => {
             const isSelected = track.id === currentTrackID
-            const isPlaying = isSelected && playback.is_playing
+            const isPlaying = (isSelected && playback.is_playing) || false
             return (
               <TrackContainer
                 key={track.id}

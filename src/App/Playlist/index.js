@@ -75,7 +75,7 @@ class Playlist extends Component {
 
     this.setState({
       playback,
-      selectedTrack: playback.item,
+      selectedTrack: playback.item || {},
       isOverriding: false,
       retrievedPlayback: true
     })
@@ -201,9 +201,9 @@ class Playlist extends Component {
               spotify={state.spotify}
               playlist={playlist}
               playback={playback}
-              isShuffleActive={playback.shuffle_state}
+              isShuffleActive={playback.shuffle_state || false}
               currentTrackID={currentTrackID || ''}
-              progressMs={progressMs}
+              progressMs={progressMs || 0}
               overrideUISelectedTrack={this.overrideUISelectedTrack}
               overrideUIPlaying={this.overrideUIPlaying}
               overrideUIPaused={this.overrideUIPaused}
