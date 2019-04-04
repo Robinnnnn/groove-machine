@@ -75,13 +75,13 @@ class Playlist extends Component {
       return
 
     // Since the server-side progress (ms) will never equal the client-enforced
-    // progress precisely, we'll approximate off the fact that we retrieve playbavk
-    // state every second
+    // progress precisely, we'll approximate
     const playbackProgressIsDefinitelyOff =
+      selectedTrack.id === playback.item.id &&
       Math.abs(
         (statePlayback && statePlayback.progress_ms) -
           (playback && playback.progress_ms)
-      ) > 1000
+      ) > 5000
     if (isOverriding && playbackProgressIsDefinitelyOff) return
 
     this.setState({
@@ -147,11 +147,15 @@ class Playlist extends Component {
 
   overrideUISeek = progressMs => {
     const { spotify, playback } = this.state
+    log('trace', `seeking to: ${progressMs}`)
     spotify.seek(progressMs)
     this.setState({
       playback: {
         ...playback,
-        progress_ms: progressMs
+        // Artificially add a second to account for server response time;
+        // otherwise it is often the case that the track progress will
+        // jump by 2 seconds
+        progress_ms: progressMs + 1000
       },
       isOverriding: true
     })
