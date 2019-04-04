@@ -10,7 +10,8 @@
   overflow: hidden;
   display: block;
   padding-top: 20px; // to detect onMouseMove more easily
-  cursor: pointer;
+  cursor: url('./forward.svg'), pointer;
+
   .progress-bar,
   .seek-bar {
     position: absolute;
@@ -27,6 +28,7 @@
     z-index: 0;
   }
   &.inverted {
+    cursor: url('./rewind.svg'), pointer;
     .progress-bar {
       z-index: 0;
       background: $scarcely-purple;
