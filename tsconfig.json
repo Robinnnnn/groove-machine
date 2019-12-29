@@ -1,6 +1,8 @@
 {
   "compilerOptions": {
     "noEmit": true,
-    "baseUrl": "./src"
-  }
+    "baseUrl": "./src",
+    "jsx": "react"
+  },
+  "files": ["./src/custom.d.ts"]
 }
