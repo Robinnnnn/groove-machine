@@ -18,7 +18,7 @@ const Sidebar = ({
   playlist,
   playback,
   isShuffleActive,
-  overrideUIActiveTrack,
+  overrideUISelectedTrack,
   overrideUIPlaying,
   overrideUIPaused,
   overrideUIShuffle,
@@ -41,7 +41,7 @@ const Sidebar = ({
     // native UI controls
     overrideUIPlaying,
     overrideUIPaused,
-    overrideUIActiveTrack
+    overrideUISelectedTrack
   }
 
   return (
@@ -50,9 +50,9 @@ const Sidebar = ({
 
       <MediaControls
         playlist={playlist}
-        isPlaying={playback.is_playing}
+        isPlaying={playback.is_playing || false}
         isShuffleActive={isShuffleActive}
-        progressMs={playback.progress_ms}
+        progressMs={playback.progress_ms || 0}
         currentTrackID={currentTrackID}
         controller={controller}
       />

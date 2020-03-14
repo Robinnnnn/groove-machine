@@ -1,10 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import './ActiveTrackSeeker.scss'
+import './SelectedTrackSeeker.scss'
 
-const ActiveTrackSeeker = ({ activeTrackPosition, locateActiveTrack }) => {
+const SelectedTrackSeeker = ({
+  selectedTrackPosition,
+  locateSelectedTrack
+}) => {
   const anchorStyle = {}
-  switch (activeTrackPosition) {
+  switch (selectedTrackPosition) {
     case 'below_viewport':
       anchorStyle.bottom = 0
       anchorStyle.opacity = 1
@@ -34,19 +37,19 @@ const ActiveTrackSeeker = ({ activeTrackPosition, locateActiveTrack }) => {
     <div
       className='active-track-seeker'
       style={anchorStyle}
-      onClick={locateActiveTrack}
+      onClick={locateSelectedTrack}
     />
   )
 }
 
-ActiveTrackSeeker.propTypes = {
-  activeTrackPosition: PropTypes.oneOf([
+SelectedTrackSeeker.propTypes = {
+  selectedTrackPosition: PropTypes.oneOf([
     '',
     'within_viewport',
     'below_viewport',
     'above_viewport'
   ]).isRequired,
-  locateActiveTrack: PropTypes.func
+  locateSelectedTrack: PropTypes.func
 }
 
-export default ActiveTrackSeeker
+export default SelectedTrackSeeker

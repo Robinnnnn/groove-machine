@@ -13,11 +13,12 @@ class TrackContainer extends Component {
   static propTypes = {
     track: PropTypes.shape({}).isRequired,
     playlistUri: PropTypes.string.isRequired,
-    play: PropTypes.func.isRequired,
+    isSelected: PropTypes.bool.isRequired,
     isPlaying: PropTypes.bool.isRequired,
     progressMs: PropTypes.number,
-    contributor: PropTypes.string.isRequired,
-    overrideUIActiveTrack: PropTypes.func.isRequired,
+    contributor: PropTypes.shape({}).isRequired,
+    overrideUISeek: PropTypes.func.isRequired,
+    overrideUISelectedTrack: PropTypes.func.isRequired,
     animatedLoadComplete: PropTypes.bool.isRequired
   }
 
@@ -35,7 +36,7 @@ class TrackContainer extends Component {
     const { registeredCurrentlyPlayingTrack } = this.state
     const { track, isPlaying, animatedLoadComplete } = this.props
     const { dispatch } = this.context
-    if (!registeredCurrentlyPlayingTrack && isPlaying && animatedLoadComplete) {
+    if (!registeredCurrentlyPlayingTrack && animatedLoadComplete && isPlaying) {
       log(
         'trace',
         `now playing: ${track.name}`,
@@ -63,18 +64,37 @@ class TrackContainer extends Component {
 
   onMouseLeave = () => this.setState({ isHovering: false })
 
-  playTrack = () => {
-    const { track, playlistUri, play, overrideUIActiveTrack } = this.props
-
-    overrideUIActiveTrack(track)
-
-    const options = {
-      context_uri: playlistUri,
-      offset: {
-        uri: track.uri
+  handlePlayPause = () => {
+    const {
+      track,
+      isSelected,
+      isPlaying,
+      progressMs,
+      playlistUri,
+      overrideUIPaused,
+      overrideUISelectedTrack
+    } = this.props
+    const {
+      state: {
+        spotify: { play, pause }
       }
+    } = this.context
+
+    const shouldPlay = !isPlaying
+    const shouldResume = isSelected && !isPlaying
+    const playOptions = {
+      context_uri: playlistUri,
+      offset: { uri: track.uri }
     }
-    return play(options)
+
+    if (shouldPlay) {
+      overrideUISelectedTrack(track, shouldResume ? progressMs : 0)
+      if (shouldResume) playOptions.position_ms = progressMs
+      play(playOptions)
+    } else {
+      overrideUIPaused()
+      pause()
+    }
   }
 
   openAlbum = e => {
@@ -111,17 +131,25 @@ class TrackContainer extends Component {
 
   render() {
     const { isHovering } = this.state
-    const { track, isPlaying, progressMs, contributor } = this.props
+    const {
+      track,
+      isSelected,
+      isPlaying,
+      progressMs,
+      contributor,
+      overrideUISeek
+    } = this.props
 
     const hoverClass = isHovering ? 'track-hover' : ''
+    const pausedClass = isSelected && !isPlaying ? 'track-paused' : ''
     const activeClass = isPlaying ? 'track-active' : ''
-    const revealClass = isHovering || isPlaying ? 'reveal-track-details' : ''
+    const revealClass = isHovering || isSelected ? 'reveal-track-details' : ''
 
     return (
       <div
-        className={`track-container ${revealClass} ${activeClass}`}
+        className={`track-container ${revealClass} ${activeClass} ${pausedClass}`}
         ref={t => (this.track = t)}
-        onClick={this.playTrack}
+        onClick={this.handlePlayPause}
         onMouseEnter={this.onMouseEnter}
         onMouseLeave={this.onMouseLeave}
       >
@@ -130,6 +158,7 @@ class TrackContainer extends Component {
         <AlbumCover
           imgUrl={track.album.images[1].url}
           hoverClass={hoverClass}
+          pausedClass={pausedClass}
           activeClass={activeClass}
           openAlbum={this.openAlbum}
         />
@@ -137,11 +166,17 @@ class TrackContainer extends Component {
         <MainInfo
           track={track}
           contributor={this.getContributor(contributor.id)}
-          isPlaying={isPlaying}
+          isSelected={isSelected}
           progressMs={progressMs}
         />
 
-        {isPlaying && <ProgressBar progress={progressMs / track.duration_ms} />}
+        {(isSelected || isPlaying) && (
+          <ProgressBar
+            duration={track.duration_ms}
+            progress={progressMs / track.duration_ms}
+            seek={overrideUISeek}
+          />
+        )}
       </div>
     )
   }

@@ -12,8 +12,8 @@ const initialState = {
   rToken: '',
   lastTokenIssueTime: 0,
   currentDeviceID: '',
-  activeTrackNode: null,
-  scrollToActiveTrack: () => {}
+  selectedTrackNode: null,
+  scrollToSelectedTrack: () => {}
 }
 
 const reducer = (state, action) => {
@@ -40,7 +40,7 @@ const reducer = (state, action) => {
         lastTokenIssueTime: Date.now()
       }
     case 'set_track_node':
-      const scrollToActiveTrack = () => scrollToNode(action.payload)
+      const scrollToSelectedTrack = () => scrollToNode(action.payload)
 
       // Actually scroll to the selected track.
       //
@@ -50,11 +50,11 @@ const reducer = (state, action) => {
       // scroll position. Hard-coding a number here is hacky, but it's otherwise
       // very difficult to determine when the "rest" of the tracks have mounted
       // post-animation. See `Tracklist` component for animation strategy.
-      setTimeout(scrollToActiveTrack, 300)
+      setTimeout(scrollToSelectedTrack, 300)
       return {
         ...state,
-        activeTrackNode: action.payload,
-        scrollToActiveTrack
+        selectedTrackNode: action.payload,
+        scrollToSelectedTrack
       }
     default:
       return state

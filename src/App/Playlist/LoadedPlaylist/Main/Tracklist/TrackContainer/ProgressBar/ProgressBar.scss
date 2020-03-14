@@ -1,16 +1,41 @@
 @import 'styles/_colors.scss';
 
 .playback-progress-container {
-  position: absolute;
   width: 100%;
+  position: absolute; // needed to anchor to bottom
   bottom: 0px;
   left: 0px;
 
   border-radius: 0px 0px 4px 4px;
   overflow: hidden;
-  .progress-bar {
+  display: block;
+  padding-top: 20px; // to detect onMouseMove more easily
+  cursor: url('./forward.svg'), pointer;
+
+  .progress-bar,
+  .seek-bar {
+    position: absolute;
+    bottom: 0px;
     height: 4px;
-    background: $purple;
     border-radius: 0px 4px 4px 4px;
+  }
+  .progress-bar {
+    background: $purple;
+    z-index: 1;
+  }
+  .seek-bar {
+    background: $scarcely-purple;
+    z-index: 0;
+  }
+  &.inverted {
+    cursor: url('./rewind.svg'), pointer;
+    .progress-bar {
+      z-index: 0;
+      background: $scarcely-purple;
+    }
+    .seek-bar {
+      z-index: 1;
+      background: $purple;
+    }
   }
 }

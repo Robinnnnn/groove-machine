@@ -6,7 +6,7 @@ import { log } from 'util/index'
 import PageTitle from './PageTitle'
 import Loader from 'Elements/Loader'
 import LoadedPlaylist from './LoadedPlaylist'
-import ActiveTrackSeeker from './ActiveTrackSeeker'
+import SelectedTrackSeeker from './SelectedTrackSeeker'
 import getLoaderMessage from 'Elements/Loader/sillyExcuses'
 import './Playlist.scss'
 
@@ -23,8 +23,8 @@ class Playlist extends Component {
     playback: null,
     retrievedPlayback: false,
     playbackListenerID: '',
-    activeTrack: {},
-    activeTrackPosition: '',
+    selectedTrack: {},
+    selectedTrackPosition: '',
     isOverriding: false
   }
 
@@ -67,15 +67,26 @@ class Playlist extends Component {
     // log('trace', playback)
 
     // Handles race condition where async call returns an outdated track
-    const { playback: statePlayback, activeTrack, isOverriding } = this.state
-    if (isOverriding && activeTrack.id !== playback.item.id) return
+    // TODO : refactor these alongside `overrideUI...` methods
+    const { playback: statePlayback, selectedTrack, isOverriding } = this.state
+    if (isOverriding && selectedTrack.id !== playback.item.id) return
     if (isOverriding && statePlayback.is_playing !== playback.is_playing) return
     if (isOverriding && statePlayback.shuffle_state !== playback.shuffle_state)
       return
 
+    // Since the server-side progress (ms) will never equal the client-enforced
+    // progress precisely, we'll approximate
+    const playbackProgressIsDefinitelyOff =
+      selectedTrack.id === playback.item.id &&
+      Math.abs(
+        (statePlayback && statePlayback.progress_ms) -
+          (playback && playback.progress_ms)
+      ) > 5000
+    if (isOverriding && playbackProgressIsDefinitelyOff) return
+
     this.setState({
       playback,
-      activeTrack: playback.item,
+      selectedTrack: playback.item || {},
       isOverriding: false,
       retrievedPlayback: true
     })
@@ -106,30 +117,46 @@ class Playlist extends Component {
 
   determineViewContext = () => {
     const {
-      state: { activeTrackNode }
+      state: { selectedTrackNode }
     } = this.context
-    if (activeTrackNode) {
-      const bounds = activeTrackNode.getBoundingClientRect()
+    if (selectedTrackNode) {
+      const bounds = selectedTrackNode.getBoundingClientRect()
       let relativeTo = 'within'
       if (bounds.top > window.innerHeight) relativeTo = 'below'
       else if (bounds.bottom < 0) relativeTo = 'above'
-      this.setState({ activeTrackPosition: `${relativeTo}_viewport` })
+      this.setState({ selectedTrackPosition: `${relativeTo}_viewport` })
     }
   }
 
   // Allows instant UI response for active track display;
   // otherwise there would be an ugly delay between track
   // selection and visual activation
-  overrideUIActiveTrack = track => {
+  overrideUISelectedTrack = (track, progressMs = 0) => {
     const { playback } = this.state
     this.setState({
       playback: {
         ...playback,
         item: track,
         is_playing: true,
-        progress_ms: 0
+        progress_ms: progressMs
       },
-      activeTrack: track,
+      selectedTrack: track,
+      isOverriding: true
+    })
+  }
+
+  overrideUISeek = progressMs => {
+    const { spotify, playback } = this.state
+    log('trace', `seeking to: ${progressMs}`)
+    spotify.seek(progressMs)
+    this.setState({
+      playback: {
+        ...playback,
+        // Artificially add a second to account for server response time;
+        // otherwise it is often the case that the track progress will
+        // jump by 2 seconds
+        progress_ms: progressMs + 1000
+      },
       isOverriding: true
     })
   }
@@ -181,14 +208,13 @@ class Playlist extends Component {
       playlist,
       playback,
       retrievedPlayback,
-      activeTrack,
-      activeTrackPosition
+      selectedTrack,
+      selectedTrackPosition
     } = this.state
 
     const loaded = playlist && retrievedPlayback
-    const currentTrack = playback && playback.item
-    const currentTrackID = currentTrack && currentTrack.id
-    const currentTrackTitle = currentTrack && currentTrack.name
+    const currentTrackID = selectedTrack.id
+    const currentTrackTitle = selectedTrack.name
     const progressMs = playback && playback.progress_ms
 
     return (
@@ -202,21 +228,21 @@ class Playlist extends Component {
               spotify={state.spotify}
               playlist={playlist}
               playback={playback}
-              isShuffleActive={playback.shuffle_state}
+              isShuffleActive={playback.shuffle_state || false}
               currentTrackID={currentTrackID || ''}
-              activeTrack={activeTrack}
-              progressMs={progressMs}
-              overrideUIActiveTrack={this.overrideUIActiveTrack}
+              progressMs={progressMs || 0}
+              overrideUISelectedTrack={this.overrideUISelectedTrack}
+              overrideUISeek={this.overrideUISeek}
               overrideUIPlaying={this.overrideUIPlaying}
               overrideUIPaused={this.overrideUIPaused}
               overrideUIShuffle={this.toggleShuffle}
-              activeTrackPosition={activeTrackPosition}
-              locateActiveTrack={state.scrollToActiveTrack}
+              selectedTrackPosition={selectedTrackPosition}
+              locateSelectedTrack={state.scrollToSelectedTrack}
               logoutUser={this.logoutUser}
             />
-            <ActiveTrackSeeker
-              activeTrackPosition={activeTrackPosition}
-              locateActiveTrack={state.scrollToActiveTrack}
+            <SelectedTrackSeeker
+              selectedTrackPosition={selectedTrackPosition}
+              locateSelectedTrack={state.scrollToSelectedTrack}
             />
           </>
         ) : (
