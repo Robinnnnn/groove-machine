@@ -21,7 +21,7 @@
     "react-dom": "^16.13.0",
     "react-final-form": "^4.0.2",
     "react-helmet": "^5.2.1",
-    "react-scripts": "2.1.5",
+    "react-scripts": "3.4.0",
     "react-spring": "^8.0.27",
     "request": "^2.88.2",
     "spotify-web-api-js": "^1.2.0"
